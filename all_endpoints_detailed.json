@@ -1,0 +1,677 @@
+[
+  {
+    "category": "Authentication",
+    "feature_name": "Authenticate",
+    "method": "GET",
+    "path": "/apiv2/authenticate",
+    "description": "",
+    "key_parameters": [
+      "clientid",
+      "username",
+      "password"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "ActionTypeList",
+    "method": "GET",
+    "path": "/apiv2/bi/ActionTypeList",
+    "description": "https://api.jobdiva.com/jobdiva-api.html?urls.primaryName=Version 2#/ActivityV2",
+    "key_parameters": [
+      "candidateId",
+      "candidateIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "ActiveJobAlerts",
+    "method": "GET",
+    "path": "/apiv2/bi/ActiveJobAlerts",
+    "description": "",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "jobIds",
+      "jobId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "AssignmentChangeManagement",
+    "method": "GET",
+    "path": "/apiv2/bi/AssignmentChangeManagement",
+    "description": "Assignment Change Management",
+    "key_parameters": [
+      "employeeId",
+      "employeeIds",
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Activity & Workflow",
+    "feature_name": "CancelledStarts",
+    "method": "GET",
+    "path": "/apiv2/bi/CancelledStarts",
+    "description": "Cancelled Starts",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "candidateIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Candidate Management",
+    "feature_name": "CandidateApplicationRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/CandidateApplicationRecords",
+    "description": "GET",
+    "key_parameters": [
+      "candidateId",
+      "fileName",
+      "employeeId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Candidate Management",
+    "feature_name": "CandidateAttachmentDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/CandidateAttachmentDetail",
+    "description": "Get Candidate Attachment Detail",
+    "key_parameters": [
+      "candidateId",
+      "fileName",
+      "employeeId"
+    ],
+    "returns": "Candidate detail object"
+  },
+  {
+    "category": "Company Management",
+    "feature_name": "CompaniesAddressesDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/CompaniesAddressesDetail",
+    "description": "Get Multiple Company Addresses Detail",
+    "key_parameters": [
+      "companyIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Contact Management",
+    "feature_name": "ContactAttachmentDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/ContactAttachmentDetail",
+    "description": "Get Contact Attachment Detail",
+    "key_parameters": [
+      "contactId",
+      "attachmentId",
+      "hotlistIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Contact Management",
+    "feature_name": "ContactsOwnersDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/ContactsOwnersDetail",
+    "description": "Get Multiple Contact Owner Details",
+    "key_parameters": [
+      "contactIds",
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "DivisionsList",
+    "method": "GET",
+    "path": "/apiv2/bi/DivisionsList",
+    "description": "Divisions List",
+    "key_parameters": [],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "GrossProfitCalculator",
+    "method": "GET",
+    "path": "/apiv2/bi/GrossProfitCalculator",
+    "description": "Gross Profit Calculator",
+    "key_parameters": [
+      "employeeId",
+      "interviewId",
+      "date",
+      "invoiceId",
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "User Management",
+    "feature_name": "GroupListsbyUser",
+    "method": "GET",
+    "path": "/apiv2/bi/GroupListsbyUser",
+    "description": "Get Group Lists of Users by User ID",
+    "key_parameters": [
+      "userIds",
+      "fromDate",
+      "toDate",
+      "userId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "JobsNotesListDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/JobsNotesListDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "jobIds"
+    ],
+    "returns": "Array of job objects"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "JobsStatusHistory",
+    "method": "GET",
+    "path": "/apiv2/bi/JobsStatusHistory",
+    "description": "",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "jobIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "JobsUsersDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/JobsUsersDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "Job detail object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "MergedJobs",
+    "method": "GET",
+    "path": "/apiv2/bi/MergedJobs",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "NewJobNotesRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/NewJobNotesRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "NewUpdatedEVerify",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedEVerify",
+    "description": "New/Updated E-Verify",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "resumeIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "NewUpdatedEmployeeRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedEmployeeRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "resumeIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "NewUpdatedJobRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedJobRecords",
+    "description": "New/Updated Jobs",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "boolean (success/failure)"
+  },
+  {
+    "category": "SOW & Milestones",
+    "feature_name": "NewUpdatedSOWRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedSOWRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "NewUpdatedTimesheetRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedTimesheetRecords",
+    "description": "New/Updated Timesheets",
+    "key_parameters": [
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "NewUpdatedTimesheetRecordsLite",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedTimesheetRecordsLite",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Other",
+    "feature_name": "NonCompletedOnboardingPackages",
+    "method": "GET",
+    "path": "/apiv2/bi/NonCompletedOnboardingPackages",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "resumeIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Candidate Management",
+    "feature_name": "OnBoardingDocumentsbyCandidate",
+    "method": "GET",
+    "path": "/apiv2/bi/OnBoardingDocumentsbyCandidate",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "resumeIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "PayrollBatchDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/PayrollBatchDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Candidate Management",
+    "feature_name": "RedactedCandidatesRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/RedactedCandidatesRecords",
+    "description": "Redacted Candidate Records by Date Range",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "resumeIds"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Resume Management",
+    "feature_name": "ResumeDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/ResumeDetail",
+    "description": "GET",
+    "key_parameters": [
+      "resumeIds",
+      "fromDate",
+      "toDate",
+      "hotListid"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Resume Management",
+    "feature_name": "ResumesTextDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/ResumesTextDetail",
+    "description": "Get Resumes Text Details by Resume ID(s).",
+    "key_parameters": [
+      "resumeIds",
+      "fromDate",
+      "toDate",
+      "hotListid"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "SOW & Milestones",
+    "feature_name": "SOWDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/SOWDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "SalaryRecordsDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/SalaryRecordsDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "TimesheetChangeManagement",
+    "method": "GET",
+    "path": "/apiv2/bi/TimesheetChangeManagement",
+    "description": "https://api.jobdiva.com/jobdiva-api.html?urls.primaryName=Version 2#/ActivityV2",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "TimesheetDetail",
+    "method": "GET",
+    "path": "/apiv2/bi/TimesheetDetail",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "TimesheetDetailAllHours",
+    "method": "GET",
+    "path": "/apiv2/bi/TimesheetDetailAllHours",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "UnbatchedTimesheetAndExpenseRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/UnbatchedTimesheetAndExpenseRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "UpdatedApprovedBillingRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/UpdatedApprovedBillingRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "UpdatedApprovedSalaryRecords",
+    "method": "GET",
+    "path": "/apiv2/bi/UpdatedApprovedSalaryRecords",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Time & Billing",
+    "feature_name": "UpdatedInvoices",
+    "method": "GET",
+    "path": "/apiv2/bi/UpdatedInvoices",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "CancellationReasonsList",
+    "method": "GET",
+    "path": "/apiv2/jobdiva/CancellationReasonsList",
+    "description": "Get List of Cancellation Reasons",
+    "key_parameters": [
+      "cancelStartRequest",
+      "createStartDef",
+      "createSubmittal"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Candidate Management",
+    "feature_name": "CandidateLatestAssignmentEndDate",
+    "method": "GET",
+    "path": "/apiv2/jobdiva/CandidateLatestAssignmentEndDate",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId",
+      "status"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "addExpenseEntry",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/addExpenseEntry",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "addExpenseEntryWithAttachment",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/addExpenseEntryWithAttachment",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "approveExpenseEntry",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/approveExpenseEntry",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "approveLead",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/approveLead",
+    "description": "Approve Lead",
+    "key_parameters": [
+      "leadId"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "NewUpdatedOpportunityRecords",
+    "method": "GET",
+    "path": "/apiv2/jobdiva/bi/NewUpdatedOpportunityRecords",
+    "description": "New/Updated Opportunities",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "cancelStartRequest",
+      "createStartDef"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "createPO",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/createPO",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId",
+      "status"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "deleteExpense",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/deleteExpense",
+    "description": "POST",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId",
+      "status"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "deleteTimesheet",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/deleteTimesheet",
+    "description": "GET",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId",
+      "status"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "getExpenseCategories",
+    "method": "GET",
+    "path": "/apiv2/jobdiva/getExpenseCategories",
+    "description": "Get Expense Categories",
+    "key_parameters": [
+      "fromDate",
+      "toDate",
+      "expenseId",
+      "status"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "rejectLead",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/rejectLead",
+    "description": "POST",
+    "key_parameters": [
+      "leadId",
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  },
+  {
+    "category": "Job Management",
+    "feature_name": "undoRejectLead",
+    "method": "POST",
+    "path": "/apiv2/jobdiva/undoRejectLead",
+    "description": "Unreject Lead",
+    "key_parameters": [
+      "leadId",
+      "fromDate",
+      "toDate"
+    ],
+    "returns": "JSON object"
+  }
+]

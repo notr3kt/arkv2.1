@@ -1,0 +1,438 @@
+{
+  "module_name": "Integrations & Ecosystem Connectors",
+  "purpose": "Connect ARK Intelligence with ATS, CRM, email systems, and other recruiting tools",
+  "version": "2.0",
+
+  "integration_philosophy": {
+    "approach": "ARK Intelligence acts as an intelligent layer that enhances existing tools",
+    "principle": "Don't replace recruiter's workflow - augment it with AI insights",
+    "goal": "Make insights actionable within tools recruiters already use daily"
+  },
+
+  "ats_integrations": {
+    "purpose": "Connect with Applicant Tracking Systems for seamless workflow",
+
+    "common_ats_platforms": {
+      "greenhouse": {
+        "capabilities": [
+          "Pull candidate data automatically",
+          "Analyze resumes in Greenhouse pipeline",
+          "Push ARK Intelligence scores back to candidate profiles",
+          "Auto-tag candidates (e.g., 'ARK Score: 8.5', 'Strong Match', 'Missing: AWS')",
+          "Generate interview questions and push to interview kits"
+        ],
+
+        "workflow_example": {
+          "trigger": "New candidate added to Greenhouse",
+          "step_1": "Webhook notifies ARK Intelligence",
+          "step_2": "ARK analyzes resume against job requirements",
+          "step_3": "Pushes score, analysis, and tags back to Greenhouse",
+          "step_4": "Recruiter sees ARK insights directly in candidate profile",
+          "step_5": "One-click to request full report or interview questions"
+        },
+
+        "setup_guide": {
+          "authentication": "Use Greenhouse API key (Harvest API)",
+          "permissions_needed": ["Read candidates", "Write tags/notes", "Read job posts"],
+          "webhook_setup": "Configure webhook for candidate.created and candidate.updated events",
+          "sync_frequency": "Real-time via webhooks, batch every 4 hours for backlog"
+        }
+      },
+
+      "lever": {
+        "capabilities": "Similar to Greenhouse - candidate analysis, scoring, tagging",
+        "api": "Lever API v1",
+        "webhook_events": ["candidate_stage_change", "candidate_created"]
+      },
+
+      "workday": {
+        "capabilities": "Enterprise ATS integration",
+        "note": "More complex - requires IT/admin support",
+        "api": "Workday REST API",
+        "considerations": ["Slower API", "More security requirements", "May need dedicated integration team"]
+      },
+
+      "generic_ats": {
+        "fallback": "If ATS doesn't have API, use manual workflow",
+        "workflow": [
+          "Export candidates from ATS (CSV or Excel)",
+          "Upload to ARK Intelligence",
+          "ARK analyzes in batch",
+          "Returns scored/ranked list",
+          "Recruiter manually updates ATS with insights"
+        ]
+      }
+    },
+
+    "data_sync_formats": {
+      "candidate_profile": {
+        "minimum_required": ["Resume text or PDF", "Job ID", "Candidate ID"],
+        "optional_but_useful": ["Source", "Application date", "Current stage", "Tags"],
+        "output_to_ats": {
+          "score": "8.5/10",
+          "match_category": "Strong Match",
+          "top_skills_matched": ["AWS", "Python", "Docker"],
+          "skills_missing": ["Kubernetes"],
+          "recommendation": "PROCEED - Phone screen recommended",
+          "red_flags": "None",
+          "full_report_link": "[URL to detailed ARK analysis]"
+        }
+      }
+    }
+  },
+
+  "crm_integrations": {
+    "purpose": "Track candidate relationships and engagement",
+
+    "salesforce": {
+      "use_case": "Track candidate as 'leads', nurture passive candidates",
+      "capabilities": [
+        "Sync candidate profiles to Salesforce",
+        "Track outreach attempts and responses",
+        "Score candidates (hot/warm/cold)",
+        "Trigger follow-up campaigns based on ARK scores",
+        "Track candidate pipeline alongside sales pipeline"
+      ],
+
+      "workflow": {
+        "passive_candidate_nurture": [
+          "ARK identifies strong candidate who's not currently looking",
+          "Pushes to Salesforce as 'Warm Lead'",
+          "Triggers nurture email campaign (monthly check-ins)",
+          "When candidate changes status, ARK re-scores and updates",
+          "Alerts recruiter when candidate becomes active"
+        ]
+      }
+    },
+
+    "hubspot": {
+      "use_case": "Marketing automation for candidate engagement",
+      "capabilities": [
+        "Email campaigns to candidate pools",
+        "Track open rates and engagement",
+        "Segment candidates by skills, score, location",
+        "A/B test outreach messages",
+        "Analyze which messaging converts best"
+      ]
+    }
+  },
+
+  "email_integrations": {
+    "purpose": "Send ARK-generated communications directly from recruiter's email",
+
+    "gmail_outlook": {
+      "capabilities": [
+        "Send ARK-generated outreach emails",
+        "One-click to email candidate from ARK",
+        "Auto-populate email with candidate name, role details",
+        "Track opens and responses",
+        "Sync sent emails back to ATS"
+      ],
+
+      "templates": {
+        "initial_outreach": "Use ark-communications.json templates, auto-personalized",
+        "follow_up": "Smart follow-ups based on no response timeline",
+        "interview_scheduling": "Auto-generate email with calendar links"
+      },
+
+      "safety_features": {
+        "always_show_preview": "Never send email without recruiter review",
+        "redaction_check": "Warn if internal info (rates, client names) in public email",
+        "compliance_check": "Flag if email contains potentially discriminatory language"
+      }
+    },
+
+    "email_sequences": {
+      "purpose": "Automated follow-up campaigns for candidate nurture",
+
+      "sequence_example_active_candidate": {
+        "day_0": "Initial outreach with JD",
+        "day_3": "Follow-up if no response",
+        "day_7": "Final check-in + urgency (filling soon)",
+        "day_14": "Archive or move to passive nurture"
+      },
+
+      "sequence_example_passive_candidate": {
+        "month_0": "Introduction + we're watching your career",
+        "month_1": "Share relevant content (blog, industry news)",
+        "month_3": "Check-in + any career changes?",
+        "month_6": "Specific opportunity that matches their profile"
+      }
+    }
+  },
+
+  "calendar_integrations": {
+    "purpose": "Simplify interview scheduling",
+
+    "calendly_chili_piper": {
+      "capabilities": [
+        "Generate unique scheduling link per candidate",
+        "Embed in outreach emails",
+        "Auto-sync interviews back to ATS and recruiter calendar",
+        "Send reminders to candidate and interviewer",
+        "Reschedule handling"
+      ],
+
+      "workflow": "ARK identifies strong candidate → Generates phone screen email with Calendly link → Candidate books → Syncs to all systems → Reminder 24hr before"
+    },
+
+    "google_calendar_outlook": {
+      "capabilities": [
+        "Check interviewer availability before suggesting times",
+        "Create interview events with candidate details",
+        "Attach ARK analysis report to calendar event",
+        "Send interview prep materials to interviewers"
+      ]
+    }
+  },
+
+  "linkedin_integrations": {
+    "purpose": "Enhance LinkedIn sourcing with ARK Intelligence",
+
+    "linkedin_recruiter": {
+      "workflow": {
+        "sourcing": "Use ARK-generated boolean strings in LinkedIn Recruiter",
+        "quick_analysis": "Copy-paste LinkedIn profile text → ARK analyzes → Get quick score",
+        "bulk_analysis": "Export LinkedIn search results → Upload to ARK → Get ranked list",
+        "outreach": "ARK generates personalized InMail based on profile"
+      },
+
+      "chrome_extension_idea": {
+        "concept": "Browser extension that adds ARK button to LinkedIn profiles",
+        "functionality": [
+          "Click ARK button on any LinkedIn profile",
+          "Extension scrapes profile data",
+          "Sends to ARK for analysis against active JDs",
+          "Shows match score and insights in sidebar",
+          "One-click to save to ATS or send outreach message"
+        ]
+      }
+    }
+  },
+
+  "data_export_formats": {
+    "purpose": "Export ARK Intelligence data to various formats for use in other systems",
+
+    "csv_excel": {
+      "use_case": "Bulk candidate data for analysis in Excel or Google Sheets",
+      "fields": [
+        "Candidate Name",
+        "Email",
+        "Phone",
+        "ARK Match Score",
+        "Core Skills Match (%)",
+        "Years of Experience",
+        "Current Company",
+        "Location",
+        "Top Strengths",
+        "Key Gaps",
+        "Recommendation",
+        "Red Flags",
+        "Analysis Date"
+      ]
+    },
+
+    "json_api": {
+      "use_case": "For custom integrations and developers",
+      "endpoint_examples": {
+        "analyze_resume": "POST /api/analyze",
+        "batch_analyze": "POST /api/batch",
+        "get_candidate_score": "GET /api/candidate/{id}",
+        "generate_boolean": "POST /api/boolean",
+        "market_intelligence": "GET /api/market/{role}/{location}"
+      },
+
+      "authentication": "API key based, rate limited",
+      "response_format": "JSON with detailed analysis objects"
+    },
+
+    "pdf_reports": {
+      "use_case": "Professional reports to share with hiring managers",
+      "formats": [
+        "Candidate Intelligence Report (full analysis)",
+        "JD Analysis Report (skill breakdown, search strategy)",
+        "Comparison Report (multiple candidates side-by-side)",
+        "Pipeline Report (analytics dashboard)"
+      ],
+      "branding": "Include company logo and ARK Solutions branding"
+    }
+  },
+
+  "slack_teams_integrations": {
+    "purpose": "Bring ARK insights into team communication",
+
+    "slack_bot": {
+      "capabilities": [
+        "Post new candidate alerts to recruiting channel",
+        "Share top candidates of the week",
+        "Answer questions: '@ark what skills do we need for DevOps role?'",
+        "Get quick analysis: '@ark analyze [resume link]'",
+        "Request reports: '@ark compare these 3 candidates'",
+        "Market intel: '@ark what's the going rate for Senior React Developer in Austin?'"
+      ],
+
+      "notifications": {
+        "strong_candidate_alert": "🎯 **Strong Match Found!** [Name] scored 9.2/10 for [Role]. View analysis: [link]",
+        "pipeline_updates": "📊 **Weekly Update:** 15 candidates reviewed, 3 phone screens, 1 offer. Top candidate: [Name]",
+        "red_flag_alert": "🚩 **Red Flag Detected:** Candidate [Name] has timeline inconsistency. Review recommended."
+      },
+
+      "interactive_features": {
+        "buttons": "Add buttons to candidate alerts: [View Full Report] [Schedule Interview] [Pass]",
+        "approvals": "Hiring manager can approve/reject candidates directly in Slack",
+        "feedback": "Collect quick feedback after interviews"
+      }
+    },
+
+    "microsoft_teams": {
+      "capabilities": "Similar to Slack, adapted for Teams interface",
+      "adaptive_cards": "Use Teams adaptive cards for rich candidate presentations"
+    }
+  },
+
+  "zapier_make_integrations": {
+    "purpose": "No-code automation for custom workflows",
+
+    "popular_zaps": {
+      "new_candidate_to_ark": {
+        "trigger": "New candidate in ATS",
+        "action": "Send to ARK Intelligence for analysis",
+        "result": "Add ARK score as note in ATS"
+      },
+
+      "strong_match_notification": {
+        "trigger": "ARK identifies candidate with score > 8.5",
+        "action": "Send Slack message + Email to recruiter + Add to priority lane in ATS"
+      },
+
+      "jd_analysis_request": {
+        "trigger": "New job requisition approved in workday",
+        "action": "Send JD to ARK for analysis",
+        "result": "Create boolean strings + Post to LinkedIn + Email recruiter with strategy"
+      },
+
+      "candidate_nurture": {
+        "trigger": "Good candidate (7-8 score) but not hired",
+        "action": "Add to HubSpot nurture campaign + Tag as future opportunity"
+      }
+    }
+  },
+
+  "github_portfolio_analysis": {
+    "purpose": "For technical roles, analyze candidate's code and contributions",
+
+    "integration": {
+      "input": "GitHub username or profile URL",
+      "analysis": [
+        "Number of repos and stars",
+        "Primary languages and frameworks",
+        "Contribution frequency (active vs dormant)",
+        "Code quality indicators (README quality, tests, documentation)",
+        "Collaboration (PRs, issues, reviews)",
+        "Notable projects or popular repos"
+      ],
+
+      "output": "🔧 **GitHub Analysis for [Username]:**\n• **Activity:** Active contributor (commits weekly)\n• **Primary Skills:** Python (60%), JavaScript (25%), Go (15%)\n• **Popular Projects:** [repo name] (234 stars) - [description]\n• **Quality Signals:** Good documentation, test coverage, active maintenance\n• **Collaboration:** 45 PRs to other projects, responsive to issues\n• **Assessment:** Skilled developer with strong open source presence, good communication\n\n**Recommendation:** GitHub profile validates resume claims. Strong signal for technical ability."
+    }
+  },
+
+  "video_interview_platforms": {
+    "purpose": "Integrate with video interview tools",
+
+    "platforms": {
+      "hirevue": "AI video interview analysis",
+      "spark_hire": "One-way video interviews",
+      "zoom_teams": "Live video interviews"
+    },
+
+    "integration_points": {
+      "pre_interview": "Share ARK analysis report with interviewers beforehand",
+      "post_interview": "Collect structured feedback and correlate with ARK predictions",
+      "analytics": "Track if ARK scores correlate with interview performance"
+    }
+  },
+
+  "compliance_audit_trail": {
+    "purpose": "Track all ARK Intelligence actions for compliance and auditing",
+
+    "log_events": [
+      "Resume analyzed (timestamp, user, candidate ID)",
+      "Score generated (algorithm version, factors)",
+      "Recommendation made (PASS/MAYBE/HOLD/REJECT)",
+      "Red flags detected (type, severity)",
+      "Reports generated (type, recipient)",
+      "Data accessed (who, when, what)",
+      "Bias checks performed (results)",
+      "Web searches executed (query, results used)"
+    ],
+
+    "audit_report": {
+      "purpose": "Demonstrate fair and compliant hiring practices",
+      "includes": [
+        "All candidates scored with same criteria",
+        "No protected characteristics used in analysis",
+        "Consistent methodology across candidates",
+        "Bias detection performed",
+        "Human reviewer made final decisions"
+      ]
+    }
+  },
+
+  "implementation_guide": {
+    "phase_1_manual": {
+      "timeline": "Week 1",
+      "approach": "Use ARK Intelligence manually without integrations",
+      "workflow": [
+        "Copy-paste resumes and JDs into ARK",
+        "Get analysis and recommendations",
+        "Manually add insights to ATS",
+        "Track results in spreadsheet"
+      ],
+      "goal": "Validate value before investing in integrations"
+    },
+
+    "phase_2_basic_automation": {
+      "timeline": "Weeks 2-4",
+      "approach": "Add simple automations using Zapier or email",
+      "workflow": [
+        "Email resumes to ARK → Get automated analysis response",
+        "Set up Slack notifications for high-scoring candidates",
+        "Use CSV export to bulk update ATS weekly"
+      ],
+      "goal": "Save time on manual data entry"
+    },
+
+    "phase_3_full_integration": {
+      "timeline": "Months 2-3",
+      "approach": "Deep integration with ATS and recruiting stack",
+      "workflow": [
+        "ATS webhook sends new candidates to ARK automatically",
+        "ARK scores appear in ATS in real-time",
+        "Recruiters work in ATS, see ARK insights inline",
+        "Analytics dashboard pulls data from all systems"
+      ],
+      "goal": "Seamless workflow, recruiters never leave ATS"
+    }
+  },
+
+  "security_privacy": {
+    "data_handling": {
+      "in_transit": "All data encrypted with TLS 1.3",
+      "at_rest": "Encrypted storage, SOC 2 compliant",
+      "retention": "Candidate data retained 2 years or per company policy",
+      "deletion": "Right to be forgotten - candidates can request deletion"
+    },
+
+    "access_control": {
+      "authentication": "SSO (SAML) supported, MFA required",
+      "authorization": "Role-based access (Admin, Recruiter, Read-only)",
+      "audit_log": "All access logged for security review"
+    },
+
+    "compliance": {
+      "regulations": ["GDPR", "EEOC", "OFCCP", "CCPA"],
+      "certifications": "SOC 2 Type II (in progress), ISO 27001 (planned)",
+      "data_residency": "US, EU, UK data centers available"
+    }
+  }
+}

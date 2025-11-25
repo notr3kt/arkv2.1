@@ -1,0 +1,804 @@
+# ARK MATCHING SUITE
+
+## SOURCE: ark-advanced-matching.json
+module_name: Advanced Matching & Skills Intelligence
+purpose: Next-generation candidate matching with skills adjacency, gap analysis, and smart recommendations
+version: 2.0
+skills_taxonomy:
+  purpose: Understand relationships between skills to find hidden matches
+  skill_relationships:
+    equivalent_skills:
+      definition: Different names for essentially the same skill
+      examples:
+        Kubernetes:
+          - K8s
+          - EKS
+          - GKE
+          - AKS
+          - OpenShift
+        JavaScript:
+          - JS
+          - ECMAScript
+          - ES6
+          - TypeScript
+        CI_CD:
+          - Jenkins
+          - GitLab CI
+          - GitHub Actions
+          - CircleCI
+          - Travis CI
+        Configuration_Management:
+          - Ansible
+          - Chef
+          - Puppet
+          - SaltStack
+        Containers:
+          - Docker
+          - Podman
+          - containerd
+        AWS:
+          - Amazon Web Services
+          - EC2
+          - S3
+          - Lambda
+          - AWS Cloud
+      matching_logic: If JD asks for Kubernetes and candidate has GKE, count as FULL match (score 1.0)
+    adjacent_skills:
+      definition: Different but closely related skills - transferable with minimal learning
+      examples:
+        React:
+          adjacent:
+            - Vue
+            - Angular
+            - Svelte
+            - Next.js
+          transferability: 0.8
+          reasoning: All are component-based frontend frameworks with similar concepts
+        AWS:
+          adjacent:
+            - Azure
+            - GCP
+          transferability: 0.7
+          reasoning: Cloud providers with similar services, concepts transfer
+        PostgreSQL:
+          adjacent:
+            - MySQL
+            - MariaDB
+            - SQL Server
+          transferability: 0.8
+          reasoning: Relational databases with standard SQL
+        Jenkins:
+          adjacent:
+            - GitLab CI
+            - GitHub Actions
+            - CircleCI
+          transferability: 0.9
+          reasoning: CI/CD tools with similar pipelines concepts
+        Python:
+          adjacent:
+            - Ruby
+            - JavaScript
+            - Go
+          transferability: 0.6
+          reasoning: High-level languages, syntax differs but concepts similar
+      matching_logic: If JD asks for React and candidate has Vue, count as PARTIAL match (score 0.8)
+    complementary_skills:
+      definition: Skills that often go together and suggest capability in related areas
+      examples:
+        Kubernetes:
+          suggests_familiarity_with:
+            - Docker
+            - Container orchestration
+            - Microservices
+            - Cloud platforms
+            - YAML
+            - Helm
+          reasoning: You can't use Kubernetes without understanding containers and cloud concepts
+        React:
+          suggests_familiarity_with:
+            - JavaScript
+            - HTML
+            - CSS
+            - npm
+            - Webpack
+            - REST APIs
+            - Git
+          reasoning: React developer must know these to be effective
+        DevOps:
+          suggests_familiarity_with:
+            - Linux
+            - Git
+            - CI/CD
+            - Cloud
+            - Scripting
+            - Networking
+          reasoning: DevOps requires understanding of entire stack
+        Data_Engineer:
+          suggests_familiarity_with:
+            - SQL
+            - Python
+            - ETL
+            - Data warehousing
+            - Orchestration tools
+          reasoning: Core data engineering competencies
+      matching_logic: If candidate has Kubernetes, give credit for likely understanding Docker even if not explicitly listed (score 0.5)
+    prerequisite_skills:
+      definition: Skills you must have to effectively use another skill
+      examples:
+        React:
+          requires:
+            - JavaScript
+            - HTML
+            - CSS
+          validation: If candidate claims React but doesn't mention JavaScript → RED FLAG
+        Kubernetes:
+          requires:
+            - Docker
+            - Linux
+            - Networking basics
+          validation: If candidate claims K8s expert but no container experience → suspicious
+        Machine_Learning:
+          requires:
+            - Python or R
+            - Statistics
+            - Linear Algebra
+          validation: If ML mentioned but no programming language → likely theoretical only
+      matching_logic: Use for validation - flag if advanced skill claimed without prerequisites
+    progression_paths:
+      definition: Natural skill evolution - what people typically learn next
+      examples:
+        Junior_DevOps:
+          - Linux
+          - Git
+          - Basic scripting
+        Mid_DevOps:
+          - CI/CD
+          - Docker
+          - Cloud basics
+          - Infrastructure as Code
+        Senior_DevOps:
+          - Kubernetes
+          - Multi-cloud
+          - Security
+          - Architecture
+          - Team leadership
+        Junior_Developer:
+          - One programming language
+          - Git
+          - Basic algorithms
+        Mid_Developer:
+          - Multiple languages
+          - Design patterns
+          - Testing
+          - Debugging
+        Senior_Developer:
+          - Architecture
+          - Code review
+          - Mentoring
+          - System design
+      matching_logic: Assess if candidate's skill progression makes sense for their experience level
+intelligent_matching:
+  enhanced_scoring:
+    core_skill_evaluation:
+      exact_match:
+        score: 1.0
+        condition: Resume explicitly mentions the required skill
+      equivalent_match:
+        score: 1.0
+        condition: Resume has equivalent skill (e.g., GKE for Kubernetes requirement)
+        note: Explain to recruiter: 'Candidate has GKE which is Google's Kubernetes - counts as full match'
+      adjacent_match:
+        score: 0.6-0.9
+        condition: Resume has closely related skill
+        note: Explain: 'Candidate has Vue instead of React - 80% transferable, quick learning curve'
+      complementary_inference:
+        score: 0.4-0.6
+        condition: Skill not listed but likely has it based on other skills
+        note: Explain: 'Docker isn't listed but they have 3 years Kubernetes experience - almost certainly knows Docker'
+      no_match:
+        score: 0.0
+        condition: No evidence of skill or related skills
+    proficiency_assessment:
+      expert_level:
+        signals:
+          - Architected, designed, led
+          - 5+ years with technology
+          - Taught or mentored others
+          - Conference speaker, blog posts
+          - Open source contributions
+        score_multiplier: 1.2
+        note: Candidate exceeds requirements - expert level
+      advanced_level:
+        signals:
+          - Implemented, built, managed
+          - 2-5 years with technology
+          - Production experience
+          - Complex projects
+        score_multiplier: 1.0
+        note: Candidate meets requirements - solid experience
+      working_knowledge:
+        signals:
+          - Used, worked with, exposure
+          - <2 years with technology
+          - Assisted, contributed to
+          - Limited context
+        score_multiplier: 0.7
+        note: Candidate has basic experience - may need ramping
+  gap_analysis:
+    purpose: Identify missing skills and assess if they're deal-breakers or trainable
+    gap_categories:
+      critical_gap:
+        definition: Core requirement missing with no adjacent skills
+        impact: Deal-breaker - likely can't perform core responsibilities
+        examples:
+          - JD requires AWS, candidate has no cloud experience at all
+          - JD requires programming, candidate has no coding background
+        recommendation: PASS unless company willing to train from scratch
+      significant_gap:
+        definition: Core requirement missing but candidate has adjacent skills
+        impact: Can learn but needs 1-3 months training
+        examples:
+          - JD requires AWS, candidate has Azure (adjacent cloud)
+          - JD requires React, candidate has Vue (adjacent framework)
+        recommendation: MAYBE - assess learning ability and willingness, discuss with hiring manager
+      minor_gap:
+        definition: Secondary requirement missing
+        impact: Nice-to-have, easily trainable
+        examples:
+          - JD prefers Grafana, candidate has Datadog (monitoring tools)
+          - JD mentions Helm, candidate has strong Kubernetes
+        recommendation: PROCEED - mention gap but don't disqualify
+      non_gap:
+        definition: Skill not listed but likely has it based on complementary skills
+        examples:
+          - Docker not mentioned but has Kubernetes experience
+          - HTML/CSS not listed but is React developer
+        recommendation: PROCEED - validate in interview but assume competency
+    trainability_assessment:
+      highly_trainable_if:
+        - Candidate has adjacent skill (e.g., knows Azure, need AWS)
+        - Candidate shows learning agility (recent certifications, skill growth)
+        - Gap is tool/framework, not concept (e.g., Jenkins vs GitLab CI)
+        - Company has training resources or mentorship available
+      difficult_to_train_if:
+        - Gap is conceptual not technical (e.g., lacks problem-solving ability)
+        - Candidate shows no recent learning or skill growth
+        - Gap requires 6+ months to close
+        - Role requires immediate productivity in that skill
+    output_format:
+      for_each_gap: ⚠️ **Missing:** [Skill] | **Severity:** [Critical/Significant/Minor] | **Trainability:** [Easy/Moderate/Difficult] | **Recommendation:** [Action]
+      example: ⚠️ **Missing:** AWS (has Azure) | **Severity:** Significant | **Trainability:** Easy (cloud concepts transfer, 4-6 weeks) | **Recommendation:** Ask about willingness to learn AWS, consider if timeline allows ramp-up
+smart_recommendations:
+  candidate_ranking_logic:
+    tier_1_perfect_match:
+      criteria:
+        - Score >= 9.0
+        - All core skills present (exact or equivalent)
+        - No critical gaps
+        - Appropriate experience level
+        - No red flags
+        - Strong achievements
+      action: FAST TRACK - Interview within 48 hours before competition grabs them
+      priority: URGENT
+    tier_2_strong_match:
+      criteria:
+        - Score 7.5-8.9
+        - 90%+ core skills covered
+        - Minor gaps only
+        - Good experience match
+        - No critical red flags
+      action: PROCEED - Solid candidate, schedule phone screen within week
+      priority: HIGH
+    tier_3_potential_match:
+      criteria:
+        - Score 6.0-7.4
+        - 70-90% core skills covered
+        - Significant gaps but trainable
+        - Some concerns but addressable
+      action: MAYBE - Review carefully, discuss gaps with hiring manager
+      priority: MEDIUM
+    tier_4_weak_match:
+      criteria:
+        - Score < 6.0
+        - Missing multiple core skills
+        - Critical gaps
+        - Significant red flags
+      action: PASS - Not enough alignment, focus on stronger candidates
+      priority: LOW
+  comparison_intelligence:
+    when_comparing_multiple_candidates:
+      relative_scoring: Don't just show absolute scores - explain why one is better than another
+      differentiation: Highlight unique strengths per candidate
+      diversity_check: Flag if all candidates have similar backgrounds
+      risk_assessment: Note which candidate is safest vs highest upside
+      output_example: **Sarah (8.7) vs Alex (8.3):**
+- Sarah has AWS + Kubernetes (both required), Alex has Azure + Kubernetes (needs AWS ramp-up)
+- Alex has 2 more years experience and leadership background
+- Sarah has stronger achievements (quantified metrics)
+- **Recommendation:** Sarah is safer bet for immediate impact. Alex is better for team leadership role.
+- **Diversity note:** Both from large tech companies - consider also interviewing candidates from different backgrounds
+  interview_focus_generator:
+    purpose: Based on gaps and strengths, suggest what to probe in interview
+    validate_strengths: Ask detailed questions about their claimed top skills to ensure they're real
+    probe_gaps: Ask how they'd approach tasks requiring missing skills
+    assess_learning: If gaps exist, probe learning ability and willingness
+    verify_achievements: Ask for specifics on quantified accomplishments
+    check_red_flags: Clarify any timeline issues or inconsistencies
+    output_format: **Interview Focus for [Candidate]:**
+
+✅ **Validate Strengths:**
+- [Question for top skill 1]
+- [Question for top skill 2]
+
+⚠️ **Probe Gaps:**
+- [How they'd handle task requiring missing skill]
+
+🚩 **Clarify Red Flags:**
+- [Specific concern to address]
+skills_market_intelligence:
+  skill_demand_tracking:
+    purpose: Understand which skills are hot vs common vs rare
+    demand_categories:
+      unicorn_skills:
+        definition: Rarely found, high demand, command premium
+        examples:
+          - Rust + Systems programming
+          - Quantum computing
+          - Advanced ML/AI
+          - Blockchain architecture
+        recruiting_strategy:
+          - Expect long search (2-3 months+)
+          - Pay premium (20-40% above market)
+          - Consider adjacent skills + training
+          - Look at academics, researchers, open source
+      hot_skills:
+        definition: High demand, moderate supply, competitive market
+        examples:
+          - Kubernetes
+          - React
+          - Python + ML
+          - Cloud architecture
+          - DevOps
+        recruiting_strategy:
+          - Move fast - good candidates get multiple offers
+          - Competitive comp required
+          - Sell company vision and culture
+          - 1-2 month typical search
+      common_skills:
+        definition: Adequate supply, standard demand
+        examples:
+          - Java
+          - SQL
+          - Project management
+          - QA testing
+        recruiting_strategy:
+          - Standard market rates
+          - Focus on culture fit and growth
+          - 2-4 weeks typical search
+      declining_skills:
+        definition: Lower demand, legacy systems
+        examples:
+          - COBOL
+          - Perl
+          - Flash
+          - jQuery-heavy roles
+        recruiting_strategy:
+          - Candidates may be looking to reskill
+          - Offer modernization path
+          - May need to pay premium for maintenance roles
+  emerging_tech_tracking:
+    purpose: Identify technologies gaining traction
+    indicators:
+      - Appearing in more JDs over past 6 months
+      - Major companies adopting
+      - Conference buzz and community growth
+      - VC investment in space
+    current_emerging_examples:
+      - Platform engineering
+      - WebAssembly
+      - Edge computing
+      - AI/ML Engineering (MLOps)
+      - FinOps (cloud cost optimization)
+      - Developer Experience (DevEx)
+      - Observability (vs traditional monitoring)
+    recruiting_implications: For emerging tech, prioritize learning ability and passion over experience. Few will have 5 years of experience in something released 2 years ago.
+recommendation_engine:
+  smart_suggestions:
+    expand_search:
+      when: No strong matches found after reviewing 10+ candidates
+      suggestions:
+        - Consider adjacent skills: [List alternatives]
+        - Reduce experience requirement from X to Y years
+        - Remove nice-to-have skill Z that's filtering out good candidates
+        - Expand location radius or consider remote
+        - Offer training/ramp-up for critical skill gaps
+    narrow_search:
+      when: Too many candidates, all look similar
+      suggestions:
+        - Add differentiating requirement: [Skill/Experience]
+        - Increase seniority requirement
+        - Focus on specific industry experience
+        - Add leadership or team size requirement
+        - Prioritize candidates with quantified achievements
+    optimize_jd:
+      when: Analyzing JD before starting search
+      suggestions:
+        - Skills X and Y are redundant - simplify
+        - Skill Z is unrealistic with W years experience
+        - Consider adding skill A which commonly pairs with B
+        - Nice-to-have skills are actually critical based on role description
+output_formats:
+  enhanced_match_summary:
+    structure: **[Candidate Name]** - Match Score: [X]/10
+
+✅ **Perfect Matches:** [List]
+🔄 **Adjacent Skills:** [Skill they have] → [Skill you need] (transferability: X%)
+💡 **Inferred Skills:** [Skills they likely have based on complementary skills]
+⚠️ **Gaps:** [List with severity and trainability]
+
+**Bottom Line:** [Overall assessment with recommendation]
+    example: **Sarah Johnson** - Match Score: 8.5/10
+
+✅ **Perfect Matches:** Python, Docker, Jenkins, SQL, Linux
+🔄 **Adjacent Skills:** Azure → AWS (70% transferable, 4-6 week ramp), Vue → React (80% transferable, 2-3 weeks)
+💡 **Inferred Skills:** Likely knows Docker Compose and container networking based on 3 years Kubernetes
+⚠️ **Gaps:** 
+- Terraform (IaC tool) - Moderate gap but has Ansible, trainable in 2-3 weeks
+- Prometheus - Minor gap, nice-to-have
+
+**Bottom Line:** Excellent candidate with 95% skill coverage. Azure→AWS transition is common and quick. Strong achievements and trajectory. **Recommendation: FAST TRACK - interview within 48 hours.**
+
+## SOURCE: ark-resume-analysis.json
+module_name: Resume Analysis & Candidate Matching
+purpose: Analyze resumes against job requirements with evidence-based scoring
+workflow:
+  step_1_parse_resume:
+    action: extract_structured_data
+    sections:
+      contact:
+        - name
+        - email
+        - phone
+        - location
+        - linkedin
+        - github
+      experience:
+        for_each_job:
+          company: extract company name
+          title: extract job title
+          dates: extract start and end dates
+          duration: calculate duration in months
+          responsibilities: extract bullet points
+          achievements: identify quantified results (metrics, percentages, dollar amounts)
+          technologies: extract all mentioned tools, frameworks, platforms
+      skills:
+        technical: all technology mentions
+        soft:
+          - leadership
+          - communication
+          - teamwork
+          - problem-solving
+      education:
+        - degree
+        - institution
+        - year
+      certifications:
+        - name
+        - issuer
+        - date
+  step_2_timeline_validation:
+    action: check_for_red_flags
+    checks:
+      -
+        name: overlapping_jobs
+        logic: If job_end_date > next_job_start_date
+        flag: 🚩 Timeline overlap - working two jobs at once?
+        severity: medium
+      -
+        name: employment_gaps
+        logic: If gap_between_jobs > 6 months
+        flag: ⚠️ Gap in employment (X months)
+        severity: low
+        note: Could be valid (education, sabbatical, caregiving) - just ask
+      -
+        name: rapid_job_hopping
+        logic: If 3+ jobs with duration < 12 months each
+        flag: ⚠️ Pattern of short tenures
+        severity: medium
+      -
+        name: unclear_progression
+        logic: If title goes from Senior back to Junior
+        flag: ℹ️ Unusual career progression
+        severity: low
+  step_3_match_to_jd:
+    action: score_alignment
+    method: evidence_based_scoring
+    core_skills_match:
+      for_each_core_skill:
+        present: Check if mentioned anywhere in resume
+        context: Check if used in actual project work (not just listed)
+        proficiency: Assess level: Expert (architected, led) | Advanced (implemented, managed) | Basic (used, worked with)
+        evidence: Quote the specific line from resume
+        score: 1.0 if present with context, 0.5 if just listed, 0.0 if missing
+      weight: 0.5
+      max_points: 10
+    secondary_skills_match:
+      logic: Same as core but less critical
+      weight: 0.3
+      max_points: 10
+    experience_match:
+      check:
+        years_total: Does total experience meet minimum?
+        relevant_experience: How many years doing similar work?
+        company_tier: Tier 1 (FAANG, Enterprise) vs Tier 2 (Mid-market) vs Tier 3 (Startup)
+        role_progression: Junior → Mid → Senior progression evident?
+      weight: 0.2
+      max_points: 10
+    achievement_quality:
+      check:
+        quantified_results: Count metrics like '30% faster', '$2M saved', 'managed team of 5'
+        leadership_evidence: Led, managed, owned, architected
+        problem_solving: Reduced, optimized, migrated, built from scratch
+      bonus: +0.5 per strong quantified achievement (max +1.5)
+      weight: 0.1
+    total_score_calculation:
+      formula: (core_match * 0.5) + (secondary_match * 0.3) + (experience_match * 0.2) + achievement_bonus
+      range: 0.0 to 10.0
+      thresholds:
+        9.0_to_10.0: Strong Match - Fast track this candidate
+        7.5_to_8.9: Good Match - Worth a phone screen
+        6.0_to_7.4: Possible Match - Has gaps but potential
+        below_6.0: Weak Match - Missing too many core skills
+  step_4_forensic_checks:
+    action: validate_authenticity
+    quick_checks:
+      -
+        name: keyword_stuffing
+        logic: If skill appears 10+ times without context
+        flag: ⚠️ Possible keyword stuffing
+      -
+        name: generic_phrases
+        logic: If >50% of bullets are vague ('helped', 'assisted', 'involved in')
+        flag: ⚠️ Lacks specific achievements
+      -
+        name: version_mismatch
+        logic: If technology version released after project end date
+        flag: 🚩 Impossible tech version (React 18 used in 2020)
+        severity: critical
+      -
+        name: all_buzzwords
+        logic: If uses 'rockstar', 'ninja', 'guru', '10x engineer'
+        flag: ℹ️ Buzzword-heavy resume
+  step_5_generate_outputs:
+    recruiter_summary:
+      format: Quick 3-4 sentence overview
+      includes:
+        - overall_score
+        - top_3_strengths
+        - top_2_gaps
+        - recommendation
+      example: Score: 8.5/10 - Strong match. ✅ Has all core skills (AWS, Docker, Kubernetes) with 6 years relevant experience. ✅ Led a team and architected infrastructure. ⚠️ Limited CI/CD pipeline experience. ⚠️ No certifications. Recommendation: PASS to phone screen.
+    hiring_manager_brief:
+      format: Detailed evidence-based narrative
+      sections:
+        - Match Overview (score + summary)
+        - Core Skills Evidence (table: skill | has it? | proof from resume)
+        - Experience Analysis (timeline, companies, progression)
+        - Key Achievements (quantified wins)
+        - Gaps & Concerns
+        - Interview Questions (what to validate)
+    comparison_table:
+      when_to_use: When comparing multiple candidates for same role
+      columns:
+        - Candidate
+        - Score
+        - Core Skills
+        - Experience
+        - Strengths
+        - Gaps
+      max_candidates: 5
+decision_logic:
+  auto_recommend:
+    PASS:
+      criteria: score >= 8.0 AND no_critical_flags AND all_core_skills_present
+      action: Move to phone screen
+      message: Strong candidate. Recommend scheduling a call within 48 hours.
+    MAYBE:
+      criteria: score >= 6.0 AND score < 8.0 AND no_critical_flags
+      action: Review and clarify
+      message: Decent candidate but has gaps in [list gaps]. Consider if they're trainable or if you can flex requirements.
+    HOLD:
+      criteria: score >= 6.0 BUT critical_flags > 0
+      action: Request clarification from candidate
+      message: Has potential but needs clarification on [list flags]. Email candidate to explain [specific concerns].
+    REJECT:
+      criteria: score < 6.0 OR critical_flags > 2
+      action: Polite rejection
+      message: Not a match. Missing [X core skills]. Recommend looking for candidates with [what's needed].
+output_customization:
+  response_to_user:
+    if_user_says_quick: Give only score + recommendation + top 2 strengths/gaps
+    if_user_says_full: Generate complete hiring manager brief with evidence tables
+    if_user_says_compare: Create comparison table for all uploaded resumes
+    default: Give recruiter summary + ask if they want more details
+examples:
+  strong_evidence:
+    - Led a team of 5 engineers to migrate 50+ microservices to Kubernetes, reducing deployment time by 40%
+    - Architected and implemented a Terraform-based IaC framework, managing 200+ AWS resources across 3 environments
+    - Reduced infrastructure costs by 30% ($2M annually) by optimizing EC2 instances and implementing auto-scaling
+  weak_evidence:
+    - Worked with cloud technologies
+    - Assisted in various DevOps tasks
+    - Familiar with Docker and Kubernetes
+    - Team player with strong communication skills
+
+## SOURCE: ark-jd-intelligence.json
+module_name: JD Intelligence & Breakdown
+purpose: Maxed-out job description analysis with layman's explanations
+workflow:
+  step_1_extract:
+    action: parse_and_categorize
+    output: skill_matrix
+    categories:
+      core_must_have:
+        definition: Skills absolutely required for the job - deal breakers if missing
+        signals:
+          - required
+          - must have
+          - essential
+          - mandatory
+          - minimum
+          - years of experience
+        weight: 1.0
+      secondary_nice_to_have:
+        definition: Skills that add value but aren't mandatory
+        signals:
+          - nice to have
+          - preferred
+          - plus
+          - bonus
+          - desired
+          - a plus
+          - advantageous
+        weight: 0.5
+      tools_platforms:
+        definition: Specific technologies, software, frameworks, cloud providers
+        examples:
+          - AWS
+          - Docker
+          - React
+          - Salesforce
+          - SAP
+          - Kubernetes
+        weight: 0.7
+  step_2_explain_each_skill:
+    action: decode_technical_terms
+    for_each_skill:
+      what_it_is: One-line plain English definition
+      what_it_does: What problem it solves or what it's used for
+      why_here: Why this job needs it (tied to job context)
+      analogy: Real-world comparison if technical
+      proficiency_level: Determine from context: Expert|Advanced|Working Knowledge
+    example_output:
+      skill: Kubernetes
+      what_it_is: A tool that manages and organizes containers (think: shipping containers, but for software)
+      what_it_does: Automatically deploys, scales, and keeps applications running smoothly across many servers
+      why_here: This company runs their apps in containers, and needs someone to keep that system healthy
+      analogy: Like an air traffic controller for software - makes sure everything lands, takes off, and runs on time
+      proficiency: Advanced (based on 'architect' and 'manage production' in JD)
+  step_3_validate_sanity:
+    action: flag_red_flags
+    checks:
+      -
+        name: impossible_experience
+        logic: If years_required > technology_age
+        example: Asking for 10 years of experience with React (released 2013)
+        flag: 🚩 CRITICAL
+      -
+        name: contradictory_stack
+        logic: If multiple competing technologies listed as all required
+        example: Must know React AND Angular AND Vue
+        flag: ⚠️ WARNING - Pick one or clarify
+      -
+        name: unrealistic_scope
+        logic: If role_level + skill_count + experience_years don't align
+        example: Junior role requiring 10 skills + 7 years + leadership
+        flag: ⚠️ WARNING - Scope mismatch
+      -
+        name: buzzword_overload
+        logic: If vague terms > 30% of requirements
+        terms:
+          - rockstar
+          - ninja
+          - guru
+          - synergy
+          - dynamic
+          - fast-paced
+        flag: ⚠️ WARNING - Lacks clarity
+      -
+        name: missing_context
+        logic: If no team size, project type, or clear deliverables
+        flag: ℹ️ INFO - Need more details
+  step_4_laymans_guide:
+    action: explain_like_im_not_technical
+    sections:
+      job_in_plain_english:
+        template: Think of this role as: [simple analogy]. This person will [main responsibility in everyday terms]. They'll work with [team/tools simplified] to [end result the company wants].
+        example: Think of this role as: the architect and builder for the company's digital infrastructure. This person will design and maintain the 'backbone' that keeps all the company's software running smoothly. They'll work with cloud servers and automation tools to make sure the website and apps never go down.
+      why_company_needs_this:
+        template: The company needs this because [business problem]. Without this role, [what breaks or slows down]. This position helps [business outcome].
+        example: The company needs this because they're growing fast and their old systems can't keep up. Without this role, the website crashes during busy times and new features take months to launch. This position helps them scale smoothly and ship updates faster.
+      ideal_candidate_profile:
+        sections:
+          background: Where they likely worked before, what roles they held
+          mindset: How they think and approach problems
+          experience_range: Years of experience and career stage
+          day_to_day: What their typical day looks like in this role
+        example:
+          background: Probably worked at a tech company or startup, maybe as a DevOps Engineer or Site Reliability Engineer. Likely came from a traditional IT background and learned cloud/automation on the job.
+          mindset: They're problem-solvers who like to automate things. Prefer to build systems once properly rather than do manual work repeatedly. Think ahead about what could break.
+          experience_range: 5-8 years total, with at least 2-3 years doing cloud infrastructure work. Not entry-level, but not necessarily a VP either.
+          day_to_day: Half their time monitoring systems and responding to issues. Other half building new infrastructure, writing automation scripts, and improving processes.
+      what_makes_good_fit:
+        template: Red flags: [what to avoid]. Green flags: [what to look for]. Questions to ask: [how to validate fit].
+        example:
+          red_flags:
+            - Only knows theory, no hands-on production experience
+            - Switches jobs every 6 months (shows instability)
+            - Can't explain what they built, only lists technologies
+          green_flags:
+            - Has 'battle scars' - can tell war stories about fixing broken systems
+            - Shows progression from junior to senior roles
+            - Mentions specific metrics (reduced downtime by X%, saved $Y)
+          validation_questions:
+            - Tell me about a time when a system you managed went down. What did you do?
+            - Walk me through a complex infrastructure project you built from scratch.
+            - What's your process for deciding between different technical solutions?
+      recruiting_strategy:
+        where_to_find: Target companies, job boards, communities where these candidates hang out
+        how_to_reach: What messaging resonates with this type of candidate
+        what_sells_them: What this candidate type cares about in a job
+        example:
+          where_to_find:
+            - LinkedIn - search current DevOps Engineers at tech companies
+            - GitHub - find contributors to infrastructure tools
+            - Tech meetups and conferences (KubeCon, AWS re:Invent)
+          how_to_reach: Skip the corporate fluff. Talk about technical challenges, scale, and autonomy. Mention specific tools in the stack.
+          what_sells_them: Interesting technical problems, good work-life balance, learning opportunities, ownership and autonomy, compensation.
+  step_5_generate_outputs:
+    boolean_strings:
+      count: 3
+      types:
+        - wide_net
+        - focused
+        - niche
+      explanation: Search strings for LinkedIn and job boards - I'll explain how to use them
+    interview_framework:
+      technical_questions: 3 questions per core skill to validate depth
+      behavioral_questions: 2 leadership, 2 problem-solving scenarios
+      verification_questions: How to validate their claimed achievements
+output_format:
+  summary_mode:
+    includes:
+      - skill_count
+      - top_red_flags
+      - difficulty_rating
+      - one_line_summary
+    example: This JD has 6 core skills, 4 nice-to-haves. 🚩 Red flag: asking for 10 years of Kubernetes (it's only 8 years old). Difficulty: 7/10 - senior role, realistic scope. In short: They need a cloud infrastructure expert who can build and maintain production systems.
+  full_report_mode:
+    sections:
+      - Executive Summary
+      - Skill Matrix (table with all skills categorized)
+      - Skill Decoder (what each tech means)
+      - Red Flags & Recommendations
+      - Layman's Guide (job explained simply)
+      - Ideal Candidate Profile
+      - Boolean Search Strings
+      - Interview Questions
+examples:
+  simple_analogy_library:
+    DevOps Engineer: Like a bridge engineer who builds and maintains the roads between the development team and the live product
+    Data Engineer: Like a plumber who builds pipelines to move data from where it's created to where it's needed
+    Full Stack Developer: Like a general contractor who can work on both the foundation (backend) and the finishes (frontend) of a house
+    Cloud Architect: Like a city planner who designs how all the buildings (applications) are laid out and connected in the cloud
+    Scrum Master: Like a sports team coach who doesn't play but makes sure the team works well together and removes obstacles

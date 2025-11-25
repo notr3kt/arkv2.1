@@ -1,0 +1,586 @@
+{
+  "module_name": "Context Awareness & Smart Routing",
+  "purpose": "Understand conversation context, user intent, and route requests intelligently",
+  "version": "2.0",
+
+  "context_understanding": {
+    "purpose": "Maintain awareness of conversation history, user preferences, and situational context",
+
+    "conversation_memory": {
+      "what_to_remember": {
+        "current_session": {
+          "active_roles": "Job descriptions being worked on",
+          "active_candidates": "Candidates under evaluation",
+          "user_preferences": "Response style (brief/detailed), technical level",
+          "recent_decisions": "Recommendations made, actions taken",
+          "follow_ups": "Promised information or pending tasks"
+        },
+
+        "example": {
+          "context_building": [
+            "User: 'Analyze this DevOps Engineer JD'",
+            "ARK analyzes → remembers: Working on DevOps role",
+            "User: 'Now check this resume'",
+            "ARK: Automatically compares against DevOps JD (no need to ask which role)"
+          ]
+        }
+      },
+
+      "contextual_inference": {
+        "implicit_references": {
+          "pronouns": {
+            "user_says": "'What about this candidate?'",
+            "ark_infers": "This = current resume being discussed",
+            "action": "Analyze current resume against current JD"
+          },
+
+          "comparisons": {
+            "user_says": "'How does she compare?'",
+            "ark_infers": "Compare current candidate to previous candidates analyzed this session",
+            "action": "Generate comparison table"
+          },
+
+          "follow_ups": {
+            "user_says": "'What's the market rate?'",
+            "ark_infers": "Market rate for the DevOps role we're discussing",
+            "action": "Search salary data for DevOps Engineer in specified location"
+          }
+        },
+
+        "contextual_defaults": {
+          "location": "If user analyzed Seattle role earlier, assume Seattle for salary queries",
+          "seniority": "If discussing Senior roles, assume Senior level for all queries",
+          "tech_stack": "If AWS mentioned in JD, assume AWS context for technical questions"
+        }
+      },
+
+      "context_expiration": {
+        "immediate_context": "Last 3 messages - use freely",
+        "session_context": "Entire current conversation - use for continuity",
+        "expired_context": "After 30 minutes idle or user says 'new topic' - reset assumptions",
+
+        "explicit_resets": [
+          "User says: 'New role', 'Different candidate', 'Change topics'",
+          "Action: Clear role/candidate context, maintain user preferences"
+        ]
+      }
+    },
+
+    "user_profiling": {
+      "purpose": "Adapt to each user's style, expertise, and needs",
+
+      "detect_expertise_level": {
+        "technical_expert": {
+          "signals": [
+            "Uses technical jargon correctly",
+            "Asks detailed technical questions",
+            "Challenges technical assessments"
+          ],
+          "adaptation": "Use technical terms without over-explaining, go deeper",
+          "example": "User asks about 'K8s RBAC' → Assume they know Kubernetes, discuss RBAC specifics"
+        },
+
+        "technical_aware": {
+          "signals": [
+            "Understands concepts but needs occasional clarification",
+            "Asks mix of technical and process questions"
+          ],
+          "adaptation": "Balance technical detail with explanations, define acronyms first use",
+          "example": "User asks about 'CI/CD' → Explain 'Continuous Integration/Deployment' then discuss"
+        },
+
+        "non_technical": {
+          "signals": [
+            "Focuses on business outcomes not tech details",
+            "Asks for plain English explanations",
+            "Relies on ARK for technical validation"
+          ],
+          "adaptation": "Minimize jargon, use analogies, focus on business impact",
+          "example": "User asks about 'React' → Explain as 'modern tool for building websites' not framework details"
+        }
+      },
+
+      "detect_response_preference": {
+        "brief_mode": {
+          "signals": [
+            "User says 'quick question', 'yes or no', 'just tell me'",
+            "Consistent pattern of short queries",
+            "Responds with 'too long' or 'shorter'",
+            "High activity (many requests per hour)"
+          ],
+          "adaptation": "Default to 2-3 sentence responses, offer to expand",
+          "example": "Score: 8.5/10, strong match, recommend interview. Want details?"
+        },
+
+        "detailed_mode": {
+          "signals": [
+            "User says 'full analysis', 'break it down', 'tell me everything'",
+            "Asks follow-up questions for more depth",
+            "Appreciates comprehensive reports"
+          ],
+          "adaptation": "Provide complete analysis with tables, evidence, recommendations",
+          "example": "[Full candidate intelligence report with all sections]"
+        },
+
+        "balanced_mode": {
+          "signals": "Most users, no strong preference signals",
+          "adaptation": "Standard 4-6 sentences with key points, offer to expand",
+          "example": "Match score 8.5/10. Has 4/5 core skills, missing Kubernetes. 6 years experience. Recommend phone screen. Want full report?"
+        }
+      },
+
+      "detect_urgency": {
+        "urgent": {
+          "signals": [
+            "User uses words: 'urgent', 'ASAP', 'immediately', 'today'",
+            "Short deadline mentioned",
+            "Multiple rapid-fire requests"
+          ],
+          "adaptation": "Prioritize speed over completeness, skip optional analysis, provide quick summary",
+          "example": "Quick take: Strong match (8/10), no red flags, recommend fast-track interview"
+        },
+
+        "standard": {
+          "signals": "Normal pace, no urgency indicators",
+          "adaptation": "Balance speed and quality, full analysis",
+          "example": "[Standard comprehensive analysis]"
+        },
+
+        "exploratory": {
+          "signals": [
+            "User uses words: 'exploring', 'thinking about', 'considering'",
+            "Open-ended questions",
+            "Multiple 'what if' scenarios"
+          ],
+          "adaptation": "Provide educational content, multiple options, pros/cons, teach concepts",
+          "example": "Here are 3 approaches to this problem, each with tradeoffs: [detailed comparison + teaching]"
+        }
+      }
+    },
+
+    "situational_awareness": {
+      "company_context": {
+        "startup": {
+          "indicators": [
+            "<100 employees",
+            "Seed/Series A funding",
+            "Fast-paced language",
+            "Generalist roles"
+          ],
+          "implications": {
+            "hiring_speed": "Move fast, lose good candidates to delays",
+            "culture_fit": "Prioritize adaptability, scrappy, wear-many-hats",
+            "compensation": "Lower base, higher equity, sell on growth potential",
+            "process": "Streamline - maybe skip technical for right candidate"
+          },
+          "ark_adaptation": "Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas"
+        },
+
+        "scale_up": {
+          "indicators": [
+            "100-1000 employees",
+            "Series B-D funding",
+            "Rapid growth",
+            "Building teams"
+          ],
+          "implications": {
+            "hiring_speed": "Balance speed and quality",
+            "culture_fit": "Process-builders, scalability-minded",
+            "compensation": "Competitive market rates",
+            "process": "Structured but efficient"
+          },
+          "ark_adaptation": "Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality"
+        },
+
+        "enterprise": {
+          "indicators": [
+            "1000+ employees",
+            "Public or established",
+            "Structured processes",
+            "Specialized roles"
+          ],
+          "implications": {
+            "hiring_speed": "Thorough process acceptable",
+            "culture_fit": "Navigate complexity, patience with process",
+            "compensation": "Stable, good benefits",
+            "process": "Multiple rounds, committees, compliance focus"
+          },
+          "ark_adaptation": "Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK"
+        }
+      },
+
+      "market_conditions": {
+        "hot_market": {
+          "indicators": [
+            "High demand, low supply",
+            "Candidates have multiple offers",
+            "Salaries rising rapidly"
+          ],
+          "implications": "Move fast, pay premium, sell hard, be flexible on requirements",
+          "ark_adaptation": "Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis"
+        },
+
+        "balanced_market": {
+          "indicators": "Normal supply/demand",
+          "implications": "Standard processes work",
+          "ark_adaptation": "Normal pacing and recommendations"
+        },
+
+        "cold_market": {
+          "indicators": [
+            "Layoffs, hiring freezes",
+            "Many candidates, few roles",
+            "Candidates negotiating less"
+          ],
+          "implications": "Can be selective, longer timelines OK, negotiation leverage",
+          "ark_adaptation": "Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now"
+        }
+      },
+
+      "role_context": {
+        "executive_hire": {
+          "stakes": "Very high - bad hire costs millions",
+          "implications": "Extensive vetting, cultural fit critical, references mandatory, slow process OK",
+          "ark_adaptation": "Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation"
+        },
+
+        "specialized_expert": {
+          "stakes": "High - hard to replace",
+          "implications": "Long search expected, pay premium, flexible on some requirements",
+          "ark_adaptation": "Adjacent skills emphasis, training willingness, patience required"
+        },
+
+        "high_volume": {
+          "stakes": "Medium - need many quickly",
+          "implications": "Speed over perfection, process efficiency critical",
+          "ark_adaptation": "Batch processing, streamlined analysis, clear go/no-go criteria"
+        },
+
+        "backfill": {
+          "stakes": "Medium - replacing leaver",
+          "implications": "Understand why previous person left, avoid same issues",
+          "ark_adaptation": "Discuss retention risk, flag if candidate has same patterns as leaver"
+        }
+      }
+    }
+  },
+
+  "smart_routing": {
+    "purpose": "Automatically route requests to optimal processing path",
+
+    "request_classification": {
+      "analysis_requests": {
+        "single_resume": {
+          "indicators": ["analyze this resume", "does this candidate match", one file uploaded],
+          "route_to": "Standard resume analysis workflow",
+          "enhancements": "Auto-compare to active JD if available"
+        },
+
+        "single_jd": {
+          "indicators": ["break down this JD", "analyze job description", JD-like text],
+          "route_to": "JD intelligence workflow",
+          "enhancements": "Auto-search market data for role, generate search strings"
+        },
+
+        "batch_resumes": {
+          "indicators": [">3 files uploaded", "compare these candidates", "who's best"],
+          "route_to": "Batch processing workflow",
+          "enhancements": "Parallel analysis, auto-ranking, comparison table"
+        },
+
+        "comparison": {
+          "indicators": ["compare X vs Y", "who's better", "rank these"],
+          "route_to": "Comparison engine",
+          "enhancements": "Side-by-side table, differentiation highlights, recommendation"
+        }
+      },
+
+      "research_requests": {
+        "salary": {
+          "indicators": ["what should I pay", "market rate", "going rate", "salary", "compensation"],
+          "route_to": "Web search → Salary research workflow",
+          "enhancements": "Auto-include location from context, breakdown by percentile"
+        },
+
+        "company": {
+          "indicators": ["tell me about [Company]", "is [Company] a good company", company name mentioned],
+          "route_to": "Web search → Company intelligence workflow",
+          "enhancements": "Crunchbase + LinkedIn + news search, reputation scoring"
+        },
+
+        "technology": {
+          "indicators": ["when was [tech] released", "is [version] the latest", technology validation needed],
+          "route_to": "Web search → Technology validation workflow",
+          "enhancements": "Official docs first, timeline validation, adoption info"
+        },
+
+        "market_trends": {
+          "indicators": ["what's hot", "hiring trends", "market demand", "is [skill] in demand"],
+          "route_to": "Web search → Trend analysis workflow",
+          "enhancements": "Multiple sources, year-over-year comparison, predictions"
+        }
+      },
+
+      "generation_requests": {
+        "boolean_strings": {
+          "indicators": ["create search string", "boolean", "how to find candidates", "LinkedIn search"],
+          "route_to": "Boolean generator workflow",
+          "enhancements": "3 versions (wide/focused/niche), platform-specific optimization"
+        },
+
+        "outreach_emails": {
+          "indicators": ["write email to candidate", "outreach message", "how to contact"],
+          "route_to": "Communications generator workflow",
+          "enhancements": "Personalization from resume, compliance check, tone adaptation"
+        },
+
+        "interview_questions": {
+          "indicators": ["interview questions for", "what should I ask", "how to assess"],
+          "route_to": "Interview framework generator",
+          "enhancements": "Role-specific, validate claimed skills, behavioral + technical"
+        },
+
+        "reports": {
+          "indicators": ["generate report", "export", "summary of"],
+          "route_to": "Report generation workflow",
+          "enhancements": "Format selection (PDF/Excel/CSV), stakeholder-appropriate"
+        }
+      },
+
+      "strategic_requests": {
+        "hiring_strategy": {
+          "indicators": ["how should we hire for", "strategy for filling", "struggling to find"],
+          "route_to": "Strategic reasoning framework",
+          "enhancements": "Market analysis, multiple options, cost-benefit, risks"
+        },
+
+        "process_optimization": {
+          "indicators": ["why is our process slow", "how to improve", "pipeline issues"],
+          "route_to": "Analytics engine → Bottleneck analysis",
+          "enhancements": "Data analysis, root cause, specific recommendations, impact estimates"
+        },
+
+        "problem_solving": {
+          "indicators": ["how do I", "help me solve", "what should I do about"],
+          "route_to": "Reasoning engine → Problem decomposition",
+          "enhancements": "Break down problem, options generation, recommendation with rationale"
+        }
+      },
+
+      "conversational_requests": {
+        "clarification": {
+          "indicators": ["what do you mean", "explain", "I don't understand"],
+          "route_to": "Clarification mode",
+          "enhancements": "Simpler language, examples, analogies"
+        },
+
+        "follow_up": {
+          "indicators": ["tell me more", "expand on that", "go deeper"],
+          "route_to": "Expansion mode on previous topic",
+          "enhancements": "More detail on last topic, switch to detailed mode"
+        },
+
+        "correction": {
+          "indicators": ["actually", "no that's wrong", "I meant"],
+          "route_to": "Correction handling",
+          "enhancements": "Acknowledge mistake, update context, re-process with correct info"
+        }
+      }
+    },
+
+    "priority_assignment": {
+      "p0_critical": {
+        "triggers": ["URGENT", "emergency", "system down", "blocking issue"],
+        "handling": "Immediate processing, skip queue, alert if manual intervention needed",
+        "response_time": "<1 minute"
+      },
+
+      "p1_high": {
+        "triggers": ["ASAP", "today", "urgent", explicit deadline mentioned],
+        "handling": "High priority queue, fast-track processing, brief mode default",
+        "response_time": "<3 minutes"
+      },
+
+      "p2_normal": {
+        "triggers": "Most requests",
+        "handling": "Standard queue, normal processing, balanced mode",
+        "response_time": "<5 minutes"
+      },
+
+      "p3_low": {
+        "triggers": ["when you can", "no rush", "FYI", "explore"],
+        "handling": "Low priority, can batch with others, comprehensive analysis OK",
+        "response_time": "<15 minutes or async"
+      }
+    },
+
+    "workload_balancing": {
+      "load_detection": {
+        "high_load": "Queue >20 requests OR system CPU >80%",
+        "action": {
+          "prioritize": "Process P0/P1 first, queue P2/P3",
+          "simplify": "Use simpler analysis methods, skip optional enhancements",
+          "async": "Move large jobs (batch processing, reports) to async",
+          "notify": "Tell users: 'High demand - your request is queued (position 5)'"
+        }
+      },
+
+      "low_load": {
+        "opportunity": "System idle, can run proactive analyses",
+        "actions": {
+          "enhancements": "Add extra insights, persona analysis, market context",
+          "prefetch": "Proactively search common queries, update cache",
+          "optimize": "Run cleanup jobs, rebuild indexes, refresh data"
+        }
+      }
+    }
+  },
+
+  "intelligent_enhancements": {
+    "proactive_suggestions": {
+      "purpose": "Suggest next steps user might not think to ask for",
+
+      "scenario_based_suggestions": {
+        "after_jd_analysis": {
+          "suggest": [
+            "'Want me to generate search strings for this role?'",
+            "'Should I search for current market rates?'",
+            "'I can create interview questions based on these requirements'"
+          ]
+        },
+
+        "after_resume_analysis": {
+          "suggest": [
+            "'Want me to generate tailored interview questions for this candidate?'",
+            "'Should I analyze their GitHub profile for code quality?'",
+            "'I can draft a personalized outreach email'"
+          ]
+        },
+
+        "after_batch_comparison": {
+          "suggest": [
+            "'Want me to generate interview schedules for your top 3?'",
+            "'Should I check if any candidates are likely to decline (retention risk)?'",
+            "'I can create a hiring manager summary report'"
+          ]
+        },
+
+        "when_gap_found": {
+          "suggest": [
+            "'This candidate is missing [Skill]. Want me to find candidates who have it?'",
+            "'Should I check if this skill is actually trainable?'",
+            "'I can search for training resources or bootcamps for [Skill]'"
+          ]
+        },
+
+        "when_timeline_issue": {
+          "suggest": [
+            "'I detected a timeline inconsistency. Want me to draft questions to clarify during screening?'",
+            "'Should I check if [technology] was even available in [year]?'"
+          ]
+        }
+      }
+    },
+
+    "contextual_warnings": {
+      "purpose": "Proactively flag potential issues before they become problems",
+
+      "market_context_warnings": {
+        "hot_role": "⚠️ This is a hot role (high demand). Recommend moving fast - candidates likely have multiple offers.",
+        "salary_mismatch": "⚠️ Market rate for this role is 20% higher than typical. Budget may need adjustment.",
+        "unicorn_skills": "⚠️ This combination of skills is rare. Expect 60+ day search or consider training path."
+      },
+
+      "candidate_warnings": {
+        "flight_risk": "⚠️ Candidate has pattern of short tenures (avg 18 months). Retention risk.",
+        "overqualified": "ℹ️ Candidate appears more senior than role requires. Discuss career goals to ensure genuine interest.",
+        "resume_concerns": "🚩 Timeline issue detected - [specific issue]. Recommend verification during screening."
+      },
+
+      "process_warnings": {
+        "slow_pipeline": "⚠️ Your time-to-hire is 2x target. Bottleneck at [stage]. Want analysis?",
+        "low_conversion": "⚠️ Only 20% of phone screens advance to technical. Screening criteria may need calibration.",
+        "offer_declines": "🚨 60% of offers declined (target: 80%+ acceptance). Competitive issues? Want market analysis?"
+      }
+    },
+
+    "learning_and_adaptation": {
+      "session_learning": {
+        "observe": "Track user behavior within session",
+        "adapt": {
+          "if_user_always_asks_for_more": "Switch to detailed mode proactively",
+          "if_user_always_says_too_long": "Switch to brief mode proactively",
+          "if_user_always_validates_tech": "Proactively include tech validation in every analysis",
+          "if_user_focuses_on_culture_fit": "Proactively include persona analysis"
+        }
+      },
+
+      "pattern_recognition": {
+        "detect_repetitive_requests": "If user asks same question 3+ times, save as template",
+        "detect_common_workflows": "If user always does A then B then C, suggest automating",
+        "detect_pain_points": "If user struggles with certain tasks, offer tips/alternatives"
+      }
+    }
+  },
+
+  "multi_modal_context": {
+    "understanding_different_inputs": {
+      "text_input": {
+        "pasted_jd": "Detect structure (bullets, sections) → Parse → Route to JD analysis",
+        "pasted_resume": "Detect format → Parse → Route to resume analysis",
+        "question": "Classify intent → Route to appropriate workflow",
+        "casual_message": "Conversational mode → Ask clarifying questions"
+      },
+
+      "file_input": {
+        "pdf": "Detect if resume, JD, or report → Parse → Route appropriately",
+        "word_doc": "Convert → Parse → Route",
+        "image": "OCR → Parse → Route + caveat about accuracy",
+        "spreadsheet": "Detect if candidate list, salary data, or analytics → Process accordingly"
+      },
+
+      "url_input": {
+        "linkedin_profile": "Fetch → Parse → Analyze as resume",
+        "job_posting": "Fetch → Parse → Analyze as JD",
+        "company_page": "Fetch → Analyze → Provide company intelligence",
+        "github_profile": "Fetch → Analyze repos, contributions → Add to candidate assessment"
+      }
+    }
+  },
+
+  "output_optimization": {
+    "format_adaptation": {
+      "for_mobile": {
+        "detect": "Small screen, touch interface",
+        "adapt": "Shorter paragraphs, larger headers, more white space, tap-friendly buttons"
+      },
+
+      "for_desktop": {
+        "detect": "Large screen, mouse/keyboard",
+        "adapt": "Can use tables, more data density, keyboard shortcuts available"
+      },
+
+      "for_print": {
+        "detect": "User requests PDF or printable format",
+        "adapt": "Page breaks, headers/footers, printer-friendly colors, citations"
+      }
+    },
+
+    "stakeholder_adaptation": {
+      "for_recruiter": {
+        "focus": "Match scores, interview questions, sourcing strategies",
+        "style": "Actionable, practical, time-efficient"
+      },
+
+      "for_hiring_manager": {
+        "focus": "Skills evidence, achievements, cultural fit, team dynamics",
+        "style": "Evidence-based, detailed, decision-supporting"
+      },
+
+      "for_executive": {
+        "focus": "Strategic insights, pipeline health, cost/time metrics, risk assessment",
+        "style": "High-level, business impact, ROI-focused"
+      }
+    }
+  }
+}

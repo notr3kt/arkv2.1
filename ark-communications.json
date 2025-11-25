@@ -1,0 +1,324 @@
+{
+  "module_name": "Communications & Outreach Templates",
+  "purpose": "Generate candidate outreach, screening scripts, and interview materials",
+  
+  "outreach_system": {
+    "governance": {
+      "zero_guessing": "Never assume JD details. Block generation if required fields missing",
+      "redaction_modes": {
+        "public": "Hide rates, client names, addresses, deadlines, internal notes",
+        "internal": "Show full details for team use only"
+      },
+      "hard_stops": [
+        "Missing required fields (role, location, work_model, employment_type, duration)",
+        "Public mode contains rates/client/address/calendar dates",
+        "JD contains internal notes (VMS, bill rate, vendor, deadline)",
+        "Local-only job without DL/ID request in checklist",
+        "Channel length exceeded (SMS>320, LinkedIn Note>300, LinkedIn Post>2000)"
+      ]
+    },
+    
+    "required_jd_fields": {
+      "role_title": "Extract exact job title from JD",
+      "location": "City, State format",
+      "work_model": "ONSITE / REMOTE / HYBRID",
+      "onsite_days": "If hybrid, how many days (e.g., 2-3 days/week)",
+      "interview_type": "WEBCAM / IN-PERSON / PHONE / HYBRID",
+      "employment_type": "W2 / C2C",
+      "duration": "Use length not dates (e.g., 6+ months, 12 months contract)",
+      "start_window": "If specified (e.g., within 10 business days)",
+      "travel": "NONE / LIMITED / 25% / UNSPECIFIED",
+      "local_only": "YES / NO",
+      "clearance": "YES / NO / type if specified",
+      "background_check": "YES / NO",
+      "drug_screen": "YES / NO",
+      "veteran_preference": "YES / NO",
+      "federal_agency": "YES / NO",
+      "timezone": "All times in ET unless specified"
+    },
+    
+    "templates": {
+      "email_rich": {
+        "subject": "[ROLE] | [WORK_MODEL] in [LOCATION] | [DURATION] | [TYPE]",
+        "structure": [
+          "Greeting with first name",
+          "Intro: recruiter with ARK Solutions",
+          "Job Snapshot (bullets): work model, interview type, employment type, duration, travel, local-only",
+          "Important Notes: only JD-explicit items (clearance, veteran pref, etc)",
+          "Full JD: verbatim clean text, no internal notes",
+          "Submission Checklist: resume, legal name, location, work auth, W2/C2C pref, experience years, start date, rate (internal), DL if local-only, clearance if needed, background consent",
+          "Signature: Name, ARK Solutions Inc, contact info",
+          "Optional: EEO/ADA footer"
+        ],
+        "example": "Hi John,\n\nI'm a recruiter with ARK Solutions, Inc. We're supporting a federal engagement for a Senior DevOps Engineer based in Washington, DC.\n\n**Job Snapshot**\n- Work Model: Hybrid (3 days/week onsite)\n- Interview Type: In-Person\n- Employment Type: W2 only\n- Duration: 12+ months\n- Travel: None\n- Local Only: Yes\n\n**Important Notes**\n- Secret clearance required\n- Must be within 50 miles of DC Metro\n- Start within 2 weeks of offer\n\n[Full JD text here]\n\n**Submission Checklist**\n- Updated resume (PDF)\n- Legal name\n- Location (City, State, ZIP)\n- Work authorization\n- Employment preference (W2)\n- Total/U.S. experience (years)\n- Earliest start date\n- Desired hourly rate (kept internal)\n- Driver's License or State ID\n- Active Secret clearance certificate\n\nThanks,\n[Signature]"
+      },
+      
+      "email_plain": {
+        "purpose": "ATS-friendly, no formatting, public-safe",
+        "structure": "Subject line, greeting, one-paragraph summary, JD link, checklist in sentence format, signature",
+        "max_length": "Keep under 1000 words"
+      },
+      
+      "sms": {
+        "max_chars": 320,
+        "structure": "Hi [Name] - hiring [ROLE] in [LOCATION] ([WORK_MODEL]). [DURATION], [TYPE], interview: [METHOD]. Emailed JD - interested? Reply STOP to opt out.",
+        "example": "Hi Sarah - hiring DevOps Engineer in DC (Hybrid). 12 months, W2, in-person interview. Emailed JD - interested? Reply STOP to opt out."
+      },
+      
+      "linkedin_note": {
+        "max_chars": 300,
+        "structure": "Hi [Name], recruiting for [ROLE] in [LOCATION] ([WORK_MODEL], [DURATION], [TYPE]). Interview: [METHOD]. Connect to discuss?",
+        "example": "Hi Sarah, recruiting for DevOps Engineer in DC (Hybrid, 12 months, W2). Interview: In-person. Connect so I can share JD and next steps?"
+      },
+      
+      "linkedin_post": {
+        "max_chars": 2000,
+        "structure": "Emoji header, role + location, key details (duration/type/interview), requirements (local/clearance/travel), 3-4 skill highlights, CTA to DM or email",
+        "example": "🚨 Now Hiring: Senior DevOps Engineer - Washington, DC (Hybrid)\n\n🗓️ Duration: 12+ months | 💼 W2 | 👥 In-Person Interview\n📍 Local Required: YES | ✈️ Travel: None | 🔐 Clearance: Secret\n\n**Highlights**\n• AWS & Kubernetes production experience\n• Terraform IaC expertise\n• Federal agency background preferred\n\n📩 DM me or email your resume to [email]"
+      },
+      
+      "c2c_supplement": {
+        "when_to_include": "If employment_type includes C2C",
+        "required_fields": [
+          "Company name & website",
+          "EIN (never SSN)",
+          "Work authorization status", 
+          "Point of contact & email",
+          "Insurance coverage confirmation"
+        ]
+      }
+    }
+  },
+  
+  "screening_script": {
+    "purpose": "Structured phone screen to qualify candidates before submission",
+    "total_duration": "25-30 minutes",
+    
+    "sections": {
+      "warm_intro": {
+        "duration": "2 minutes",
+        "goal": "Build rapport, set context",
+        "questions": [
+          "Hi [Name], how are you today?",
+          "Where are you currently based?",
+          "Are you working remote/hybrid/onsite currently?",
+          "What motivated you to explore new opportunities?"
+        ]
+      },
+      
+      "initial_screening": {
+        "duration": "5 minutes",
+        "goal": "Validate basic qualifications and logistics",
+        "required_confirms": [
+          "Full legal name (as per ID)",
+          "LinkedIn profile (if available)",
+          "Current location (City, State, ZIP)",
+          "Work authorization: [U.S. Citizen / GC / H1B / EAD etc]",
+          "Security clearance (if required): Current/past/none",
+          "Employment type preference: W2 / C2C / 1099",
+          "Confirmation they meet the role's location/clearance requirements"
+        ],
+        "example_flow": "This role is with [Client] in [Location] and requires [clearance/work auth]. The position is [W2/C2C]. Does that align with what you're looking for?"
+      },
+      
+      "experience_fit": {
+        "duration": "10 minutes",
+        "goal": "Validate technical skills and project experience",
+        "question_templates": [
+          "Walk me through your background as [their title], specifically your work with [Skill #1]",
+          "The client needs experience in [Skill #2]. Can you share a recent project where you used this?",
+          "Do you have hands-on experience with [Skill #3]? In what capacity?",
+          "This role involves [domain/industry]. Describe your exposure here",
+          "Have you managed multiple [projects/systems/cases] simultaneously? Give an example"
+        ],
+        "green_flags": [
+          "Provides specific project names and dates",
+          "Mentions quantified outcomes (time saved, costs reduced, team size)",
+          "Explains their specific role vs team contributions",
+          "Discusses technical decisions and trade-offs"
+        ],
+        "red_flags": [
+          "Vague answers with no context ('I worked on various projects')",
+          "Can't explain what they actually did ('the team handled that')",
+          "Lists tools but can't describe how they used them",
+          "No concrete examples or timelines"
+        ]
+      },
+      
+      "submission_history": {
+        "duration": "5 minutes",
+        "goal": "Avoid duplicate submissions and conflicts",
+        "critical_questions": [
+          "Have you been submitted for this [ROLE] with [CLIENT] through another recruiter?",
+          "Have you interviewed with or worked for [CLIENT/PRIME VENDOR] before?",
+          "Are you currently on a project/contract? If yes, with which client and what's your end date?",
+          "Do you have any non-compete or RTR restrictions?",
+          "Can you confirm you're NOT already being represented for this exact role?"
+        ],
+        "blocker_scenarios": [
+          "Already submitted by another vendor → Cannot proceed",
+          "Active RTR with competitor → Cannot proceed",
+          "Currently working for client → Check conflict policy",
+          "Non-compete clause → Requires legal review"
+        ]
+      },
+      
+      "logistics": {
+        "duration": "5-10 minutes",
+        "goal": "Confirm practical details before submission",
+        "required_info": [
+          "Comfort with work location: [ONSITE/HYBRID/REMOTE in CITY, STATE]",
+          "Earliest availability to start",
+          "Planned vacations or commitments in next 3 months",
+          "Target rate expectation (note: keep internal, don't promise specific rate)",
+          "If onsite: commute plan or willingness to relocate",
+          "Confirm they can meet any start window requirements (e.g., within 10 business days)"
+        ]
+      },
+      
+      "compliance": {
+        "duration": "3 minutes",
+        "goal": "Set expectations for verification and documentation",
+        "key_points": [
+          "Information must match what you provide in [clearance/background/VMS system]",
+          "We need an RTR form confirming ARK Solutions represents you exclusively for this role",
+          "I'll email the RTR and submission sheet - please complete within 24 hours",
+          "Before interviews, we'll schedule a prep call",
+          "Background check and/or drug screen may be required - is that acceptable?"
+        ]
+      },
+      
+      "closing": {
+        "duration": "2 minutes",
+        "goal": "Set clear next steps",
+        "script": "Thank you for your time. I'll send the RTR form and submission details shortly. Once completed, we'll submit your profile for the [JOB TITLE] role. Do you have any questions before we wrap up?"
+      }
+    },
+    
+    "scoring_framework": {
+      "pass_criteria": [
+        "Meets all required qualifications (work auth, clearance, location)",
+        "Has hands-on experience with 4/5 core skills minimum",
+        "Can articulate specific project examples",
+        "Available within required timeframe",
+        "No submission conflicts",
+        "Rate expectations align with budget (internal check)"
+      ],
+      
+      "hold_criteria": [
+        "Meets 3/5 core skills, others are trainable",
+        "Good potential but needs clarification on specific experience",
+        "Availability slightly outside window but negotiable",
+        "Minor concerns that can be addressed in interview"
+      ],
+      
+      "reject_criteria": [
+        "Missing critical requirements (work auth, clearance, must-have skills)",
+        "Already submitted by another vendor",
+        "Vague or fabricated experience",
+        "Rate expectations far outside budget",
+        "Cannot meet location/start date requirements"
+      ]
+    }
+  },
+  
+  "interview_prep": {
+    "purpose": "Prepare candidate for client interview after submission approved",
+    "duration": "20-30 minutes",
+    
+    "sections": {
+      "logistics_review": {
+        "cover": [
+          "Interview date, time, timezone",
+          "Format (phone/video/in-person)",
+          "Interview panel names and titles",
+          "Dress code if in-person",
+          "Technical setup if virtual (test Zoom/Teams beforehand)"
+        ]
+      },
+      
+      "role_deep_dive": {
+        "cover": [
+          "Client's business and why this role exists",
+          "Day-to-day responsibilities in detail",
+          "Team structure and who they'll work with",
+          "Key projects or initiatives they'll support",
+          "Success metrics for first 90 days"
+        ]
+      },
+      
+      "technical_prep": {
+        "cover": [
+          "Review the core skills they'll be asked about",
+          "Anticipate technical questions based on JD",
+          "Prepare STAR method answers for behavioral questions",
+          "Rehearse explanations for resume gaps or job changes",
+          "Practice describing their most complex project"
+        ]
+      },
+      
+      "dos_and_donts": {
+        "dos": [
+          "Be specific with examples (project names, dates, outcomes)",
+          "Quantify achievements when possible",
+          "Ask thoughtful questions about the role and team",
+          "Be honest if you don't know something",
+          "Follow up with a thank you email within 24 hours"
+        ],
+        "donts": [
+          "Don't badmouth previous employers",
+          "Don't lie or exaggerate experience",
+          "Don't discuss salary/rate (ARK handles negotiations)",
+          "Don't mention you're interviewing elsewhere unless asked",
+          "Don't be late or miss the interview"
+        ]
+      },
+      
+      "questions_to_ask": {
+        "suggest_3_to_5": [
+          "What does success look like in this role in the first 6 months?",
+          "What are the biggest challenges facing the team right now?",
+          "Can you describe the team structure and who I'd be working with?",
+          "What's the technology stack and development process like?",
+          "What opportunities for growth or learning exist in this role?"
+        ]
+      },
+      
+      "final_reminders": {
+        "checklist": [
+          "Confirm interview logistics one day before",
+          "Test tech setup 30 minutes before if virtual",
+          "Have resume and notes ready",
+          "Have questions prepared",
+          "Plan to call recruiter immediately after interview for debrief"
+        ]
+      }
+    }
+  },
+  
+  "post_interview_debrief": {
+    "purpose": "Gather feedback immediately after candidate's interview",
+    "timing": "Within 1 hour of interview end",
+    
+    "questions_to_ask": [
+      "How did it go overall? What's your initial impression?",
+      "Who did you interview with and for how long?",
+      "What technical questions were asked? How did you answer?",
+      "What behavioral or situational questions came up?",
+      "Did they discuss timeline, next steps, or additional interviews?",
+      "Were there any questions you struggled with or couldn't answer?",
+      "Did you ask questions? What did you learn about the role?",
+      "On a scale of 1-10, how interested are you in this position?",
+      "Any red flags or concerns that came up?",
+      "When do they expect to make a decision?"
+    ],
+    
+    "recruiter_actions": [
+      "Document all feedback immediately",
+      "Flag any concerns or mismatches to address",
+      "Set expectations for client feedback timeline (usually 24-48 hours)",
+      "Remind candidate you'll advocate for them with client",
+      "Confirm availability for potential second interview or start date"
+    ]
+  }
+}

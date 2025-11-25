@@ -1,0 +1,194 @@
+{
+  "module_name": "JD Intelligence & Breakdown",
+  "purpose": "Maxed-out job description analysis with layman's explanations",
+  
+  "workflow": {
+    "step_1_extract": {
+      "action": "parse_and_categorize",
+      "output": "skill_matrix",
+      "categories": {
+        "core_must_have": {
+          "definition": "Skills absolutely required for the job - deal breakers if missing",
+          "signals": ["required", "must have", "essential", "mandatory", "minimum", "years of experience"],
+          "weight": 1.0
+        },
+        "secondary_nice_to_have": {
+          "definition": "Skills that add value but aren't mandatory",
+          "signals": ["nice to have", "preferred", "plus", "bonus", "desired", "a plus", "advantageous"],
+          "weight": 0.5
+        },
+        "tools_platforms": {
+          "definition": "Specific technologies, software, frameworks, cloud providers",
+          "examples": ["AWS", "Docker", "React", "Salesforce", "SAP", "Kubernetes"],
+          "weight": 0.7
+        }
+      }
+    },
+    
+    "step_2_explain_each_skill": {
+      "action": "decode_technical_terms",
+      "for_each_skill": {
+        "what_it_is": "One-line plain English definition",
+        "what_it_does": "What problem it solves or what it's used for",
+        "why_here": "Why this job needs it (tied to job context)",
+        "analogy": "Real-world comparison if technical",
+        "proficiency_level": "Determine from context: Expert|Advanced|Working Knowledge"
+      },
+      
+      "example_output": {
+        "skill": "Kubernetes",
+        "what_it_is": "A tool that manages and organizes containers (think: shipping containers, but for software)",
+        "what_it_does": "Automatically deploys, scales, and keeps applications running smoothly across many servers",
+        "why_here": "This company runs their apps in containers, and needs someone to keep that system healthy",
+        "analogy": "Like an air traffic controller for software - makes sure everything lands, takes off, and runs on time",
+        "proficiency": "Advanced (based on 'architect' and 'manage production' in JD)"
+      }
+    },
+    
+    "step_3_validate_sanity": {
+      "action": "flag_red_flags",
+      "checks": [
+        {
+          "name": "impossible_experience",
+          "logic": "If years_required > technology_age",
+          "example": "Asking for 10 years of experience with React (released 2013)",
+          "flag": "🚩 CRITICAL"
+        },
+        {
+          "name": "contradictory_stack",
+          "logic": "If multiple competing technologies listed as all required",
+          "example": "Must know React AND Angular AND Vue",
+          "flag": "⚠️ WARNING - Pick one or clarify"
+        },
+        {
+          "name": "unrealistic_scope",
+          "logic": "If role_level + skill_count + experience_years don't align",
+          "example": "Junior role requiring 10 skills + 7 years + leadership",
+          "flag": "⚠️ WARNING - Scope mismatch"
+        },
+        {
+          "name": "buzzword_overload",
+          "logic": "If vague terms > 30% of requirements",
+          "terms": ["rockstar", "ninja", "guru", "synergy", "dynamic", "fast-paced"],
+          "flag": "⚠️ WARNING - Lacks clarity"
+        },
+        {
+          "name": "missing_context",
+          "logic": "If no team size, project type, or clear deliverables",
+          "flag": "ℹ️ INFO - Need more details"
+        }
+      ]
+    },
+    
+    "step_4_laymans_guide": {
+      "action": "explain_like_im_not_technical",
+      "sections": {
+        
+        "job_in_plain_english": {
+          "template": "Think of this role as: [simple analogy]. This person will [main responsibility in everyday terms]. They'll work with [team/tools simplified] to [end result the company wants].",
+          "example": "Think of this role as: the architect and builder for the company's digital infrastructure. This person will design and maintain the 'backbone' that keeps all the company's software running smoothly. They'll work with cloud servers and automation tools to make sure the website and apps never go down."
+        },
+        
+        "why_company_needs_this": {
+          "template": "The company needs this because [business problem]. Without this role, [what breaks or slows down]. This position helps [business outcome].",
+          "example": "The company needs this because they're growing fast and their old systems can't keep up. Without this role, the website crashes during busy times and new features take months to launch. This position helps them scale smoothly and ship updates faster."
+        },
+        
+        "ideal_candidate_profile": {
+          "sections": {
+            "background": "Where they likely worked before, what roles they held",
+            "mindset": "How they think and approach problems",
+            "experience_range": "Years of experience and career stage",
+            "day_to_day": "What their typical day looks like in this role"
+          },
+          "example": {
+            "background": "Probably worked at a tech company or startup, maybe as a DevOps Engineer or Site Reliability Engineer. Likely came from a traditional IT background and learned cloud/automation on the job.",
+            "mindset": "They're problem-solvers who like to automate things. Prefer to build systems once properly rather than do manual work repeatedly. Think ahead about what could break.",
+            "experience_range": "5-8 years total, with at least 2-3 years doing cloud infrastructure work. Not entry-level, but not necessarily a VP either.",
+            "day_to_day": "Half their time monitoring systems and responding to issues. Other half building new infrastructure, writing automation scripts, and improving processes."
+          }
+        },
+        
+        "what_makes_good_fit": {
+          "template": "Red flags: [what to avoid]. Green flags: [what to look for]. Questions to ask: [how to validate fit].",
+          "example": {
+            "red_flags": [
+              "Only knows theory, no hands-on production experience",
+              "Switches jobs every 6 months (shows instability)",
+              "Can't explain what they built, only lists technologies"
+            ],
+            "green_flags": [
+              "Has 'battle scars' - can tell war stories about fixing broken systems",
+              "Shows progression from junior to senior roles",
+              "Mentions specific metrics (reduced downtime by X%, saved $Y)"
+            ],
+            "validation_questions": [
+              "Tell me about a time when a system you managed went down. What did you do?",
+              "Walk me through a complex infrastructure project you built from scratch.",
+              "What's your process for deciding between different technical solutions?"
+            ]
+          }
+        },
+        
+        "recruiting_strategy": {
+          "where_to_find": "Target companies, job boards, communities where these candidates hang out",
+          "how_to_reach": "What messaging resonates with this type of candidate",
+          "what_sells_them": "What this candidate type cares about in a job",
+          "example": {
+            "where_to_find": [
+              "LinkedIn - search current DevOps Engineers at tech companies",
+              "GitHub - find contributors to infrastructure tools",
+              "Tech meetups and conferences (KubeCon, AWS re:Invent)"
+            ],
+            "how_to_reach": "Skip the corporate fluff. Talk about technical challenges, scale, and autonomy. Mention specific tools in the stack.",
+            "what_sells_them": "Interesting technical problems, good work-life balance, learning opportunities, ownership and autonomy, compensation."
+          }
+        }
+      }
+    },
+    
+    "step_5_generate_outputs": {
+      "boolean_strings": {
+        "count": 3,
+        "types": ["wide_net", "focused", "niche"],
+        "explanation": "Search strings for LinkedIn and job boards - I'll explain how to use them"
+      },
+      
+      "interview_framework": {
+        "technical_questions": "3 questions per core skill to validate depth",
+        "behavioral_questions": "2 leadership, 2 problem-solving scenarios",
+        "verification_questions": "How to validate their claimed achievements"
+      }
+    }
+  },
+  
+  "output_format": {
+    "summary_mode": {
+      "includes": ["skill_count", "top_red_flags", "difficulty_rating", "one_line_summary"],
+      "example": "This JD has 6 core skills, 4 nice-to-haves. 🚩 Red flag: asking for 10 years of Kubernetes (it's only 8 years old). Difficulty: 7/10 - senior role, realistic scope. In short: They need a cloud infrastructure expert who can build and maintain production systems."
+    },
+    
+    "full_report_mode": {
+      "sections": [
+        "Executive Summary",
+        "Skill Matrix (table with all skills categorized)",
+        "Skill Decoder (what each tech means)",
+        "Red Flags & Recommendations",
+        "Layman's Guide (job explained simply)",
+        "Ideal Candidate Profile",
+        "Boolean Search Strings",
+        "Interview Questions"
+      ]
+    }
+  },
+  
+  "examples": {
+    "simple_analogy_library": {
+      "DevOps Engineer": "Like a bridge engineer who builds and maintains the roads between the development team and the live product",
+      "Data Engineer": "Like a plumber who builds pipelines to move data from where it's created to where it's needed",
+      "Full Stack Developer": "Like a general contractor who can work on both the foundation (backend) and the finishes (frontend) of a house",
+      "Cloud Architect": "Like a city planner who designs how all the buildings (applications) are laid out and connected in the cloud",
+      "Scrum Master": "Like a sports team coach who doesn't play but makes sure the team works well together and removes obstacles"
+    }
+  }
+}

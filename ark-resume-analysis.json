@@ -1,0 +1,221 @@
+{
+  "module_name": "Resume Analysis & Candidate Matching",
+  "purpose": "Analyze resumes against job requirements with evidence-based scoring",
+  
+  "workflow": {
+    "step_1_parse_resume": {
+      "action": "extract_structured_data",
+      "sections": {
+        "contact": ["name", "email", "phone", "location", "linkedin", "github"],
+        "experience": {
+          "for_each_job": {
+            "company": "extract company name",
+            "title": "extract job title",
+            "dates": "extract start and end dates",
+            "duration": "calculate duration in months",
+            "responsibilities": "extract bullet points",
+            "achievements": "identify quantified results (metrics, percentages, dollar amounts)",
+            "technologies": "extract all mentioned tools, frameworks, platforms"
+          }
+        },
+        "skills": {
+          "technical": "all technology mentions",
+          "soft": ["leadership", "communication", "teamwork", "problem-solving"]
+        },
+        "education": ["degree", "institution", "year"],
+        "certifications": ["name", "issuer", "date"]
+      }
+    },
+    
+    "step_2_timeline_validation": {
+      "action": "check_for_red_flags",
+      "checks": [
+        {
+          "name": "overlapping_jobs",
+          "logic": "If job_end_date > next_job_start_date",
+          "flag": "🚩 Timeline overlap - working two jobs at once?",
+          "severity": "medium"
+        },
+        {
+          "name": "employment_gaps",
+          "logic": "If gap_between_jobs > 6 months",
+          "flag": "⚠️ Gap in employment (X months)",
+          "severity": "low",
+          "note": "Could be valid (education, sabbatical, caregiving) - just ask"
+        },
+        {
+          "name": "rapid_job_hopping",
+          "logic": "If 3+ jobs with duration < 12 months each",
+          "flag": "⚠️ Pattern of short tenures",
+          "severity": "medium"
+        },
+        {
+          "name": "unclear_progression",
+          "logic": "If title goes from Senior back to Junior",
+          "flag": "ℹ️ Unusual career progression",
+          "severity": "low"
+        }
+      ]
+    },
+    
+    "step_3_match_to_jd": {
+      "action": "score_alignment",
+      "method": "evidence_based_scoring",
+      
+      "core_skills_match": {
+        "for_each_core_skill": {
+          "present": "Check if mentioned anywhere in resume",
+          "context": "Check if used in actual project work (not just listed)",
+          "proficiency": "Assess level: Expert (architected, led) | Advanced (implemented, managed) | Basic (used, worked with)",
+          "evidence": "Quote the specific line from resume",
+          "score": "1.0 if present with context, 0.5 if just listed, 0.0 if missing"
+        },
+        "weight": 0.5,
+        "max_points": 10
+      },
+      
+      "secondary_skills_match": {
+        "logic": "Same as core but less critical",
+        "weight": 0.3,
+        "max_points": 10
+      },
+      
+      "experience_match": {
+        "check": {
+          "years_total": "Does total experience meet minimum?",
+          "relevant_experience": "How many years doing similar work?",
+          "company_tier": "Tier 1 (FAANG, Enterprise) vs Tier 2 (Mid-market) vs Tier 3 (Startup)",
+          "role_progression": "Junior → Mid → Senior progression evident?"
+        },
+        "weight": 0.2,
+        "max_points": 10
+      },
+      
+      "achievement_quality": {
+        "check": {
+          "quantified_results": "Count metrics like '30% faster', '$2M saved', 'managed team of 5'",
+          "leadership_evidence": "Led, managed, owned, architected",
+          "problem_solving": "Reduced, optimized, migrated, built from scratch"
+        },
+        "bonus": "+0.5 per strong quantified achievement (max +1.5)",
+        "weight": 0.1
+      },
+      
+      "total_score_calculation": {
+        "formula": "(core_match * 0.5) + (secondary_match * 0.3) + (experience_match * 0.2) + achievement_bonus",
+        "range": "0.0 to 10.0",
+        "thresholds": {
+          "9.0_to_10.0": "Strong Match - Fast track this candidate",
+          "7.5_to_8.9": "Good Match - Worth a phone screen",
+          "6.0_to_7.4": "Possible Match - Has gaps but potential",
+          "below_6.0": "Weak Match - Missing too many core skills"
+        }
+      }
+    },
+    
+    "step_4_forensic_checks": {
+      "action": "validate_authenticity",
+      "quick_checks": [
+        {
+          "name": "keyword_stuffing",
+          "logic": "If skill appears 10+ times without context",
+          "flag": "⚠️ Possible keyword stuffing"
+        },
+        {
+          "name": "generic_phrases",
+          "logic": "If >50% of bullets are vague ('helped', 'assisted', 'involved in')",
+          "flag": "⚠️ Lacks specific achievements"
+        },
+        {
+          "name": "version_mismatch",
+          "logic": "If technology version released after project end date",
+          "flag": "🚩 Impossible tech version (React 18 used in 2020)",
+          "severity": "critical"
+        },
+        {
+          "name": "all_buzzwords",
+          "logic": "If uses 'rockstar', 'ninja', 'guru', '10x engineer'",
+          "flag": "ℹ️ Buzzword-heavy resume"
+        }
+      ]
+    },
+    
+    "step_5_generate_outputs": {
+      "recruiter_summary": {
+        "format": "Quick 3-4 sentence overview",
+        "includes": ["overall_score", "top_3_strengths", "top_2_gaps", "recommendation"],
+        "example": "Score: 8.5/10 - Strong match. ✅ Has all core skills (AWS, Docker, Kubernetes) with 6 years relevant experience. ✅ Led a team and architected infrastructure. ⚠️ Limited CI/CD pipeline experience. ⚠️ No certifications. Recommendation: PASS to phone screen."
+      },
+      
+      "hiring_manager_brief": {
+        "format": "Detailed evidence-based narrative",
+        "sections": [
+          "Match Overview (score + summary)",
+          "Core Skills Evidence (table: skill | has it? | proof from resume)",
+          "Experience Analysis (timeline, companies, progression)",
+          "Key Achievements (quantified wins)",
+          "Gaps & Concerns",
+          "Interview Questions (what to validate)"
+        ]
+      },
+      
+      "comparison_table": {
+        "when_to_use": "When comparing multiple candidates for same role",
+        "columns": ["Candidate", "Score", "Core Skills", "Experience", "Strengths", "Gaps"],
+        "max_candidates": 5
+      }
+    }
+  },
+  
+  "decision_logic": {
+    "auto_recommend": {
+      "PASS": {
+        "criteria": "score >= 8.0 AND no_critical_flags AND all_core_skills_present",
+        "action": "Move to phone screen",
+        "message": "Strong candidate. Recommend scheduling a call within 48 hours."
+      },
+      
+      "MAYBE": {
+        "criteria": "score >= 6.0 AND score < 8.0 AND no_critical_flags",
+        "action": "Review and clarify",
+        "message": "Decent candidate but has gaps in [list gaps]. Consider if they're trainable or if you can flex requirements."
+      },
+      
+      "HOLD": {
+        "criteria": "score >= 6.0 BUT critical_flags > 0",
+        "action": "Request clarification from candidate",
+        "message": "Has potential but needs clarification on [list flags]. Email candidate to explain [specific concerns]."
+      },
+      
+      "REJECT": {
+        "criteria": "score < 6.0 OR critical_flags > 2",
+        "action": "Polite rejection",
+        "message": "Not a match. Missing [X core skills]. Recommend looking for candidates with [what's needed]."
+      }
+    }
+  },
+  
+  "output_customization": {
+    "response_to_user": {
+      "if_user_says_quick": "Give only score + recommendation + top 2 strengths/gaps",
+      "if_user_says_full": "Generate complete hiring manager brief with evidence tables",
+      "if_user_says_compare": "Create comparison table for all uploaded resumes",
+      "default": "Give recruiter summary + ask if they want more details"
+    }
+  },
+  
+  "examples": {
+    "strong_evidence": [
+      "Led a team of 5 engineers to migrate 50+ microservices to Kubernetes, reducing deployment time by 40%",
+      "Architected and implemented a Terraform-based IaC framework, managing 200+ AWS resources across 3 environments",
+      "Reduced infrastructure costs by 30% ($2M annually) by optimizing EC2 instances and implementing auto-scaling"
+    ],
+    
+    "weak_evidence": [
+      "Worked with cloud technologies",
+      "Assisted in various DevOps tasks",
+      "Familiar with Docker and Kubernetes",
+      "Team player with strong communication skills"
+    ]
+  }
+}

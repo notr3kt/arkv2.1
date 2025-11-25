@@ -1,0 +1,432 @@
+{
+  "module_name": "Advanced Matching & Skills Intelligence",
+  "purpose": "Next-generation candidate matching with skills adjacency, gap analysis, and smart recommendations",
+  "version": "2.0",
+
+  "skills_taxonomy": {
+    "purpose": "Understand relationships between skills to find hidden matches",
+
+    "skill_relationships": {
+      "equivalent_skills": {
+        "definition": "Different names for essentially the same skill",
+        "examples": {
+          "Kubernetes": ["K8s", "EKS", "GKE", "AKS", "OpenShift"],
+          "JavaScript": ["JS", "ECMAScript", "ES6", "TypeScript"],
+          "CI_CD": ["Jenkins", "GitLab CI", "GitHub Actions", "CircleCI", "Travis CI"],
+          "Configuration_Management": ["Ansible", "Chef", "Puppet", "SaltStack"],
+          "Containers": ["Docker", "Podman", "containerd"],
+          "AWS": ["Amazon Web Services", "EC2", "S3", "Lambda", "AWS Cloud"]
+        },
+        "matching_logic": "If JD asks for Kubernetes and candidate has GKE, count as FULL match (score 1.0)"
+      },
+
+      "adjacent_skills": {
+        "definition": "Different but closely related skills - transferable with minimal learning",
+        "examples": {
+          "React": {
+            "adjacent": ["Vue", "Angular", "Svelte", "Next.js"],
+            "transferability": 0.8,
+            "reasoning": "All are component-based frontend frameworks with similar concepts"
+          },
+          "AWS": {
+            "adjacent": ["Azure", "GCP"],
+            "transferability": 0.7,
+            "reasoning": "Cloud providers with similar services, concepts transfer"
+          },
+          "PostgreSQL": {
+            "adjacent": ["MySQL", "MariaDB", "SQL Server"],
+            "transferability": 0.8,
+            "reasoning": "Relational databases with standard SQL"
+          },
+          "Jenkins": {
+            "adjacent": ["GitLab CI", "GitHub Actions", "CircleCI"],
+            "transferability": 0.9,
+            "reasoning": "CI/CD tools with similar pipelines concepts"
+          },
+          "Python": {
+            "adjacent": ["Ruby", "JavaScript", "Go"],
+            "transferability": 0.6,
+            "reasoning": "High-level languages, syntax differs but concepts similar"
+          }
+        },
+        "matching_logic": "If JD asks for React and candidate has Vue, count as PARTIAL match (score 0.8)"
+      },
+
+      "complementary_skills": {
+        "definition": "Skills that often go together and suggest capability in related areas",
+        "examples": {
+          "Kubernetes": {
+            "suggests_familiarity_with": ["Docker", "Container orchestration", "Microservices", "Cloud platforms", "YAML", "Helm"],
+            "reasoning": "You can't use Kubernetes without understanding containers and cloud concepts"
+          },
+          "React": {
+            "suggests_familiarity_with": ["JavaScript", "HTML", "CSS", "npm", "Webpack", "REST APIs", "Git"],
+            "reasoning": "React developer must know these to be effective"
+          },
+          "DevOps": {
+            "suggests_familiarity_with": ["Linux", "Git", "CI/CD", "Cloud", "Scripting", "Networking"],
+            "reasoning": "DevOps requires understanding of entire stack"
+          },
+          "Data_Engineer": {
+            "suggests_familiarity_with": ["SQL", "Python", "ETL", "Data warehousing", "Orchestration tools"],
+            "reasoning": "Core data engineering competencies"
+          }
+        },
+        "matching_logic": "If candidate has Kubernetes, give credit for likely understanding Docker even if not explicitly listed (score 0.5)"
+      },
+
+      "prerequisite_skills": {
+        "definition": "Skills you must have to effectively use another skill",
+        "examples": {
+          "React": {
+            "requires": ["JavaScript", "HTML", "CSS"],
+            "validation": "If candidate claims React but doesn't mention JavaScript → RED FLAG"
+          },
+          "Kubernetes": {
+            "requires": ["Docker", "Linux", "Networking basics"],
+            "validation": "If candidate claims K8s expert but no container experience → suspicious"
+          },
+          "Machine_Learning": {
+            "requires": ["Python or R", "Statistics", "Linear Algebra"],
+            "validation": "If ML mentioned but no programming language → likely theoretical only"
+          }
+        },
+        "matching_logic": "Use for validation - flag if advanced skill claimed without prerequisites"
+      },
+
+      "progression_paths": {
+        "definition": "Natural skill evolution - what people typically learn next",
+        "examples": {
+          "Junior_DevOps": ["Linux", "Git", "Basic scripting"],
+          "Mid_DevOps": ["CI/CD", "Docker", "Cloud basics", "Infrastructure as Code"],
+          "Senior_DevOps": ["Kubernetes", "Multi-cloud", "Security", "Architecture", "Team leadership"],
+          "Junior_Developer": ["One programming language", "Git", "Basic algorithms"],
+          "Mid_Developer": ["Multiple languages", "Design patterns", "Testing", "Debugging"],
+          "Senior_Developer": ["Architecture", "Code review", "Mentoring", "System design"]
+        },
+        "matching_logic": "Assess if candidate's skill progression makes sense for their experience level"
+      }
+    }
+  },
+
+  "intelligent_matching": {
+    "enhanced_scoring": {
+      "core_skill_evaluation": {
+        "exact_match": {
+          "score": 1.0,
+          "condition": "Resume explicitly mentions the required skill"
+        },
+        "equivalent_match": {
+          "score": 1.0,
+          "condition": "Resume has equivalent skill (e.g., GKE for Kubernetes requirement)",
+          "note": "Explain to recruiter: 'Candidate has GKE which is Google's Kubernetes - counts as full match'"
+        },
+        "adjacent_match": {
+          "score": 0.6-0.9,
+          "condition": "Resume has closely related skill",
+          "note": "Explain: 'Candidate has Vue instead of React - 80% transferable, quick learning curve'"
+        },
+        "complementary_inference": {
+          "score": 0.4-0.6,
+          "condition": "Skill not listed but likely has it based on other skills",
+          "note": "Explain: 'Docker isn't listed but they have 3 years Kubernetes experience - almost certainly knows Docker'"
+        },
+        "no_match": {
+          "score": 0.0,
+          "condition": "No evidence of skill or related skills"
+        }
+      },
+
+      "proficiency_assessment": {
+        "expert_level": {
+          "signals": [
+            "Architected, designed, led",
+            "5+ years with technology",
+            "Taught or mentored others",
+            "Conference speaker, blog posts",
+            "Open source contributions"
+          ],
+          "score_multiplier": 1.2,
+          "note": "Candidate exceeds requirements - expert level"
+        },
+        "advanced_level": {
+          "signals": [
+            "Implemented, built, managed",
+            "2-5 years with technology",
+            "Production experience",
+            "Complex projects"
+          ],
+          "score_multiplier": 1.0,
+          "note": "Candidate meets requirements - solid experience"
+        },
+        "working_knowledge": {
+          "signals": [
+            "Used, worked with, exposure",
+            "<2 years with technology",
+            "Assisted, contributed to",
+            "Limited context"
+          ],
+          "score_multiplier": 0.7,
+          "note": "Candidate has basic experience - may need ramping"
+        }
+      }
+    },
+
+    "gap_analysis": {
+      "purpose": "Identify missing skills and assess if they're deal-breakers or trainable",
+
+      "gap_categories": {
+        "critical_gap": {
+          "definition": "Core requirement missing with no adjacent skills",
+          "impact": "Deal-breaker - likely can't perform core responsibilities",
+          "examples": [
+            "JD requires AWS, candidate has no cloud experience at all",
+            "JD requires programming, candidate has no coding background"
+          ],
+          "recommendation": "PASS unless company willing to train from scratch"
+        },
+
+        "significant_gap": {
+          "definition": "Core requirement missing but candidate has adjacent skills",
+          "impact": "Can learn but needs 1-3 months training",
+          "examples": [
+            "JD requires AWS, candidate has Azure (adjacent cloud)",
+            "JD requires React, candidate has Vue (adjacent framework)"
+          ],
+          "recommendation": "MAYBE - assess learning ability and willingness, discuss with hiring manager"
+        },
+
+        "minor_gap": {
+          "definition": "Secondary requirement missing",
+          "impact": "Nice-to-have, easily trainable",
+          "examples": [
+            "JD prefers Grafana, candidate has Datadog (monitoring tools)",
+            "JD mentions Helm, candidate has strong Kubernetes"
+          ],
+          "recommendation": "PROCEED - mention gap but don't disqualify"
+        },
+
+        "non_gap": {
+          "definition": "Skill not listed but likely has it based on complementary skills",
+          "examples": [
+            "Docker not mentioned but has Kubernetes experience",
+            "HTML/CSS not listed but is React developer"
+          ],
+          "recommendation": "PROCEED - validate in interview but assume competency"
+        }
+      },
+
+      "trainability_assessment": {
+        "highly_trainable_if": [
+          "Candidate has adjacent skill (e.g., knows Azure, need AWS)",
+          "Candidate shows learning agility (recent certifications, skill growth)",
+          "Gap is tool/framework, not concept (e.g., Jenkins vs GitLab CI)",
+          "Company has training resources or mentorship available"
+        ],
+
+        "difficult_to_train_if": [
+          "Gap is conceptual not technical (e.g., lacks problem-solving ability)",
+          "Candidate shows no recent learning or skill growth",
+          "Gap requires 6+ months to close",
+          "Role requires immediate productivity in that skill"
+        ]
+      },
+
+      "output_format": {
+        "for_each_gap": "⚠️ **Missing:** [Skill] | **Severity:** [Critical/Significant/Minor] | **Trainability:** [Easy/Moderate/Difficult] | **Recommendation:** [Action]",
+        "example": "⚠️ **Missing:** AWS (has Azure) | **Severity:** Significant | **Trainability:** Easy (cloud concepts transfer, 4-6 weeks) | **Recommendation:** Ask about willingness to learn AWS, consider if timeline allows ramp-up"
+      }
+    }
+  },
+
+  "smart_recommendations": {
+    "candidate_ranking_logic": {
+      "tier_1_perfect_match": {
+        "criteria": [
+          "Score >= 9.0",
+          "All core skills present (exact or equivalent)",
+          "No critical gaps",
+          "Appropriate experience level",
+          "No red flags",
+          "Strong achievements"
+        ],
+        "action": "FAST TRACK - Interview within 48 hours before competition grabs them",
+        "priority": "URGENT"
+      },
+
+      "tier_2_strong_match": {
+        "criteria": [
+          "Score 7.5-8.9",
+          "90%+ core skills covered",
+          "Minor gaps only",
+          "Good experience match",
+          "No critical red flags"
+        ],
+        "action": "PROCEED - Solid candidate, schedule phone screen within week",
+        "priority": "HIGH"
+      },
+
+      "tier_3_potential_match": {
+        "criteria": [
+          "Score 6.0-7.4",
+          "70-90% core skills covered",
+          "Significant gaps but trainable",
+          "Some concerns but addressable"
+        ],
+        "action": "MAYBE - Review carefully, discuss gaps with hiring manager",
+        "priority": "MEDIUM"
+      },
+
+      "tier_4_weak_match": {
+        "criteria": [
+          "Score < 6.0",
+          "Missing multiple core skills",
+          "Critical gaps",
+          "Significant red flags"
+        ],
+        "action": "PASS - Not enough alignment, focus on stronger candidates",
+        "priority": "LOW"
+      }
+    },
+
+    "comparison_intelligence": {
+      "when_comparing_multiple_candidates": {
+        "relative_scoring": "Don't just show absolute scores - explain why one is better than another",
+        "differentiation": "Highlight unique strengths per candidate",
+        "diversity_check": "Flag if all candidates have similar backgrounds",
+        "risk_assessment": "Note which candidate is safest vs highest upside",
+
+        "output_example": "**Sarah (8.7) vs Alex (8.3):**\n- Sarah has AWS + Kubernetes (both required), Alex has Azure + Kubernetes (needs AWS ramp-up)\n- Alex has 2 more years experience and leadership background\n- Sarah has stronger achievements (quantified metrics)\n- **Recommendation:** Sarah is safer bet for immediate impact. Alex is better for team leadership role.\n- **Diversity note:** Both from large tech companies - consider also interviewing candidates from different backgrounds"
+      }
+    },
+
+    "interview_focus_generator": {
+      "purpose": "Based on gaps and strengths, suggest what to probe in interview",
+
+      "validate_strengths": "Ask detailed questions about their claimed top skills to ensure they're real",
+      "probe_gaps": "Ask how they'd approach tasks requiring missing skills",
+      "assess_learning": "If gaps exist, probe learning ability and willingness",
+      "verify_achievements": "Ask for specifics on quantified accomplishments",
+      "check_red_flags": "Clarify any timeline issues or inconsistencies",
+
+      "output_format": "**Interview Focus for [Candidate]:**\n\n✅ **Validate Strengths:**\n- [Question for top skill 1]\n- [Question for top skill 2]\n\n⚠️ **Probe Gaps:**\n- [How they'd handle task requiring missing skill]\n\n🚩 **Clarify Red Flags:**\n- [Specific concern to address]"
+    }
+  },
+
+  "skills_market_intelligence": {
+    "skill_demand_tracking": {
+      "purpose": "Understand which skills are hot vs common vs rare",
+
+      "demand_categories": {
+        "unicorn_skills": {
+          "definition": "Rarely found, high demand, command premium",
+          "examples": ["Rust + Systems programming", "Quantum computing", "Advanced ML/AI", "Blockchain architecture"],
+          "recruiting_strategy": [
+            "Expect long search (2-3 months+)",
+            "Pay premium (20-40% above market)",
+            "Consider adjacent skills + training",
+            "Look at academics, researchers, open source"
+          ]
+        },
+
+        "hot_skills": {
+          "definition": "High demand, moderate supply, competitive market",
+          "examples": ["Kubernetes", "React", "Python + ML", "Cloud architecture", "DevOps"],
+          "recruiting_strategy": [
+            "Move fast - good candidates get multiple offers",
+            "Competitive comp required",
+            "Sell company vision and culture",
+            "1-2 month typical search"
+          ]
+        },
+
+        "common_skills": {
+          "definition": "Adequate supply, standard demand",
+          "examples": ["Java", "SQL", "Project management", "QA testing"],
+          "recruiting_strategy": [
+            "Standard market rates",
+            "Focus on culture fit and growth",
+            "2-4 weeks typical search"
+          ]
+        },
+
+        "declining_skills": {
+          "definition": "Lower demand, legacy systems",
+          "examples": ["COBOL", "Perl", "Flash", "jQuery-heavy roles"],
+          "recruiting_strategy": [
+            "Candidates may be looking to reskill",
+            "Offer modernization path",
+            "May need to pay premium for maintenance roles"
+          ]
+        }
+      }
+    },
+
+    "emerging_tech_tracking": {
+      "purpose": "Identify technologies gaining traction",
+
+      "indicators": [
+        "Appearing in more JDs over past 6 months",
+        "Major companies adopting",
+        "Conference buzz and community growth",
+        "VC investment in space"
+      ],
+
+      "current_emerging_examples": [
+        "Platform engineering",
+        "WebAssembly",
+        "Edge computing",
+        "AI/ML Engineering (MLOps)",
+        "FinOps (cloud cost optimization)",
+        "Developer Experience (DevEx)",
+        "Observability (vs traditional monitoring)"
+      ],
+
+      "recruiting_implications": "For emerging tech, prioritize learning ability and passion over experience. Few will have 5 years of experience in something released 2 years ago."
+    }
+  },
+
+  "recommendation_engine": {
+    "smart_suggestions": {
+      "expand_search": {
+        "when": "No strong matches found after reviewing 10+ candidates",
+        "suggestions": [
+          "Consider adjacent skills: [List alternatives]",
+          "Reduce experience requirement from X to Y years",
+          "Remove nice-to-have skill Z that's filtering out good candidates",
+          "Expand location radius or consider remote",
+          "Offer training/ramp-up for critical skill gaps"
+        ]
+      },
+
+      "narrow_search": {
+        "when": "Too many candidates, all look similar",
+        "suggestions": [
+          "Add differentiating requirement: [Skill/Experience]",
+          "Increase seniority requirement",
+          "Focus on specific industry experience",
+          "Add leadership or team size requirement",
+          "Prioritize candidates with quantified achievements"
+        ]
+      },
+
+      "optimize_jd": {
+        "when": "Analyzing JD before starting search",
+        "suggestions": [
+          "Skills X and Y are redundant - simplify",
+          "Skill Z is unrealistic with W years experience",
+          "Consider adding skill A which commonly pairs with B",
+          "Nice-to-have skills are actually critical based on role description"
+        ]
+      }
+    }
+  },
+
+  "output_formats": {
+    "enhanced_match_summary": {
+      "structure": "**[Candidate Name]** - Match Score: [X]/10\n\n✅ **Perfect Matches:** [List]\n🔄 **Adjacent Skills:** [Skill they have] → [Skill you need] (transferability: X%)\n💡 **Inferred Skills:** [Skills they likely have based on complementary skills]\n⚠️ **Gaps:** [List with severity and trainability]\n\n**Bottom Line:** [Overall assessment with recommendation]",
+
+      "example": "**Sarah Johnson** - Match Score: 8.5/10\n\n✅ **Perfect Matches:** Python, Docker, Jenkins, SQL, Linux\n🔄 **Adjacent Skills:** Azure → AWS (70% transferable, 4-6 week ramp), Vue → React (80% transferable, 2-3 weeks)\n💡 **Inferred Skills:** Likely knows Docker Compose and container networking based on 3 years Kubernetes\n⚠️ **Gaps:** \n- Terraform (IaC tool) - Moderate gap but has Ansible, trainable in 2-3 weeks\n- Prometheus - Minor gap, nice-to-have\n\n**Bottom Line:** Excellent candidate with 95% skill coverage. Azure→AWS transition is common and quick. Strong achievements and trajectory. **Recommendation: FAST TRACK - interview within 48 hours.**"
+    }
+  }
+}

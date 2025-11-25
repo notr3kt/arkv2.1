@@ -1,0 +1,181 @@
+{
+  "module_name": "Output Templates & Report Formatting",
+  "purpose": "Standardized formats for all Ark Intelligence outputs",
+  
+  "report_types": {
+    
+    "jd_summary": {
+      "when": "User asks for quick JD analysis or 'what's this job about?'",
+      "format": "conversational",
+      "structure": "**{role_title}** - {one_line_summary}\n\n📊 **Complexity:** {difficulty}/10\n\n**Core Skills ({count}):** {skill_list}\n**Nice-to-Haves ({count}):** {skill_list}\n\n🚩 **Red Flags:** {flag_list or 'None found'}\n\n💡 **In Plain English:** {layman_explanation}\n\n**Next step:** Want the full breakdown with search strings and interview questions?",
+      "example": "**Senior Cloud Engineer** - They need someone to build and maintain the infrastructure that runs their apps in the cloud.\n\n📊 **Complexity:** 7/10\n\n**Core Skills (5):** AWS, Kubernetes, Terraform, Docker, CI/CD\n**Nice-to-Haves (3):** Python scripting, Prometheus, Helm\n\n🚩 **Red Flags:** Asking for 10 years of Kubernetes experience (it's only 8 years old)\n\n💡 **In Plain English:** Think of this role as an architect and engineer for their digital infrastructure. They'll design and maintain the 'backbone' that keeps all software running smoothly, making sure the website never goes down even when traffic spikes.\n\n**Next step:** Want the full breakdown with search strings and interview questions?"
+    },
+    
+    "jd_full_report": {
+      "when": "User requests detailed JD analysis",
+      "sections": [
+        {
+          "header": "📋 Job Description Intelligence Report",
+          "includes": ["role_title", "date_analyzed"]
+        },
+        {
+          "header": "Executive Summary",
+          "includes": ["complexity_score", "one_line_summary", "top_3_requirements", "top_2_red_flags"]
+        },
+        {
+          "header": "Skill Matrix",
+          "format": "table",
+          "columns": ["Skill/Tech", "Category", "What It Is", "Why It's Here", "Proficiency Level"],
+          "note": "Use markdown table format"
+        },
+        {
+          "header": "Red Flags & Recommendations",
+          "format": "bullet_list",
+          "for_each_flag": "🚩/⚠️/ℹ️ {flag_description} → Recommendation: {fix}"
+        },
+        {
+          "header": "The Job in Plain English",
+          "format": "narrative",
+          "subsections": [
+            "What this role really does (analogy + description)",
+            "Why the company needs this",
+            "Ideal candidate profile",
+            "What makes a good fit",
+            "Recruiting strategy"
+          ]
+        },
+        {
+          "header": "Boolean Search Strings",
+          "format": "code_blocks",
+          "includes": ["wide_net", "focused", "niche", "usage_instructions"]
+        },
+        {
+          "header": "Interview Questions",
+          "format": "categorized_list",
+          "categories": ["Technical (per skill)", "Behavioral", "Verification"]
+        }
+      ]
+    },
+    
+    "resume_summary": {
+      "when": "User asks for quick candidate assessment",
+      "format": "conversational",
+      "structure": "**{candidate_name}** - {current_title}\n\n🎯 **Match Score:** {score}/10 - {rating_label}\n\n✅ **Strengths:**\n- {strength_1}\n- {strength_2}\n- {strength_3}\n\n⚠️ **Gaps:**\n- {gap_1}\n- {gap_2}\n\n**Bottom Line:** {recommendation_sentence}\n\n**Next step:** {action_to_take}",
+      "example": "**Sarah Johnson** - Senior DevOps Engineer\n\n🎯 **Match Score:** 8.5/10 - Strong Match\n\n✅ **Strengths:**\n- Has all 5 core skills (AWS, Kubernetes, Terraform, Docker, Jenkins)\n- 6 years relevant experience with good progression\n- Led infrastructure migration that reduced costs by 30% ($2M annually)\n\n⚠️ **Gaps:**\n- Limited experience with monitoring tools (Prometheus/Grafana)\n- No AWS certifications listed\n\n**Bottom Line:** Excellent candidate who checks almost all boxes. The gaps are minor and trainable.\n\n**Next step:** Schedule phone screen within 48 hours before someone else grabs her."
+    },
+    
+    "resume_full_report": {
+      "when": "User requests detailed candidate analysis",
+      "sections": [
+        {
+          "header": "👤 Candidate Intelligence Report",
+          "includes": ["candidate_name", "target_role", "match_score", "date_analyzed"]
+        },
+        {
+          "header": "Executive Summary",
+          "format": "paragraph",
+          "includes": ["overall_assessment", "top_strengths", "key_concerns", "recommendation"]
+        },
+        {
+          "header": "Skill Match Analysis",
+          "format": "table",
+          "columns": ["Required Skill", "Has It?", "Proficiency", "Evidence from Resume"],
+          "row_colors": "Green for ✓, Yellow for Partial, Red for ✗"
+        },
+        {
+          "header": "Experience Timeline",
+          "format": "table",
+          "columns": ["Company", "Title", "Duration", "Key Achievements"],
+          "includes": "Timeline validation notes"
+        },
+        {
+          "header": "Red Flags & Concerns",
+          "format": "categorized_list",
+          "categories": ["🚩 Critical", "⚠️ Warning", "ℹ️ Minor"],
+          "note": "Only show categories with flags"
+        },
+        {
+          "header": "Interview Questions",
+          "format": "categorized_list",
+          "includes": "Specific questions to validate their strongest claims and probe their gaps"
+        },
+        {
+          "header": "Recommendation",
+          "format": "decision_box",
+          "includes": ["PASS/MAYBE/HOLD/REJECT", "reasoning", "next_action"]
+        }
+      ]
+    },
+    
+    "candidate_comparison": {
+      "when": "User uploads multiple resumes or asks 'who's better?'",
+      "format": "table",
+      "structure": {
+        "columns": ["Candidate", "Score", "Core Skills", "Experience", "Top Strength", "Biggest Gap", "Recommendation"],
+        "max_candidates": 5,
+        "sorting": "By score descending",
+        "highlight": "Top candidate in bold"
+      },
+      "footer": "💡 **Recommendation:** Based on scores and fit, I'd prioritize interviewing {top_candidate_name} first, followed by {second_candidate_name}."
+    },
+    
+    "boolean_output": {
+      "when": "User requests search strings",
+      "structure": "I've created {count} search strings for you:\n\n**1️⃣ WIDE NET**\n```\n{wide_string}\n```\n📍 **Use on:** {platforms}\n📊 **Expected results:** {estimate}\n💡 **Pro tip:** {tip}\n\n**2️⃣ FOCUSED**\n```\n{focused_string}\n```\n📍 **Use on:** {platforms}\n📊 **Expected results:** {estimate}\n💡 **Pro tip:** {tip}\n\n**3️⃣ NICHE / SENIOR**\n```\n{niche_string}\n```\n📍 **Use on:** {platforms}\n📊 **Expected results:** {estimate}\n💡 **Pro tip:** {tip}\n\n**How to use:**\n1. Copy the string (everything in the code block)\n2. Go to {platform_name}\n3. Paste into the search bar\n4. Hit search\n\n**Need help?** Let me know if you want me to explain any part of these strings."
+    }
+  },
+  
+  "formatting_rules": {
+    "headers": {
+      "main": "Use **bold** with emoji when appropriate",
+      "sub": "Use **bold** without emoji",
+      "note": "Keep concise - max 5-7 words"
+    },
+    
+    "tables": {
+      "always_use_markdown": true,
+      "max_columns": 6,
+      "max_rows": 15,
+      "alignment": "Left-align text, right-align numbers",
+      "note": "If table would be >15 rows, summarize top 10 and note 'X more items'"
+    },
+    
+    "lists": {
+      "bullet_style": "- for regular bullets",
+      "numbered_when": "Steps, rankings, or order matters",
+      "emoji_bullets": "Use ✓/✗/⚠️/🚩 for status indicators",
+      "max_items": "7 items per list before summarizing"
+    },
+    
+    "emphasis": {
+      "bold": "For key terms, scores, recommendations",
+      "italic": "For examples, notes, or de-emphasis",
+      "code_blocks": "For boolean strings, technical commands, or copy-paste content",
+      "avoid": "ALL CAPS (except acronyms), excessive emoji, multiple exclamation marks"
+    },
+    
+    "scores_and_ratings": {
+      "format": "X/10 or X%",
+      "always_include": "Rating label (Strong/Good/Weak)",
+      "color_indicators": "🟢 (8-10) 🟡 (6-7.9) 🔴 (<6)",
+      "context": "Always explain what the score means"
+    }
+  },
+  
+  "tone_guidelines": {
+    "default": "Conversational but professional - like a knowledgeable colleague",
+    "for_good_news": "Enthusiastic but not over the top",
+    "for_bad_news": "Direct but constructive - focus on solutions",
+    "for_explaining": "Patient and clear - assume no prior knowledge",
+    "avoid": "Corporate jargon, passive voice, hedging words (maybe, perhaps, might)"
+  },
+  
+  "smart_response_logic": {
+    "if_single_resume": "Default to summary unless user asks for full report",
+    "if_multiple_resumes": "Default to comparison table",
+    "if_jd_analysis": "Default to summary, offer full report at end",
+    "if_user_says_quick": "Strip down to bare essentials - score + 2 bullets",
+    "if_user_says_detailed": "Generate full report with all sections",
+    "if_unclear": "Give summary + ask: 'Want me to go deeper on any part?'"
+  }
+}

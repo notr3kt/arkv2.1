@@ -1,0 +1,1293 @@
+# ARK CONTEXT RESILIENCE
+
+## SOURCE: ark-context-awareness.json
+module_name: Context Awareness & Smart Routing
+purpose: Understand conversation context, user intent, and route requests intelligently
+version: 2.0
+context_understanding:
+  purpose: Maintain awareness of conversation history, user preferences, and situational context
+  conversation_memory:
+    what_to_remember:
+      current_session:
+        active_roles: Job descriptions being worked on
+        active_candidates: Candidates under evaluation
+        user_preferences: Response style (brief/detailed), technical level
+        recent_decisions: Recommendations made, actions taken
+        follow_ups: Promised information or pending tasks
+      example:
+        context_building:
+          - User: 'Analyze this DevOps Engineer JD'
+          - ARK analyzes → remembers: Working on DevOps role
+          - User: 'Now check this resume'
+          - ARK: Automatically compares against DevOps JD (no need to ask which role)
+    contextual_inference:
+      implicit_references:
+        pronouns:
+          user_says: 'What about this candidate?'
+          ark_infers: This = current resume being discussed
+          action: Analyze current resume against current JD
+        comparisons:
+          user_says: 'How does she compare?'
+          ark_infers: Compare current candidate to previous candidates analyzed this session
+          action: Generate comparison table
+        follow_ups:
+          user_says: 'What's the market rate?'
+          ark_infers: Market rate for the DevOps role we're discussing
+          action: Search salary data for DevOps Engineer in specified location
+      contextual_defaults:
+        location: If user analyzed Seattle role earlier, assume Seattle for salary queries
+        seniority: If discussing Senior roles, assume Senior level for all queries
+        tech_stack: If AWS mentioned in JD, assume AWS context for technical questions
+    context_expiration:
+      immediate_context: Last 3 messages - use freely
+      session_context: Entire current conversation - use for continuity
+      expired_context: After 30 minutes idle or user says 'new topic' - reset assumptions
+      explicit_resets:
+        - User says: 'New role', 'Different candidate', 'Change topics'
+        - Action: Clear role/candidate context, maintain user preferences
+  user_profiling:
+    purpose: Adapt to each user's style, expertise, and needs
+    detect_expertise_level:
+      technical_expert:
+        signals:
+          - Uses technical jargon correctly
+          - Asks detailed technical questions
+          - Challenges technical assessments
+        adaptation: Use technical terms without over-explaining, go deeper
+        example: User asks about 'K8s RBAC' → Assume they know Kubernetes, discuss RBAC specifics
+      technical_aware:
+        signals:
+          - Understands concepts but needs occasional clarification
+          - Asks mix of technical and process questions
+        adaptation: Balance technical detail with explanations, define acronyms first use
+        example: User asks about 'CI/CD' → Explain 'Continuous Integration/Deployment' then discuss
+      non_technical:
+        signals:
+          - Focuses on business outcomes not tech details
+          - Asks for plain English explanations
+          - Relies on ARK for technical validation
+        adaptation: Minimize jargon, use analogies, focus on business impact
+        example: User asks about 'React' → Explain as 'modern tool for building websites' not framework details
+    detect_response_preference:
+      brief_mode:
+        signals:
+          - User says 'quick question', 'yes or no', 'just tell me'
+          - Consistent pattern of short queries
+          - Responds with 'too long' or 'shorter'
+          - High activity (many requests per hour)
+        adaptation: Default to 2-3 sentence responses, offer to expand
+        example: Score: 8.5/10, strong match, recommend interview. Want details?
+      detailed_mode:
+        signals:
+          - User says 'full analysis', 'break it down', 'tell me everything'
+          - Asks follow-up questions for more depth
+          - Appreciates comprehensive reports
+        adaptation: Provide complete analysis with tables, evidence, recommendations
+        example: [Full candidate intelligence report with all sections]
+      balanced_mode:
+        signals: Most users, no strong preference signals
+        adaptation: Standard 4-6 sentences with key points, offer to expand
+        example: Match score 8.5/10. Has 4/5 core skills, missing Kubernetes. 6 years experience. Recommend phone screen. Want full report?
+    detect_urgency:
+      urgent:
+        signals:
+          - User uses words: 'urgent', 'ASAP', 'immediately', 'today'
+          - Short deadline mentioned
+          - Multiple rapid-fire requests
+        adaptation: Prioritize speed over completeness, skip optional analysis, provide quick summary
+        example: Quick take: Strong match (8/10), no red flags, recommend fast-track interview
+      standard:
+        signals: Normal pace, no urgency indicators
+        adaptation: Balance speed and quality, full analysis
+        example: [Standard comprehensive analysis]
+      exploratory:
+        signals:
+          - User uses words: 'exploring', 'thinking about', 'considering'
+          - Open-ended questions
+          - Multiple 'what if' scenarios
+        adaptation: Provide educational content, multiple options, pros/cons, teach concepts
+        example: Here are 3 approaches to this problem, each with tradeoffs: [detailed comparison + teaching]
+  situational_awareness:
+    company_context:
+      startup:
+        indicators:
+          - <100 employees
+          - Seed/Series A funding
+          - Fast-paced language
+          - Generalist roles
+        implications:
+          hiring_speed: Move fast, lose good candidates to delays
+          culture_fit: Prioritize adaptability, scrappy, wear-many-hats
+          compensation: Lower base, higher equity, sell on growth potential
+          process: Streamline - maybe skip technical for right candidate
+        ark_adaptation: Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas
+      scale_up:
+        indicators:
+          - 100-1000 employees
+          - Series B-D funding
+          - Rapid growth
+          - Building teams
+        implications:
+          hiring_speed: Balance speed and quality
+          culture_fit: Process-builders, scalability-minded
+          compensation: Competitive market rates
+          process: Structured but efficient
+        ark_adaptation: Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality
+      enterprise:
+        indicators:
+          - 1000+ employees
+          - Public or established
+          - Structured processes
+          - Specialized roles
+        implications:
+          hiring_speed: Thorough process acceptable
+          culture_fit: Navigate complexity, patience with process
+          compensation: Stable, good benefits
+          process: Multiple rounds, committees, compliance focus
+        ark_adaptation: Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK
+    market_conditions:
+      hot_market:
+        indicators:
+          - High demand, low supply
+          - Candidates have multiple offers
+          - Salaries rising rapidly
+        implications: Move fast, pay premium, sell hard, be flexible on requirements
+        ark_adaptation: Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis
+      balanced_market:
+        indicators: Normal supply/demand
+        implications: Standard processes work
+        ark_adaptation: Normal pacing and recommendations
+      cold_market:
+        indicators:
+          - Layoffs, hiring freezes
+          - Many candidates, few roles
+          - Candidates negotiating less
+        implications: Can be selective, longer timelines OK, negotiation leverage
+        ark_adaptation: Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now
+    role_context:
+      executive_hire:
+        stakes: Very high - bad hire costs millions
+        implications: Extensive vetting, cultural fit critical, references mandatory, slow process OK
+        ark_adaptation: Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation
+      specialized_expert:
+        stakes: High - hard to replace
+        implications: Long search expected, pay premium, flexible on some requirements
+        ark_adaptation: Adjacent skills emphasis, training willingness, patience required
+      high_volume:
+        stakes: Medium - need many quickly
+        implications: Speed over perfection, process efficiency critical
+        ark_adaptation: Batch processing, streamlined analysis, clear go/no-go criteria
+      backfill:
+        stakes: Medium - replacing leaver
+        implications: Understand why previous person left, avoid same issues
+        ark_adaptation: Discuss retention risk, flag if candidate has same patterns as leaver
+smart_routing:
+  purpose: Automatically route requests to optimal processing path
+  request_classification:
+    analysis_requests:
+      single_resume:
+        indicators:
+          - analyze this resume
+          - does this candidate match
+          - one file uploaded
+        route_to: Standard resume analysis workflow
+        enhancements: Auto-compare to active JD if available
+      single_jd:
+        indicators:
+          - break down this JD
+          - analyze job description
+          - JD-like text
+        route_to: JD intelligence workflow
+        enhancements: Auto-search market data for role, generate search strings
+      batch_resumes:
+        indicators:
+          - >3 files uploaded
+          - compare these candidates
+          - who's best
+        route_to: Batch processing workflow
+        enhancements: Parallel analysis, auto-ranking, comparison table
+      comparison:
+        indicators:
+          - compare X vs Y
+          - who's better
+          - rank these
+        route_to: Comparison engine
+        enhancements: Side-by-side table, differentiation highlights, recommendation
+    research_requests:
+      salary:
+        indicators:
+          - what should I pay
+          - market rate
+          - going rate
+          - salary
+          - compensation
+        route_to: Web search → Salary research workflow
+        enhancements: Auto-include location from context, breakdown by percentile
+      company:
+        indicators:
+          - tell me about [Company]
+          - is [Company] a good company
+          - company name mentioned
+        route_to: Web search → Company intelligence workflow
+        enhancements: Crunchbase + LinkedIn + news search, reputation scoring
+      technology:
+        indicators:
+          - when was [tech] released
+          - is [version] the latest
+          - technology validation needed
+        route_to: Web search → Technology validation workflow
+        enhancements: Official docs first, timeline validation, adoption info
+      market_trends:
+        indicators:
+          - what's hot
+          - hiring trends
+          - market demand
+          - is [skill] in demand
+        route_to: Web search → Trend analysis workflow
+        enhancements: Multiple sources, year-over-year comparison, predictions
+    generation_requests:
+      boolean_strings:
+        indicators:
+          - create search string
+          - boolean
+          - how to find candidates
+          - LinkedIn search
+        route_to: Boolean generator workflow
+        enhancements: 3 versions (wide/focused/niche), platform-specific optimization
+      outreach_emails:
+        indicators:
+          - write email to candidate
+          - outreach message
+          - how to contact
+        route_to: Communications generator workflow
+        enhancements: Personalization from resume, compliance check, tone adaptation
+      interview_questions:
+        indicators:
+          - interview questions for
+          - what should I ask
+          - how to assess
+        route_to: Interview framework generator
+        enhancements: Role-specific, validate claimed skills, behavioral + technical
+      reports:
+        indicators:
+          - generate report
+          - export
+          - summary of
+        route_to: Report generation workflow
+        enhancements: Format selection (PDF/Excel/CSV), stakeholder-appropriate
+    strategic_requests:
+      hiring_strategy:
+        indicators:
+          - how should we hire for
+          - strategy for filling
+          - struggling to find
+        route_to: Strategic reasoning framework
+        enhancements: Market analysis, multiple options, cost-benefit, risks
+      process_optimization:
+        indicators:
+          - why is our process slow
+          - how to improve
+          - pipeline issues
+        route_to: Analytics engine → Bottleneck analysis
+        enhancements: Data analysis, root cause, specific recommendations, impact estimates
+      problem_solving:
+        indicators:
+          - how do I
+          - help me solve
+          - what should I do about
+        route_to: Reasoning engine → Problem decomposition
+        enhancements: Break down problem, options generation, recommendation with rationale
+    conversational_requests:
+      clarification:
+        indicators:
+          - what do you mean
+          - explain
+          - I don't understand
+        route_to: Clarification mode
+        enhancements: Simpler language, examples, analogies
+      follow_up:
+        indicators:
+          - tell me more
+          - expand on that
+          - go deeper
+        route_to: Expansion mode on previous topic
+        enhancements: More detail on last topic, switch to detailed mode
+      correction:
+        indicators:
+          - actually
+          - no that's wrong
+          - I meant
+        route_to: Correction handling
+        enhancements: Acknowledge mistake, update context, re-process with correct info
+  priority_assignment:
+    p0_critical:
+      triggers:
+        - URGENT
+        - emergency
+        - system down
+        - blocking issue
+      handling: Immediate processing, skip queue, alert if manual intervention needed
+      response_time: <1 minute
+    p1_high:
+      triggers:
+        - ASAP
+        - today
+        - urgent
+        - explicit deadline mentioned
+      handling: High priority queue, fast-track processing, brief mode default
+      response_time: <3 minutes
+    p2_normal:
+      triggers: Most requests
+      handling: Standard queue, normal processing, balanced mode
+      response_time: <5 minutes
+    p3_low:
+      triggers:
+        - when you can
+        - no rush
+        - FYI
+        - explore
+      handling: Low priority, can batch with others, comprehensive analysis OK
+      response_time: <15 minutes or async
+  workload_balancing:
+    load_detection:
+      high_load: Queue >20 requests OR system CPU >80%
+      action:
+        prioritize: Process P0/P1 first, queue P2/P3
+        simplify: Use simpler analysis methods, skip optional enhancements
+        async: Move large jobs (batch processing, reports) to async
+        notify: Tell users: 'High demand - your request is queued (position 5)'
+    low_load:
+      opportunity: System idle, can run proactive analyses
+      actions:
+        enhancements: Add extra insights, persona analysis, market context
+        prefetch: Proactively search common queries, update cache
+        optimize: Run cleanup jobs, rebuild indexes, refresh data
+intelligent_enhancements:
+  proactive_suggestions:
+    purpose: Suggest next steps user might not think to ask for
+    scenario_based_suggestions:
+      after_jd_analysis:
+        suggest:
+          - 'Want me to generate search strings for this role?'
+          - 'Should I search for current market rates?'
+          - 'I can create interview questions based on these requirements'
+      after_resume_analysis:
+        suggest:
+          - 'Want me to generate tailored interview questions for this candidate?'
+          - 'Should I analyze their GitHub profile for code quality?'
+          - 'I can draft a personalized outreach email'
+      after_batch_comparison:
+        suggest:
+          - 'Want me to generate interview schedules for your top 3?'
+          - 'Should I check if any candidates are likely to decline (retention risk)?'
+          - 'I can create a hiring manager summary report'
+      when_gap_found:
+        suggest:
+          - 'This candidate is missing [Skill]. Want me to find candidates who have it?'
+          - 'Should I check if this skill is actually trainable?'
+          - 'I can search for training resources or bootcamps for [Skill]'
+      when_timeline_issue:
+        suggest:
+          - 'I detected a timeline inconsistency. Want me to draft questions to clarify during screening?'
+          - 'Should I check if [technology] was even available in [year]?'
+  contextual_warnings:
+    purpose: Proactively flag potential issues before they become problems
+    market_context_warnings:
+      hot_role: ⚠️ This is a hot role (high demand). Recommend moving fast - candidates likely have multiple offers.
+      salary_mismatch: ⚠️ Market rate for this role is 20% higher than typical. Budget may need adjustment.
+      unicorn_skills: ⚠️ This combination of skills is rare. Expect 60+ day search or consider training path.
+    candidate_warnings:
+      flight_risk: ⚠️ Candidate has pattern of short tenures (avg 18 months). Retention risk.
+      overqualified: ℹ️ Candidate appears more senior than role requires. Discuss career goals to ensure genuine interest.
+      resume_concerns: 🚩 Timeline issue detected - [specific issue]. Recommend verification during screening.
+    process_warnings:
+      slow_pipeline: ⚠️ Your time-to-hire is 2x target. Bottleneck at [stage]. Want analysis?
+      low_conversion: ⚠️ Only 20% of phone screens advance to technical. Screening criteria may need calibration.
+      offer_declines: 🚨 60% of offers declined (target: 80%+ acceptance). Competitive issues? Want market analysis?
+  learning_and_adaptation:
+    session_learning:
+      observe: Track user behavior within session
+      adapt:
+        if_user_always_asks_for_more: Switch to detailed mode proactively
+        if_user_always_says_too_long: Switch to brief mode proactively
+        if_user_always_validates_tech: Proactively include tech validation in every analysis
+        if_user_focuses_on_culture_fit: Proactively include persona analysis
+    pattern_recognition:
+      detect_repetitive_requests: If user asks same question 3+ times, save as template
+      detect_common_workflows: If user always does A then B then C, suggest automating
+      detect_pain_points: If user struggles with certain tasks, offer tips/alternatives
+multi_modal_context:
+  understanding_different_inputs:
+    text_input:
+      pasted_jd: Detect structure (bullets, sections) → Parse → Route to JD analysis
+      pasted_resume: Detect format → Parse → Route to resume analysis
+      question: Classify intent → Route to appropriate workflow
+      casual_message: Conversational mode → Ask clarifying questions
+    file_input:
+      pdf: Detect if resume, JD, or report → Parse → Route appropriately
+      word_doc: Convert → Parse → Route
+      image: OCR → Parse → Route + caveat about accuracy
+      spreadsheet: Detect if candidate list, salary data, or analytics → Process accordingly
+    url_input:
+      linkedin_profile: Fetch → Parse → Analyze as resume
+      job_posting: Fetch → Parse → Analyze as JD
+      company_page: Fetch → Analyze → Provide company intelligence
+      github_profile: Fetch → Analyze repos, contributions → Add to candidate assessment
+output_optimization:
+  format_adaptation:
+    for_mobile:
+      detect: Small screen, touch interface
+      adapt: Shorter paragraphs, larger headers, more white space, tap-friendly buttons
+    for_desktop:
+      detect: Large screen, mouse/keyboard
+      adapt: Can use tables, more data density, keyboard shortcuts available
+    for_print:
+      detect: User requests PDF or printable format
+      adapt: Page breaks, headers/footers, printer-friendly colors, citations
+  stakeholder_adaptation:
+    for_recruiter:
+      focus: Match scores, interview questions, sourcing strategies
+      style: Actionable, practical, time-efficient
+    for_hiring_manager:
+      focus: Skills evidence, achievements, cultural fit, team dynamics
+      style: Evidence-based, detailed, decision-supporting
+    for_executive:
+      focus: Strategic insights, pipeline health, cost/time metrics, risk assessment
+      style: High-level, business impact, ROI-focused
+
+## SOURCE: ark-fallback-resilience.json
+module_name: Fallback Logic & Resilience Patterns
+purpose: Ensure ARK Intelligence remains operational even when components fail
+version: 2.0
+core_principle: Never leave the user empty-handed. Always provide value, even if degraded.
+fallback_strategies:
+  data_source_fallbacks:
+    salary_data:
+      primary:
+        source: Real-time web search (Google/Bing)
+        freshness: Current (2024/2025 data)
+        accuracy: High (multiple sources cross-referenced)
+        latency: 2-5 seconds
+      secondary:
+        source: Cached web search results
+        freshness: Up to 24 hours old
+        accuracy: High (from previous searches)
+        latency: <1 second
+        when: Primary fails or rate limited
+      tertiary:
+        source: Built-in salary database
+        freshness: 6-12 months old
+        accuracy: Medium (may be outdated)
+        latency: <1 second
+        when: Primary and secondary fail
+        caveat: Provide explicit warning: 'Based on data from [date], actual rates may be 10-20% higher. Recommend validating with recent sources.'
+      ultimate_fallback:
+        source: General market knowledge + caveats
+        response: 'I don't have current salary data for this role. Based on general market trends, similar roles typically range $X-$Y, but I strongly recommend:
+1. Checking Glassdoor, Levels.fyi for current data
+2. Consulting with industry peers
+3. Using a compensation consultant'
+        when: All data sources fail
+    company_information:
+      primary:
+        source: Real-time web search (LinkedIn, company website, Crunchbase)
+        data: Current employee count, funding, news, reputation
+      secondary:
+        source: Cached company data (30 days)
+        when: Primary fails
+      tertiary:
+        source: Internal company database (periodically updated)
+        when: Web search unavailable
+      ultimate_fallback:
+        response: 'I couldn't find detailed information about [Company]. Here's what I recommend:
+1. Check their LinkedIn company page
+2. Search Google News for recent coverage
+3. Review Glassdoor for employee sentiment
+4. Ask the candidate about the company during screening'
+        when: No data available
+    technology_validation:
+      primary:
+        source: Real-time web search (official docs, Wikipedia, GitHub)
+        data: Release dates, versions, adoption stats
+      secondary:
+        source: Built-in technology database (periodically updated)
+        when: Web search fails
+        caveat: Add disclaimer: 'Based on my training data (last updated Jan 2025). Please verify for critical decisions.'
+      ultimate_fallback:
+        response: 'I'm not certain about [technology]. To validate:
+1. Check official documentation/website
+2. Search GitHub for release history
+3. Verify with technical team member'
+        when: No reliable data
+        action: Flag for manual verification
+  functional_fallbacks:
+    resume_parsing:
+      primary:
+        method: Advanced PDF parser with ML
+        quality: High (handles complex layouts, tables, columns)
+      secondary:
+        method: Standard PDF text extraction
+        quality: Medium (handles simple layouts)
+        when: Advanced parser fails or times out
+      tertiary:
+        method: OCR (Optical Character Recognition)
+        quality: Low (may have errors)
+        when: Text extraction fails (image-based PDF)
+        caveat: Warn user: 'Resume appears to be image-based. Parsing may be less accurate. Please review results carefully.'
+      ultimate_fallback:
+        method: Manual mode - show user raw text, ask them to paste key info
+        response: 'Unable to parse this resume automatically. Please paste the key sections (Experience, Skills, Education) and I'll analyze from there.'
+        when: All parsing methods fail
+    candidate_scoring:
+      primary:
+        method: Full analysis with web search validation, skills adjacency, persona profiling
+        output: Comprehensive score with 10+ dimensions
+      secondary:
+        method: Standard analysis without web validation
+        output: Basic score without real-time validation
+        when: Web search unavailable
+        caveat: Note: 'Analysis without real-time validation. Technology timelines not verified.'
+      tertiary:
+        method: Simple keyword matching
+        output: Basic yes/no match on required skills
+        when: Full system unavailable
+        caveat: Warn: 'Basic analysis only. Manual review recommended.'
+      ultimate_fallback:
+        method: Provide analysis framework for manual scoring
+        response: 'System experiencing issues. Here's how to manually score:
+1. Check for core skills: [list]
+2. Verify experience level: [X] years
+3. Review achievements for [specific evidence]
+4. Score 0-10 based on match
+I'll assist with specific questions.'
+        when: Complete system failure
+    boolean_string_generation:
+      primary:
+        method: AI-generated with skills taxonomy, synonyms, market intelligence
+        output: 3 optimized strings (wide, focused, niche)
+      secondary:
+        method: Template-based with keyword substitution
+        output: Standard boolean strings without advanced optimization
+        when: AI generation fails
+      tertiary:
+        method: Provide boolean building blocks + examples
+        response: 'Here are the core skills and synonyms. Example boolean structure:
+(Title1 OR Title2) AND (Skill1 OR Skill2) AND Location
+You can customize as needed.'
+        when: Automation unavailable
+  integration_fallbacks:
+    ats_integration:
+      primary:
+        method: Real-time API sync (webhook-triggered)
+        latency: <5 seconds
+      secondary:
+        method: Polling (check every 5 minutes)
+        latency: Up to 5 minutes
+        when: Webhooks down
+      tertiary:
+        method: Manual sync (user clicks 'sync now')
+        latency: On-demand
+        when: Automated sync failing
+      ultimate_fallback:
+        method: Export/import CSV
+        process: ARK exports data → User uploads to ATS
+        when: All API methods unavailable
+    email_automation:
+      primary:
+        method: Direct API integration (Gmail/Outlook API)
+        features: Send emails, track opens, sync to ATS
+      secondary:
+        method: SMTP relay
+        features: Send emails only (no tracking)
+        when: API integration down
+      tertiary:
+        method: Generate email draft, user sends manually
+        process: ARK creates email → User copies to email client → Sends
+        when: No automated sending available
+    slack_notifications:
+      primary:
+        method: Real-time Slack webhook
+        when: Strong candidate found, urgent alerts
+      secondary:
+        method: Email notification instead
+        when: Slack webhook failing
+      tertiary:
+        method: In-app notification only
+        when: All external notifications failing
+resilience_patterns:
+  redundancy:
+    purpose: Multiple ways to accomplish the same goal
+    data_redundancy:
+      multiple_sources: Never rely on single data source
+      example: Salary data from: Web search, cached data, built-in database
+      rule: Always have 2+ fallback options
+    functional_redundancy:
+      multiple_methods: Different ways to achieve same result
+      example: Resume parsing: Advanced ML parser, standard text extraction, OCR, manual input
+      rule: Degrade gracefully through progressively simpler methods
+    integration_redundancy:
+      multiple_channels: Different ways to connect with external systems
+      example: ATS sync: Real-time API, polling, manual sync, CSV export/import
+      rule: Never make external dependency mandatory - always have manual fallback
+  caching_and_persistence:
+    purpose: Store data to survive temporary outages
+    aggressive_caching:
+      what_to_cache:
+        web_search_results: Cache for 1-24 hours depending on type
+        company_data: Cache for 30 days
+        technology_info: Cache for 90 days
+        API_responses: Cache for 5-60 minutes
+        analysis_results: Cache for 7 days (candidate may apply elsewhere)
+      cache_strategy:
+        write_through: Update cache whenever fetching new data
+        read_through: Check cache first, fetch if missing
+        ttl: Time-to-live per data type
+        invalidation: Clear cache on explicit user request or data age
+      when_to_use_cache:
+        proactively: Always check cache first to save time/cost
+        fallback: Use cache if primary source fails
+        offline_mode: Rely heavily on cache if network unavailable
+    data_persistence:
+      local_storage: Store user preferences, recent analyses, draft reports
+      session_storage: Maintain state during session (survives page refresh)
+      database: Persist all candidate data, analytics, audit logs
+      backups: Daily backups to separate location
+  progressive_disclosure:
+    purpose: Show what's available even if some features down
+    approach:
+      show_core: Always show core functionality (resume analysis, JD breakdown)
+      show_degraded: Show features with reduced capability: 'Email automation (manual send only)'
+      hide_broken: Hide features completely unavailable: 'Slack notifications temporarily unavailable'
+      communicate: Tell user what's working and what's not
+    example:
+      normal_state: All features available
+      degraded_state: Web search down → Show: 'Using cached data (3 hours old) - real-time validation unavailable'
+      minimal_state: Only core features → Show: 'Providing basic analysis - advanced features temporarily unavailable'
+  circuit_breaker_pattern:
+    purpose: Stop trying things that are consistently failing
+    states:
+      closed:
+        meaning: Circuit is closed, requests flow normally
+        behavior: All requests attempt to use service
+      open:
+        meaning: Circuit is open, service is considered down
+        behavior: All requests immediately use fallback (don't even try primary)
+        duration: Stay open for 5 minutes
+      half_open:
+        meaning: Testing if service recovered
+        behavior: Allow 1 request through to test
+        outcomes:
+          success: Close circuit, resume normal operations
+          failure: Open circuit again for another 5 minutes
+    thresholds:
+      open_circuit_if: 5+ failures within 1 minute
+      retry_after: 5 minutes
+      close_circuit_if: 3 consecutive successes
+    example:
+      service: LinkedIn API
+      scenario: LinkedIn API returning errors repeatedly
+      action: Open circuit after 5 failures → Stop calling LinkedIn → Use cached profile data → Test every 5 min → Resume when working
+  bulkhead_pattern:
+    purpose: Isolate failures so they don't cascade
+    concept: Like watertight compartments on a ship - if one floods, others stay dry
+    implementation:
+      separate_resources: Don't let one feature's failure affect others
+      resource_pools:
+        web_search_pool: Dedicated resources for web search
+        analysis_pool: Dedicated resources for candidate analysis
+        integration_pool: Dedicated resources for ATS/CRM sync
+        reporting_pool: Dedicated resources for report generation
+      isolation: If web search pool exhausted, analysis still works using cached data
+    example:
+      scenario: Report generation consuming all resources
+      without_bulkhead: Entire system slows down, all users affected
+      with_bulkhead: Only report generation slow, candidate analysis unaffected
+  timeout_and_deadline:
+    purpose: Don't wait forever - fail fast and move on
+    timeouts:
+      web_search: 5 seconds max
+      api_calls: 10 seconds max
+      resume_parsing: 30 seconds max
+      batch_processing: 5 minutes max
+      report_generation: 2 minutes max (then switch to async)
+    behavior_on_timeout:
+      abort: Stop the operation
+      fallback: Use alternative method (cached data, simpler approach)
+      async: Move to background processing, notify user when complete
+      notify: Tell user: 'Taking longer than expected, continuing in background'
+    deadline_propagation:
+      concept: If upstream request has 10s deadline, downstream requests get shorter deadlines
+      example: User request has 30s timeout → Web search gets 5s → API call gets 8s → Parsing gets 15s
+      benefit: Ensures total operation completes within user's timeout
+  health_checks_and_monitoring:
+    purpose: Detect failures early and route around them
+    continuous_health_checks:
+      what_to_monitor:
+        external_apis: Ping every 60 seconds
+        internal_services: Ping every 30 seconds
+        database: Ping every 10 seconds
+        cache: Ping every 30 seconds
+      health_metrics:
+        latency: How fast is it responding?
+        error_rate: What % of requests failing?
+        throughput: How many requests per second?
+        saturation: How close to capacity?
+      health_states:
+        healthy: Latency <100ms, error rate <1%, plenty of capacity
+        degraded: Latency 100-500ms, error rate 1-5%, approaching capacity
+        unhealthy: Latency >500ms, error rate >5%, at/over capacity
+        down: Not responding at all
+    adaptive_behavior:
+      when_healthy: Use service normally
+      when_degraded: Reduce request rate, use caching more aggressively
+      when_unhealthy: Use fallback immediately, don't even try primary
+      when_down: Circuit breaker open, full fallback mode
+  self_healing:
+    purpose: Automatically recover from failures without human intervention
+    auto_recovery_actions:
+      retry_failed_operations:
+        what: Operations that failed due to transient errors
+        how: Retry with exponential backoff
+        max_retries: 5
+        example: Failed to sync candidate to ATS → Retry 5 times → Queue for manual review if still failing
+      reset_connections:
+        what: Database connections, API connections that are stale
+        how: Close and reopen connection
+        when: After 3 consecutive failures
+        example: Database connection timeout → Close connection → Open new connection → Retry query
+      clear_corrupted_cache:
+        what: Cached data that's causing errors
+        how: Delete cache entry, fetch fresh data
+        when: Cache entry causing repeated failures
+        example: Cached search result returning errors → Clear cache → Fetch fresh data
+      restart_failed_components:
+        what: Internal services that crashed
+        how: Automatic restart (up to 3 times)
+        when: Component becomes unresponsive
+        example: Report generator crashed → Restart → Resume processing
+    gradual_recovery:
+      after_outage: Don't immediately return to full capacity
+      ramp_up:
+        step_1: Serve 10% of normal traffic for 2 minutes
+        step_2: If stable, increase to 25% for 2 minutes
+        step_3: If stable, increase to 50% for 2 minutes
+        step_4: If stable, increase to 100%
+      benefit: Prevents thundering herd problem, allows system to stabilize
+testing_resilience:
+  purpose: Verify fallbacks actually work before you need them
+  chaos_engineering:
+    concept: Deliberately break things in controlled way to test resilience
+    tests_to_run:
+      kill_external_api:
+        test: Simulate LinkedIn API down
+        expectation: System uses cached data, analysis continues with caveat
+      slow_web_search:
+        test: Simulate web search taking 30+ seconds
+        expectation: Timeout after 5s, fallback to cached data
+      corrupt_resume:
+        test: Upload malformed PDF
+        expectation: Graceful error message + suggestion to try different format
+      database_timeout:
+        test: Simulate database slow/unresponsive
+        expectation: Timeout, retry, eventual error message if persistent
+      rate_limit_exceeded:
+        test: Send 1000 requests in 1 minute
+        expectation: Throttle kicks in, requests queued, clear message to user
+      network_partition:
+        test: Simulate loss of internet connectivity
+        expectation: Offline mode with cached data, clear indication of offline state
+    frequency: Run chaos tests weekly in staging, monthly in production (carefully)
+  disaster_recovery_drills:
+    scenarios:
+      complete_system_outage:
+        test: Simulate total system failure
+        expectation: Status page updated, users notified, recovery time < 4 hours
+      data_corruption:
+        test: Simulate database corruption
+        expectation: Restore from backup, data loss < 1 hour
+      third_party_outage:
+        test: All ATS APIs down
+        expectation: Queue operations, resume automatically when services return
+    frequency: Quarterly disaster recovery drills
+user_communication:
+  purpose: Keep users informed when things aren't working perfectly
+  status_indicators:
+    system_healthy:
+      indicator: Green checkmark or no indicator
+      message: None (everything working)
+    degraded_performance:
+      indicator: Yellow warning icon
+      message: 'Some features running slower than usual. Using cached data where possible.'
+      details: Click for details: 'Web search experiencing delays. Results may be up to 24 hours old.'
+    partial_outage:
+      indicator: Orange warning icon
+      message: 'LinkedIn integration temporarily unavailable. All other features operational.'
+      details: Link to status page with more info
+    major_outage:
+      indicator: Red error banner
+      message: 'ARK Intelligence is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'
+      details: Link to status page, support contact
+  proactive_communication:
+    before_user_notices: If we detect issue, tell users before they encounter it
+    set_expectations: Tell users what will/won't work
+    provide_alternatives: Suggest workarounds or manual processes
+    keep_updated: Update users as situation changes
+  transparency:
+    be_honest: If something's broken, say so - don't hide behind vague messages
+    explain_impact: Tell users how it affects them
+    share_timeline: Give realistic estimate of when fixed (under-promise, over-deliver)
+    show_progress: Update on recovery efforts
+
+## SOURCE: ark-governance-resilience.json
+module_name: Governance, Rate Limiting & Error Handling
+purpose: Ensure reliable, secure, and compliant operations with robust error handling
+version: 2.0
+governance_framework:
+  purpose: Define rules, policies, and controls for ARK Intelligence operations
+  access_control:
+    role_based_permissions:
+      admin:
+        can_do:
+          - Configure system settings
+          - Manage integrations
+          - View all analytics
+          - Export all data
+          - Manage user permissions
+          - Access audit logs
+        cannot_do:
+          - Delete audit trails
+          - Bypass compliance checks
+      senior_recruiter:
+        can_do:
+          - Analyze candidates and JDs
+          - Generate reports
+          - Use all recruiting features
+          - View team analytics
+          - Export candidate data
+          - Manage own pipeline
+        cannot_do:
+          - Change system settings
+          - Access other recruiters' data (unless shared)
+          - Bypass bias detection warnings
+      recruiter:
+        can_do:
+          - Analyze candidates and JDs
+          - Generate basic reports
+          - Use core recruiting features
+          - View own analytics
+        cannot_do:
+          - Access team-wide analytics
+          - Export bulk data
+          - Override system recommendations
+      hiring_manager:
+        can_do:
+          - View candidate analyses
+          - Provide feedback
+          - View reports for their roles
+          - Request analyses
+        cannot_do:
+          - Access full candidate database
+          - Modify scoring criteria
+          - See salary/rate information
+      read_only:
+        can_do:
+          - View shared reports
+          - Read documentation
+        cannot_do:
+          - Analyze new candidates
+          - Generate reports
+          - Export data
+    data_access_controls:
+      pii_protection:
+        rule: Personally Identifiable Information requires explicit permission
+        pii_fields:
+          - Full name
+          - Email address
+          - Phone number
+          - Home address
+          - SSN/Tax ID
+          - Date of birth
+          - Photo
+        controls:
+          - Mask by default (show only when needed)
+          - Log all access to PII fields
+          - Require business justification for bulk export
+          - Auto-redact PII in screenshots/reports unless authorized
+      salary_data_protection:
+        rule: Salary/rate information is confidential
+        controls:
+          - Show only to authorized roles (recruiters, admins)
+          - Hide from hiring managers unless explicitly shared
+          - Never include in public reports or emails
+          - Mask in logs and audit trails
+      candidate_confidentiality:
+        rule: Candidate data is confidential to the hiring process
+        controls:
+          - Limit access to recruiters working on that role
+          - Require NDA acknowledgment for sensitive roles
+          - Auto-expire access after role is filled
+          - Alert if candidate data accessed outside normal workflow
+  operational_policies:
+    anti_abuse_policies:
+      no_bulk_scraping:
+        rule: Prevent mass data extraction for non-business purposes
+        detection: Flag if user exports >100 candidates in 24 hours
+        action: Require admin approval + business justification
+      no_discriminatory_use:
+        rule: ARK cannot be used to discriminate against protected classes
+        detection: Bias detection alerts, audit pattern analysis
+        action: Block discriminatory queries + alert compliance team
+      no_candidate_harassment:
+        rule: ARK-generated outreach must be professional and respectful
+        detection: Scan generated emails for inappropriate content
+        action: Block sending + flag for review
+    data_retention_policies:
+      candidate_data:
+        active_candidate: Retain while actively recruiting (no limit)
+        hired_candidate: Retain 2 years post-hire (for reference checks, rehire)
+        rejected_candidate: Retain 1 year (for EEOC compliance, future opportunities)
+        withdrawn_candidate: Retain 6 months or per candidate request
+        right_to_be_forgotten: Delete immediately upon request (GDPR)
+      analytics_data:
+        aggregated_metrics: Retain indefinitely (no PII)
+        individual_records: Follow candidate data retention
+        audit_logs: Retain 7 years (compliance requirement)
+      automated_deletion:
+        frequency: Run monthly cleanup job
+        process: Identify expired data → Notify admin → Archive → Delete after 30-day grace period
+        exceptions: Active legal holds, investigations
+    compliance_monitoring:
+      continuous_auditing:
+        log_all_actions:
+          - Who accessed what data when
+          - What analyses were run
+          - What decisions were made
+          - What biases were detected
+          - What searches were performed
+        automated_checks:
+          - Adverse impact analysis (weekly)
+          - Bias detection patterns (daily)
+          - Data access anomalies (real-time)
+          - Policy violations (real-time)
+        reporting:
+          - Monthly compliance report to admin
+          - Quarterly executive summary
+          - Annual audit trail export for legal
+rate_limiting:
+  purpose: Prevent system abuse, ensure fair usage, manage costs
+  rate_limit_tiers:
+    api_calls:
+      free_tier:
+        limits:
+          analyses_per_day: 20
+          web_searches_per_day: 50
+          batch_processing_per_day: 3
+          reports_generated_per_day: 10
+        burst_allowance: Up to 5 requests in 1 minute, then throttle
+        overage: Soft limit - warn user, delay requests
+      professional_tier:
+        limits:
+          analyses_per_day: 200
+          web_searches_per_day: 500
+          batch_processing_per_day: 20
+          reports_generated_per_day: 100
+        burst_allowance: Up to 20 requests in 1 minute
+        overage: Allow with warning, throttle at 2x limit
+      enterprise_tier:
+        limits:
+          analyses_per_day: 2000
+          web_searches_per_day: 5000
+          batch_processing_per_day: 100
+          reports_generated_per_day: 500
+        burst_allowance: Up to 50 requests in 1 minute
+        overage: Soft limits, monitoring only
+      unlimited_tier:
+        limits: No hard limits, monitoring for abuse only
+        burst_allowance: Reasonable use expected
+        overage: Contact customer success if excessive
+    external_api_calls:
+      web_search:
+        provider_limits: Respect Google/Bing rate limits
+        ark_limits: Max 100 searches per user per hour
+        caching: Cache results for 1 hour to reduce API calls
+        fallback: If rate limited, use cached data or alternative source
+      ats_apis:
+        greenhouse: 100 requests per minute per account
+        lever: 60 requests per minute per account
+        workday: 10 requests per minute per account (conservative)
+        handling: Queue requests, batch when possible, retry with exponential backoff
+      email_apis:
+        gmail: 250 emails per day (personal), 2000/day (workspace)
+        outlook: 300 emails per day
+        sendgrid: Per plan limits
+        handling: Queue outbound emails, spread over 24 hours if bulk
+    resource_limits:
+      file_uploads:
+        max_file_size: 25 MB per file
+        max_files_per_upload: 50 files
+        max_daily_uploads: 500 files per user
+        supported_formats:
+          - PDF
+          - DOCX
+          - TXT
+          - CSV
+          - XLSX
+          - images
+      batch_processing:
+        max_candidates_per_batch: 100 candidates
+        max_concurrent_batches: 3 per user
+        processing_timeout: 5 minutes per batch
+        queue_position: Show user position in queue if system busy
+      report_generation:
+        max_report_size: 50 MB
+        max_data_points: 10,000 candidates per report
+        export_formats:
+          - PDF
+          - Excel
+          - CSV
+          - JSON
+        async_for_large: Reports >5MB generated async, emailed when ready
+  rate_limit_enforcement:
+    detection:
+      track_usage: Count actions per user per time window
+      identify_patterns: Detect unusual spikes or sustained high usage
+      categorize: Normal use | High use | Potential abuse
+    response_strategies:
+      soft_limit_warning:
+        when: User reaches 80% of limit
+        action: Show warning: 'You've used 16/20 daily analyses. Limit resets at midnight UTC.'
+        purpose: Give user awareness, no disruption
+      hard_limit_block:
+        when: User reaches 100% of limit
+        action: Block request + show: 'Daily limit reached. Upgrade to Professional for higher limits or wait until [reset time].'
+        purpose: Enforce fair usage
+      throttling:
+        when: User makes requests too rapidly
+        action: Delay requests: 1st = immediate, 2nd = 1s wait, 3rd = 2s wait, etc.
+        purpose: Prevent system overload, encourage reasonable pacing
+      temporary_suspension:
+        when: Potential abuse detected (e.g., bulk scraping pattern)
+        action: Suspend access + alert admin + require human review
+        purpose: Protect system and other users
+    exemptions:
+      emergency_access: Admin can grant temporary limit increases for urgent needs
+      scheduled_batch_jobs: Pre-approved batch operations bypass normal limits
+      system_integrations: Automated workflows have separate, higher limits
+  cost_management:
+    track_costs:
+      per_operation_cost:
+        candidate_analysis: $0.02
+        web_search: $0.01
+        report_generation: $0.05
+        batch_processing: $0.10 (up to 50 candidates)
+        api_integrations: $0.001 per call
+      calculate_user_cost: Sum all operations per user per month
+      alert_thresholds:
+        individual_user: Alert if user costs >$500/month (potential error or abuse)
+        organization: Alert if org costs >$10k/month (review usage patterns)
+    cost_optimization:
+      caching: Cache repeated analyses, searches, reports for 1 hour
+      deduplication: Don't re-analyze same resume multiple times
+      batch_optimization: Encourage batching to reduce per-operation overhead
+      off_peak_processing: Run large batch jobs during off-peak hours
+error_handling:
+  purpose: Gracefully handle failures, provide clear feedback, recover automatically when possible
+  error_categories:
+    user_errors:
+      invalid_input:
+        examples:
+          - Uploading corrupted PDF
+          - Providing incomplete JD
+          - Missing required fields
+        handling:
+          detect: Validate input before processing
+          message: Clear, actionable error message: 'Resume PDF is corrupted. Please try a different file format.'
+          recovery: Suggest fixes, offer alternative formats
+      unauthorized_access:
+        examples:
+          - Trying to access data without permission
+          - Attempting admin actions as regular user
+        handling:
+          detect: Check permissions before action
+          message: 'You don't have permission to export all candidates. Please contact your admin.'
+          recovery: Explain how to request access
+      quota_exceeded:
+        examples:
+          - Exceeding daily analysis limit
+          - Batch too large
+        handling:
+          detect: Check limits before processing
+          message: 'Daily limit of 20 analyses reached. Resets at midnight UTC. Upgrade to Professional for 200/day.'
+          recovery: Show upgrade options, estimated reset time
+    system_errors:
+      api_failures:
+        examples:
+          - ATS API down
+          - Web search service unavailable
+          - Email service timeout
+        handling:
+          detect: Monitor API response codes, timeouts
+          message: 'Unable to connect to LinkedIn. Using cached data from 2 hours ago.'
+          recovery: Use cached data, fallback to alternative API, retry with backoff
+      processing_errors:
+        examples:
+          - Resume parsing failure
+          - Analysis timeout
+          - Memory exceeded
+        handling:
+          detect: Wrap processing in try-catch, set timeouts
+          message: 'Analysis taking longer than expected. We'll email results to you in 5 minutes.'
+          recovery: Queue for async processing, notify when complete
+      data_integrity_errors:
+        examples:
+          - Corrupted database entry
+          - Inconsistent data state
+          - Missing required data
+        handling:
+          detect: Validate data consistency checks
+          message: 'Data inconsistency detected. Our team has been notified.'
+          recovery: Alert engineering, use backup data, prevent cascade
+    external_errors:
+      network_failures:
+        examples:
+          - Internet connection lost
+          - DNS resolution failure
+          - Proxy timeout
+        handling:
+          detect: Network error codes, timeouts
+          message: 'Network connection issue. Retrying in 5 seconds...'
+          recovery: Retry with exponential backoff (2s, 4s, 8s, 16s), up to 5 attempts
+      third_party_outages:
+        examples:
+          - Greenhouse API down
+          - Google search unavailable
+          - Slack webhook failing
+        handling:
+          detect: Monitor third-party status pages
+          message: 'Greenhouse is experiencing an outage. Analysis will sync when service resumes.'
+          recovery: Queue operations, auto-retry when service restored, notify user
+  error_handling_patterns:
+    retry_with_backoff:
+      when: Transient failures (network, timeouts, rate limits)
+      strategy:
+        attempt_1: Immediate retry
+        attempt_2: Wait 2 seconds, retry
+        attempt_3: Wait 4 seconds, retry
+        attempt_4: Wait 8 seconds, retry
+        attempt_5: Wait 16 seconds, retry
+        max_attempts: 5
+        give_up: After 5 attempts, log error, notify user, escalate if critical
+      example: Web search fails → Retry 5 times with backoff → If still failing, use cached data or skip
+    circuit_breaker:
+      when: Repeated failures indicate systemic issue
+      strategy:
+        monitor: Track failure rate per service
+        threshold: If 5+ failures in 1 minute, open circuit
+        open_circuit: Stop trying that service for 5 minutes
+        half_open: After 5 minutes, try 1 request to test
+        close_circuit: If successful, resume normal operations
+        stay_open: If still failing, stay open for another 5 minutes
+      example: ATS API failing repeatedly → Open circuit → Use cached candidate data instead → Test every 5 min → Resume when working
+    fallback_cascade:
+      when: Primary method fails, try alternatives
+      strategy:
+        primary: Try best/fastest option first
+        secondary: If fails, try second-best option
+        tertiary: If fails, try third option
+        ultimate_fallback: Manual process or graceful degradation
+      example:
+        task: Get current salary data
+        primary: Web search (real-time, accurate)
+        secondary: Cached search from 24 hours ago
+        tertiary: Built-in salary database (last updated 6 months ago)
+        fallback: Provide salary range with caveat: 'Based on 6-month-old data, actual may be 10-15% higher'
+    graceful_degradation:
+      when: Can't provide full functionality, provide partial
+      strategy:
+        identify_core_vs_nice_to_have: What's essential vs optional?
+        deliver_core: Ensure core functionality works
+        skip_optional: Skip features that are failing
+        communicate: Tell user what's available and what's not
+      example:
+        scenario: GitHub API down, analyzing developer candidate
+        full_service: Resume analysis + GitHub portfolio analysis + code quality check
+        degraded_service: Resume analysis only
+        message: 'GitHub is temporarily unavailable. Analysis based on resume only. We'll update with GitHub insights when service resumes.'
+    async_processing:
+      when: Operation takes >30 seconds or resources constrained
+      strategy:
+        accept_request: Acknowledge immediately: 'Processing your request...'
+        queue: Add to processing queue with priority
+        notify: Email/Slack when complete
+        status_page: Provide link to check progress
+      example: Batch analyze 100 candidates → Queue → Process in background → Email report when done: 'Your 100-candidate analysis is complete: [link]'
+  error_messages:
+    principles:
+      be_clear: Explain what went wrong in plain English
+      be_actionable: Tell user what they can do about it
+      be_honest: Don't hide behind vague 'error occurred' messages
+      be_empathetic: Acknowledge frustration, apologize if appropriate
+    good_vs_bad_examples:
+      bad: Service unavailable
+      good: LinkedIn is temporarily unavailable. We're using cached data from 3 hours ago. Results may not reflect recent profile changes. Retrying automatically in 5 minutes.
+  logging_and_monitoring:
+    log_all_errors:
+      what_to_log:
+        error_type: User error | System error | External error
+        error_message: Detailed technical message
+        user_message: What user saw
+        context: What was being attempted, input data
+        stack_trace: For debugging (not shown to user)
+        user_id: Who encountered it
+        timestamp: When it occurred
+        resolution: How it was handled (retry, fallback, failure)
+      log_levels:
+        debug: Detailed info for development
+        info: Normal operations, successful completions
+        warning: Recoverable issues (used fallback, retry succeeded)
+        error: Failures that impacted user (show error message)
+        critical: System-wide failures, data integrity issues
+    alerting:
+      real_time_alerts:
+        critical_errors: Page on-call engineer immediately
+        error_rate_spike: Alert if error rate >5% for 5 minutes
+        service_down: Alert if any critical service unreachable for 2 minutes
+        data_corruption: Alert immediately
+      daily_summaries:
+        error_count: Total errors by type
+        most_common_errors: Top 10 errors
+        affected_users: How many users impacted
+        resolution_rates: How many auto-recovered vs manual fix needed
+    metrics_to_track:
+      error_rate: Errors per 1000 requests
+      retry_success_rate: % of retries that succeeded
+      fallback_usage: How often fallbacks invoked
+      mean_time_to_recovery: How fast errors resolved
+      user_impact: % of users who encountered errors
+incident_response:
+  purpose: Handle major outages or issues systematically
+  incident_levels:
+    severity_1_critical:
+      definition: System completely down, no workarounds, affecting all users
+      response_time: Immediate (5 minutes)
+      team: Full incident response team, executive notification
+      communication: Status page updated every 15 minutes, direct user notification
+    severity_2_major:
+      definition: Core functionality impaired, workarounds exist, affecting many users
+      response_time: 30 minutes
+      team: Engineering team, customer success notified
+      communication: Status page updated every 30 minutes
+    severity_3_minor:
+      definition: Non-critical feature impaired, limited user impact
+      response_time: 4 hours
+      team: Assigned engineer
+      communication: Status page note, resolve during business hours
+  incident_process:
+    detect: Monitoring alerts, user reports, internal discovery
+    declare: Incident commander assigned, severity determined
+    communicate: Update status page, notify affected users
+    investigate: Root cause analysis, gather logs
+    mitigate: Implement temporary fix, reduce impact
+    resolve: Permanent fix deployed, tested
+    postmortem: Document what happened, why, how to prevent
+    improve: Implement prevention measures, update playbooks

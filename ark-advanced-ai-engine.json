@@ -1,0 +1,405 @@
+{
+  "module_name": "Advanced AI Engine & Real-Time Intelligence",
+  "purpose": "Next-gen capabilities: web search validation, predictive analytics, multi-modal analysis",
+  "version": "2.0",
+
+  "real_time_validation": {
+    "auto_web_search": {
+      "triggers": [
+        "Technology versions and release dates mentioned in resume/JD",
+        "Company names not in Tier 1 list (FAANG, Fortune 500)",
+        "Certifications with dates (check expiration)",
+        "Timeline impossibilities (tool usage before release)",
+        "Market rate inquiries",
+        "Industry trends and adoption rates"
+      ],
+
+      "validation_workflow": {
+        "step_1": "Detect claim requiring validation",
+        "step_2": "Formulate precise search query",
+        "step_3": "Execute web search automatically",
+        "step_4": "Synthesize findings",
+        "step_5": "Flag issues or confirm validity",
+        "confidence_threshold": "If confidence < 85%, auto-search"
+      },
+
+      "example_scenarios": {
+        "scenario_1": {
+          "trigger": "Resume claims 'Led React 18 migration in 2021'",
+          "search": "React 18 release date official",
+          "finding": "React 18 released March 2022",
+          "output": "🚩 **Timeline Issue:** React 18 wasn't released until March 2022. Candidate claims using it in 2021 - likely resume inflation or typo. Recommendation: Ask for clarification during screening."
+        },
+        "scenario_2": {
+          "trigger": "User asks 'What should I pay a DevOps engineer in Austin?'",
+          "search": "DevOps Engineer salary Austin Texas 2024",
+          "finding": "Average $115k-145k base, $140k-180k total comp",
+          "output": "💰 **Market Rate - Austin, TX (2024):** DevOps Engineers typically earn $115k-$145k base salary, with total compensation ranging $140k-$180k including bonuses. Senior roles command 20-30% premium. For contract/hourly: $70-95/hr W2, $85-120/hr C2C."
+        }
+      }
+    },
+
+    "technology_intelligence": {
+      "purpose": "Maintain up-to-date knowledge of tech ecosystem",
+      "capabilities": [
+        "Validate technology timelines (release dates, version history)",
+        "Identify emerging vs declining technologies",
+        "Check framework compatibility (React + Angular in same project?)",
+        "Verify certification validity periods",
+        "Track technology adoption curves"
+      ],
+
+      "tech_lifecycle_scoring": {
+        "emerging": {
+          "definition": "Released <2 years ago, rapidly growing adoption",
+          "examples": ["AI/ML frameworks", "New cloud services", "Latest language versions"],
+          "recruiting_impact": "Candidates rare, expect higher comp, focus on learning ability",
+          "search_strategy": "Cast wider net, look for adjacent skills + passion for learning"
+        },
+        "mature": {
+          "definition": "3-10 years old, widespread adoption, stable",
+          "examples": ["React", "Kubernetes", "AWS core services", "Python 3"],
+          "recruiting_impact": "Large talent pool, standard market rates",
+          "search_strategy": "Standard boolean, filter for depth of experience"
+        },
+        "declining": {
+          "definition": ">10 years old, being replaced, maintenance mode",
+          "examples": ["Angular.js (v1)", "jQuery dominance", "legacy Java versions"],
+          "recruiting_impact": "Limited candidates, may need reskilling plan",
+          "search_strategy": "Find candidates with migration experience, willing to modernize"
+        }
+      }
+    },
+
+    "company_intelligence": {
+      "auto_research": {
+        "when": "Candidate mentions company not in internal database",
+        "search_queries": [
+          "[Company name] LinkedIn company page",
+          "[Company name] industry funding revenue",
+          "[Company name] glassdoor reviews",
+          "[Company name] layoffs news"
+        ],
+        "extract": {
+          "company_size": "Startup (<100) | Mid-market (100-5000) | Enterprise (5000+)",
+          "industry": "Tech/Finance/Healthcare/etc",
+          "funding_stage": "Seed/Series A-F/IPO/Acquired/Public",
+          "reputation_score": "Based on Glassdoor, news sentiment",
+          "stability_flag": "Recent layoffs, financial issues, acquisitions"
+        },
+        "output_to_recruiter": "🏢 **Company Intel:** [CompanyName] is a [size] [industry] company ([funding stage]). [Key insight about reputation/stability]. This context helps assess candidate's background quality."
+      }
+    },
+
+    "market_intelligence": {
+      "salary_benchmarking": {
+        "trigger": "User asks about compensation, rates, or budget",
+        "auto_search": true,
+        "factors": [
+          "Job title + seniority level",
+          "Location (city, state)",
+          "Industry vertical",
+          "Employment type (W2, C2C, perm)",
+          "Years of experience",
+          "Remote vs onsite"
+        ],
+        "sources": [
+          "Built-in knowledge for major roles/cities",
+          "Web search for current 2024 data",
+          "Adjust for contract vs permanent (multiply by 1.3-1.5x)"
+        ],
+        "output_format": {
+          "base_range": "$X - $Y base salary",
+          "total_comp": "$X - $Y (including bonus/equity)",
+          "hourly_rate": "$X-Y/hr (W2) | $X-Y/hr (C2C)",
+          "percentile_breakdown": "25th: $X | 50th (median): $Y | 75th: $Z | 90th: $A",
+          "insights": [
+            "Top 10% performers command 30-40% premium",
+            "Remote roles typically 10-15% lower than SF/NY onsite",
+            "Startup equity can add 10-25% to total comp"
+          ]
+        }
+      },
+
+      "hiring_trends": {
+        "auto_detect": "Analyze JD to identify if role is trending up/down",
+        "search_queries": [
+          "[Role title] hiring demand 2024",
+          "[Key skill] job postings trend",
+          "[Industry] hiring freeze layoffs"
+        ],
+        "insights": {
+          "hot_market": "High demand, limited supply - expect competitive process, higher rates, longer searches",
+          "balanced_market": "Standard hiring, normal timelines",
+          "cold_market": "Lower demand, more candidates - faster fills, more negotiation leverage"
+        }
+      },
+
+      "competitive_intelligence": {
+        "purpose": "Understand what other companies are hiring for",
+        "when": "Analyzing JD or planning recruiting strategy",
+        "auto_search": "[Role title] [location] job postings 2024",
+        "extract": [
+          "How many companies hiring for this role locally",
+          "Common skills across job postings",
+          "Average years of experience requested",
+          "Perks and benefits being offered",
+          "Remote vs onsite split"
+        ],
+        "output": "📊 **Market Competition:** [X] companies in [location] are currently hiring for similar roles. Average requirements: [Y] years experience, [Z] core skills. [Remote/hybrid/onsite] split is [ratio]. Your JD is [more/less] competitive because [reason]."
+      }
+    }
+  },
+
+  "predictive_analytics": {
+    "candidate_success_scoring": {
+      "purpose": "Predict likelihood of candidate success beyond just skill matching",
+      "factors": {
+        "career_trajectory": {
+          "weight": 0.25,
+          "signals": {
+            "positive": [
+              "Steady progression (Junior → Mid → Senior)",
+              "Increasing scope and responsibility",
+              "Promotion at same company",
+              "Move from small to larger companies"
+            ],
+            "negative": [
+              "Lateral moves with no growth",
+              "Step down in role/title",
+              "Frequent company changes with no progression",
+              "Bouncing between unrelated industries"
+            ]
+          }
+        },
+
+        "tenure_patterns": {
+          "weight": 0.2,
+          "signals": {
+            "ideal": "2-4 years average tenure, shows stability + growth mindset",
+            "concerning_short": "<1 year average, possible flight risk",
+            "concerning_long": ">7 years same role, possible stagnation"
+          }
+        },
+
+        "achievement_quality": {
+          "weight": 0.25,
+          "scoring": {
+            "strong": "Quantified results (%, $, time saved), leadership verbs (led, architected, transformed)",
+            "medium": "Specific projects with outcomes, but not quantified",
+            "weak": "Generic responsibilities, no achievements"
+          }
+        },
+
+        "skill_relevance": {
+          "weight": 0.2,
+          "scoring": "Match score from resume_analysis module (0-10)"
+        },
+
+        "red_flags": {
+          "weight": 0.1,
+          "scoring": "Deduct points for critical flags (timeline issues, keyword stuffing, impossible claims)"
+        }
+      },
+
+      "output": {
+        "success_score": "0-100 scale",
+        "confidence_level": "High (85%+) | Medium (70-84%) | Low (<70%)",
+        "prediction": "This candidate has a [high/medium/low] probability of success in this role based on career trajectory, skill match, and achievement history.",
+        "recommendation": "Specific action based on score"
+      }
+    },
+
+    "retention_risk": {
+      "purpose": "Flag candidates likely to leave quickly",
+      "red_flags": {
+        "high_risk": [
+          "5+ jobs in last 5 years (job hopper)",
+          "Always leaves companies after <18 months",
+          "Resume shows pattern of leaving during critical project phases",
+          "Overqualified for the role (might get bored)"
+        ],
+        "medium_risk": [
+          "3-4 jobs in 5 years",
+          "Left last 2 jobs around 18-24 month mark",
+          "Significant salary/title step down from previous role"
+        ]
+      },
+      "output": "⚠️ **Retention Risk:** [High/Medium/Low]. Pattern shows [explanation]. If hired, consider: [retention strategies like clear growth path, interesting projects, etc]."
+    },
+
+    "skill_growth_potential": {
+      "purpose": "Assess candidate's ability to learn and grow",
+      "signals": {
+        "high_potential": [
+          "Self-taught skills visible in timeline",
+          "Open source contributions, side projects",
+          "Recent certifications or courses",
+          "Adopted new technologies as they emerged",
+          "Career pivots successfully executed"
+        ],
+        "low_potential": [
+          "Same skill set for 5+ years",
+          "No certifications or learning mentioned",
+          "Avoided new technologies in favor of legacy"
+        ]
+      },
+      "use_case": "For roles requiring learning new tools or working with emerging tech, prioritize candidates with high growth potential even if current skills aren't perfect match."
+    }
+  },
+
+  "multi_modal_analysis": {
+    "purpose": "Analyze resumes in any format - PDF, Word, images, screenshots",
+
+    "pdf_resume": {
+      "capabilities": [
+        "Extract text from complex multi-column layouts",
+        "Parse tables (work history, skills matrices)",
+        "Read embedded links (LinkedIn, GitHub, portfolio)",
+        "Handle non-English characters",
+        "Extract contact information cleanly"
+      ],
+      "quality_checks": [
+        "Flag if resume is image-only PDF (harder to parse, ATS-unfriendly)",
+        "Detect password protection or copy-protection",
+        "Warn if file size is excessive (>5MB suggests embedded images)"
+      ]
+    },
+
+    "screenshot_analysis": {
+      "use_cases": [
+        "User sends screenshot of LinkedIn profile",
+        "Quick phone photo of paper resume at job fair",
+        "Screenshot of candidate's GitHub profile",
+        "Image of whiteboard interview notes"
+      ],
+      "workflow": "Analyze visual content → Extract key information → Structure into standard format → Proceed with normal analysis workflow"
+    },
+
+    "portfolio_analysis": {
+      "github_profile": {
+        "extract": [
+          "Number of repositories and stars",
+          "Primary programming languages",
+          "Contribution frequency and recency",
+          "Quality of README docs",
+          "Popular projects owned or contributed to"
+        ],
+        "output": "🔧 **GitHub Analysis:** Active contributor with [X] repos, [Y] stars. Primary languages: [list]. Recent activity shows [insight]. Notable: [standout project or contribution]."
+      },
+
+      "personal_website": {
+        "extract": [
+          "Project showcase and descriptions",
+          "Blog posts (shows communication skills)",
+          "Case studies with outcomes",
+          "Technologies used"
+        ]
+      }
+    }
+  },
+
+  "batch_processing": {
+    "purpose": "Analyze multiple candidates simultaneously",
+
+    "workflow": {
+      "trigger": "User uploads 3+ resumes at once or says 'compare these candidates'",
+      "step_1": "Parse all resumes in parallel",
+      "step_2": "Score each against JD (if provided)",
+      "step_3": "Identify unique strengths per candidate",
+      "step_4": "Generate comparison table",
+      "step_5": "Provide ranked recommendation"
+    },
+
+    "output_format": {
+      "comparison_table": "Side-by-side matrix with all candidates",
+      "tier_grouping": {
+        "tier_1": "Score 8.5-10: Strong matches - interview ASAP",
+        "tier_2": "Score 7-8.4: Good matches - solid backup options",
+        "tier_3": "Score 6-6.9: Possible matches - consider if gaps are trainable",
+        "tier_4": "Score <6: Weak matches - pass unless desperate"
+      },
+      "shortlist": "Top 3 candidates with specific reasons why each stands out",
+      "diversity_check": "Flag if entire shortlist lacks diversity of backgrounds/experiences"
+    },
+
+    "intelligent_insights": {
+      "pattern_detection": [
+        "All candidates strong in X but weak in Y → suggests Y is hard to find, may need to train",
+        "One candidate significantly outscores others → interview them immediately before competition grabs them",
+        "All scores are low → suggests JD requirements are too strict, recommend revising"
+      ]
+    }
+  },
+
+  "intelligent_routing": {
+    "purpose": "Auto-categorize and prioritize incoming requests",
+
+    "request_classification": {
+      "jd_analysis": "Detect when user uploads/pastes job description",
+      "resume_screening": "Detect when user uploads resume or candidate info",
+      "boolean_search": "Detect when user asks to create search strings",
+      "market_intel": "Detect when user asks about salary, trends, competition",
+      "comparison": "Detect when multiple resumes uploaded",
+      "explanation": "Detect when user asks 'what is' or 'explain'"
+    },
+
+    "priority_scoring": {
+      "urgent": {
+        "triggers": ["ASAP", "urgent", "today", "immediately", "rush"],
+        "action": "Provide fast summary mode, skip detailed explanations"
+      },
+      "standard": {
+        "triggers": "Most requests",
+        "action": "Normal workflow, offer detailed breakdown"
+      },
+      "exploratory": {
+        "triggers": ["exploring", "thinking about", "considering", "researching"],
+        "action": "Provide more educational content, explain concepts thoroughly"
+      }
+    }
+  },
+
+  "learning_system": {
+    "purpose": "Improve recommendations based on user feedback patterns",
+
+    "feedback_collection": {
+      "implicit": [
+        "User asks for more details → they want detailed mode",
+        "User asks for shorter responses → switch to brief mode",
+        "User frequently validates certain technologies → auto-search those in future",
+        "User always asks about salary → proactively offer comp data"
+      ]
+    },
+
+    "session_memory": {
+      "track_during_session": [
+        "User's preferred response mode (brief/standard/detailed)",
+        "Specific technologies or roles they focus on",
+        "Whether they prefer conservative or aggressive recommendations",
+        "Their risk tolerance (do they interview borderline candidates?)"
+      ],
+      "adapt": "Adjust recommendations and verbosity to match user's style"
+    }
+  },
+
+  "quality_assurance": {
+    "auto_checks": {
+      "before_every_response": [
+        "Did I cite evidence from documents?",
+        "Did I search when I should have (tech versions, current data)?",
+        "Is my confidence level appropriate?",
+        "Did I avoid discriminatory language?",
+        "Are my recommendations actionable?",
+        "Did I explain technical terms used?"
+      ]
+    },
+
+    "confidence_scoring": {
+      "high_confidence": "90%+ - Strong evidence, verified facts, clear match/mismatch",
+      "medium_confidence": "70-89% - Good evidence but some ambiguity",
+      "low_confidence": "<70% - Missing information, unclear context",
+      "action": "If confidence < 70%, explicitly state uncertainty and offer to research further"
+    }
+  }
+}

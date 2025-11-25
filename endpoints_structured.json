@@ -1,0 +1,99 @@
+  {
+    "category": "Activity & Workflow",
+    "method": "GET",
+    "path": "/apiv2/bi/CancelledStarts",
+    "name": "CancelledStarts",
+    "description": "Cancelled Starts",
+    "parameters": [
+      "toDate",
+      "candidateIds",
+      "fromDate"
+    ]
+  },
+  {
+    "category": "Authentication",
+    "method": "GET",
+    "path": "/apiv2/authenticate",
+    "name": "Authenticate",
+    "description": "",
+    "parameters": [
+      "password",
+      "clientid",
+      "username"
+    ]
+  },
+  {
+    "category": "Candidate Management",
+    "method": "GET",
+    "path": "/apiv2/bi/CandidateApplicationRecords",
+    "name": "CandidateApplicationRecords",
+    "description": "GET",
+    "parameters": [
+      "fileName",
+      "candidateId"
+    ]
+  },
+  {
+    "category": "Candidate Management",
+    "method": "GET",
+    "path": "/apiv2/bi/CandidateAttachmentDetail",
+    "name": "CandidateAttachmentDetail",
+    "description": "Get Candidate Attachment Detail",
+    "parameters": [
+      "fileName",
+      "candidateId"
+    ]
+  },
+  {
+    "category": "Other",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedEmployeeRecords",
+    "name": "NewUpdatedEmployeeRecords",
+    "description": "GET",
+    "parameters": [
+      "toDate",
+      "resumeIds",
+      "fromDate"
+    ]
+  },
+  {
+    "category": "Other",
+    "method": "GET",
+    "path": "/apiv2/bi/NewUpdatedEVerify",
+    "name": "NewUpdatedEVerify",
+    "description": "New/Updated E-Verify",
+    "parameters": [
+      "toDate",
+      "resumeIds",
+      "fromDate"
+    ]
+  },
+  {
+    "category": "Other",
+    "method": "GET",
+    "path": "/apiv2/bi/NonCompletedOnboardingPackages",
+    "name": "NonCompletedOnboardingPackages",
+    "description": "GET",
+    "parameters": [
+      "toDate",
+      "resumeIds",
+      "fromDate"
+    ]
+  },
+  {
+    "category": "Candidate Management",
+    "method": "GET",
+    "path": "/apiv2/bi/OnBoardingDocumentsbyCandidate",
+    "name": "OnBoardingDocumentsbyCandidate",
+    "description": "GET",
+    "parameters": [
+      "toDate",
+      "resumeIds",
+      "fromDate"
+    ]
+  },
+  {
+    "category": "Candidate Management",
+    "method": "GET",
+    "path": "/apiv2/bi/RedactedCandidatesRecords",
+    "name": "RedactedCandidatesRecords",

@@ -1,0 +1,980 @@
+# ARK BOOLEAN ENGINE
+
+## SOURCE: ark-boolean-engine-v1.json
+module_name: Boolean String Engine Framework v1.0
+purpose: Deterministic, recruiter-grade Boolean search string generation for US IT recruitment
+version: 1.0
+design_philosophy: Zero hallucination, deterministic behavior, human-readable output
+core_principles:
+  recruiter_grade_output: Strings must look like something a senior sourcer would write
+  deterministic_behaviour: Same input produces same structure every time
+  zero_hallucination_policy: Never invent technologies or skills not present or clearly implied in JD
+  platform_awareness: Support both generic (no wildcards) and advanced (wildcards) platforms
+  no_location_injection: Locations only added when explicitly requested
+  human_and_machine_readable: Easy for recruiters to tweak, parseable programmatically
+concept_buckets:
+  purpose: Group related terms into search axes
+  bucket_types:
+    TITLES:
+      description: Primary and alternate job titles
+      priority: MUST
+      examples:
+        - Software Engineer
+        - Developer
+        - Programmer
+    CORE_TECH:
+      description: Main technologies and skills that must be present
+      priority: MUST
+      examples:
+        - Java
+        - Python
+        - AWS
+        - Kubernetes
+    PLATFORMS:
+      description: Tools, frameworks, environments, or suites
+      priority: STRONG
+      examples:
+        - Azure
+        - Office 365
+        - ServiceNow
+        - Salesforce
+    ACCESS_SECURITY:
+      description: Identity, access, and security related terms
+      priority: STRONG
+      examples:
+        - Active Directory
+        - SSO
+        - MFA
+        - password reset
+    DOMAIN:
+      description: Industry, business area, or domain keywords
+      priority: OPTIONAL
+      examples:
+        - healthcare
+        - finance
+        - government
+        - retail
+    SOFT_FILTERS:
+      description: Seniority, leadership, certifications, soft skills
+      priority: OPTIONAL
+      includes:
+        - senior
+        - lead
+        - architect
+        - certified
+        - leadership
+      usage: Only when explicitly requested
+    EXCLUSIONS:
+      description: Terms to exclude using NOT
+      priority: N/A
+      usage: Only when user explicitly provides exclusion terms
+variant_generation:
+  purpose: Generate controlled variants for each term while maintaining quality
+  variant_types:
+    exact_base_term:
+      rule: Always include the original term as written
+      example: support → 'support'
+    morphological_variants:
+      when: wildcards_allowed = false
+      rules:
+        verbs:
+          expand_to:
+            - base
+            - past_tense
+            - present_participle
+          examples:
+            support:
+              - support
+              - supported
+              - supporting
+            administer:
+              - administer
+              - administered
+              - administering
+              - administration
+            configure:
+              - configure
+              - configured
+              - configuring
+              - configuration
+        nouns:
+          expand_to:
+            - singular
+            - plural
+            - related_forms
+          examples:
+            analyst:
+              - analyst
+              - analysts
+              - analysis
+            engineer:
+              - engineer
+              - engineers
+              - engineering
+      max_variants: 5
+      quality_check: Only natural, commonly-seen forms
+    tech_spelling_variants:
+      purpose: Handle dotted, spaced, or hyphenated technology names
+      dot_separated:
+        rule: Generate: original, dot+space, space only, concatenated
+        examples:
+          ASP.NET:
+            - ASP.NET
+            - ASP .NET
+            - ASP NET
+            - ASPNET
+          VB.NET:
+            - VB.NET
+            - VB .NET
+            - VB NET
+            - VBNET
+          C#.NET:
+            - C#.NET
+            - C# .NET
+            - C# NET
+        max_variants: 4
+      hyphenated:
+        rule: Generate: hyphenated, space only
+        examples:
+          client-server:
+            - client-server
+            - client server
+          front-end:
+            - front-end
+            - front end
+            - frontend
+          back-end:
+            - back-end
+            - back end
+            - backend
+        max_variants: 3
+      symbols:
+        rule: Expand well-known symbols to textual equivalents
+        mappings:
+          C#:
+            - C#
+            - C Sharp
+            - CSharp
+          C++:
+            - C++
+            - C Plus Plus
+            - CPlusPlus
+          .NET:
+            - .NET
+            - dot NET
+            - dotNET
+        caveat: Only when symbol appears in JD or is requested
+    abbreviation_pairs:
+      purpose: Include both full name and acronym for common terms
+      pairs:
+        Multi Factor Authentication:
+          - Multi Factor Authentication
+          - Multi-Factor Authentication
+          - MFA
+        Single Sign On:
+          - Single Sign On
+          - Single Sign-On
+          - SSO
+        Active Directory:
+          - Active Directory
+          - AD
+        Lightweight Directory Access Protocol:
+          - LDAP
+          - Lightweight Directory Access Protocol
+        Office 365:
+          - Office 365
+          - O365
+          - Office365
+        Microsoft 365:
+          - Microsoft 365
+          - M365
+        Amazon Web Services:
+          - Amazon Web Services
+          - AWS
+        Google Cloud Platform:
+          - Google Cloud Platform
+          - GCP
+        Continuous Integration:
+          - Continuous Integration
+          - CI
+        Continuous Deployment:
+          - Continuous Deployment
+          - CD
+        Infrastructure as Code:
+          - Infrastructure as Code
+          - IaC
+        Software as a Service:
+          - Software as a Service
+          - SaaS
+        Platform as a Service:
+          - Platform as a Service
+          - PaaS
+      context_rules:
+        AD: Only use when Windows or identity context clearly present
+        CI: Only use when development/DevOps context present
+        CD: Only use when deployment context present (disambiguate from CD = compact disc)
+    case_handling:
+      rule: Case is usually not significant in resume search
+      action: Do not create separate variants only for capitalization
+      exception: Preserve original casing from JD for readability
+  wildcard_compression:
+    when: wildcards_allowed = true AND platform supports wildcards
+    safe_wildcards:
+      purpose: Compress related forms into wildcard patterns when unambiguous
+      rules:
+        - Only use wildcard when common root is clear and unambiguous
+        - Never create single or two-letter roots with wildcards
+        - Never use wildcards that could match irrelevant terms
+      approved_patterns:
+        support_family:
+          expanded:
+            - support
+            - supported
+            - supporting
+            - supportive
+          wildcard: support*
+        configure_family:
+          expanded:
+            - configure
+            - configured
+            - configuring
+            - configuration
+          wildcard: configur*
+        administer_family:
+          expanded:
+            - administer
+            - administered
+            - administering
+            - administration
+            - administrative
+          wildcard: administr*
+        develop_family:
+          expanded:
+            - develop
+            - developed
+            - developing
+            - developer
+            - development
+          wildcard: develop*
+      prohibited_patterns:
+        too_short:
+          - a*
+          - an*
+          - ad*
+          - in*
+        too_ambiguous:
+          - set*
+          - net*
+          - web*
+        reasoning: These match too many irrelevant terms
+synonym_policy:
+  purpose: Control which synonyms are introduced to prevent hallucination
+  allowed_synonyms:
+    explicit_in_jd:
+      rule: If synonym explicitly appears in JD, always include it
+      example: If JD says 'help desk or service desk', include both
+    industry_standard_equivalents:
+      rule: Only include very common and unambiguous equivalents
+      approved_synonym_sets:
+        help_desk_family:
+          primary: help desk
+          synonyms:
+            - helpdesk
+            - service desk
+            - desktop support
+          context_required: L1/L2 support, end user support
+        software_engineer_family:
+          primary: Software Engineer
+          synonyms:
+            - Software Developer
+            - Application Developer
+            - Programmer
+          context_required: Software development context
+        devops_engineer_family:
+          primary: DevOps Engineer
+          synonyms:
+            - Site Reliability Engineer
+            - SRE
+            - Platform Engineer
+            - Infrastructure Engineer
+          context_required: Infrastructure/automation context
+        data_engineer_family:
+          primary: Data Engineer
+          synonyms:
+            - ETL Developer
+            - Data Pipeline Engineer
+            - Analytics Engineer
+          context_required: Data engineering context
+        system_administrator_family:
+          primary: System Administrator
+          synonyms:
+            - Systems Administrator
+            - Sysadmin
+            - Systems Engineer
+          context_required: Infrastructure management context
+  prohibited_synonyms:
+    speculative_mappings: Do not map to adjacent but different roles without JD support
+    examples:
+      - Do not map 'help desk' to 'system administrator' without explicit JD language
+      - Do not map 'developer' to 'architect' without explicit JD language
+      - Do not map 'analyst' to 'engineer' without context
+  synonym_sources:
+    model_only:
+      description: Synonyms inferred by model following framework rules
+      use_when: No external library available
+      safety: Medium - model must strictly follow approved synonym sets
+    library_only:
+      description: Synonyms from provided skills/title library only
+      use_when: Maximum control required
+      safety: High - all synonyms pre-approved
+    hybrid:
+      description: Library as base, model adds only very common/unambiguous terms
+      use_when: Balance between control and flexibility
+      safety: Medium-high - library provides guardrails
+processing_pipeline:
+  purpose: Step-by-step algorithm for generating Boolean strings
+  step_1_parse_and_extract:
+    purpose: Identify all relevant elements from JD text
+    extraction_rules:
+      primary_role:
+        sources:
+          - JD title
+          - repeated in description
+          - header text
+        signals:
+          - Job Title:
+          - Position:
+          - Role:
+        action: Extract as primary title for TITLES bucket
+      must_have_technologies:
+        signals:
+          - required
+          - must have
+          - at least X years
+          - strong experience in
+          - expertise in
+          - proficient in
+          - mandatory
+        priority: MUST
+        action: Extract to CORE_TECH bucket
+      nice_to_have_technologies:
+        signals:
+          - nice to have
+          - plus
+          - bonus
+          - preferred
+          - advantageous
+          - a plus
+          - would be nice
+          - optional
+        priority: OPTIONAL
+        action: Extract to CORE_TECH bucket with OPTIONAL flag
+      platforms_and_ecosystems:
+        examples:
+          - Azure
+          - AWS
+          - GCP
+          - Office 365
+          - O365
+          - ServiceNow
+          - Salesforce
+          - SAP
+          - Oracle
+        action: Extract to PLATFORMS bucket
+      access_and_security:
+        keywords:
+          - password reset
+          - account unlock
+          - Active Directory
+          - SSO
+          - Single Sign On
+          - MFA
+          - Multi Factor Authentication
+          - LDAP
+          - authentication
+          - authorization
+          - identity management
+          - access control
+        action: Extract to ACCESS_SECURITY bucket
+      domain_context:
+        industries:
+          - healthcare
+          - payer
+          - provider
+          - hospital
+          - finance
+          - banking
+          - government
+          - public sector
+          - retail
+          - e-commerce
+        action: Extract to DOMAIN bucket if explicitly mentioned
+      explicit_exclusions:
+        signals:
+          - exclude
+          - not
+          - no
+          - must not
+        caveat: Distinguish between search exclusions (NOT terms) and job requirements ('no C2C')
+        action: Only add to EXCLUSIONS bucket if technical/role exclusions specified
+    output: Token list with metadata (text, bucket assignment, priority)
+  step_2_build_buckets:
+    purpose: Organize extracted tokens into concept buckets
+    bucket_schema:
+      name: string (TITLES, CORE_TECH, etc.)
+      terms: list of base terms
+      priority: MUST | STRONG | OPTIONAL
+      variants: list of expanded variants (computed in step 3)
+    assignment_logic:
+      TITLES: Role labels, job titles, position names
+      CORE_TECH: Technologies, programming languages, frameworks with MUST/OPTIONAL flags
+      PLATFORMS: Platform and suite names (Azure, AWS, Office 365, etc.)
+      ACCESS_SECURITY: Identity and access management terms
+      DOMAIN: Industry or business domain keywords
+      SOFT_FILTERS: Seniority, certifications (only if include_soft_skills = true)
+      EXCLUSIONS: NOT terms (only if provided)
+    deduplication: Remove duplicate terms across buckets before variant expansion
+    output: Bucket objects with assigned terms and priorities
+  step_3_expand_variants:
+    purpose: Generate controlled variants for each term in each bucket
+    algorithm:
+      - For each term in each bucket:
+      - 1. Preserve exact base term
+      - 2. Apply tech spelling variant rules if term contains dots/hyphens/symbols
+      - 3. Apply morphology expansion if wildcards_allowed = false
+      - 4. Apply wildcard compression if wildcards_allowed = true
+      - 5. Add approved synonyms if they meet policy
+      - 6. Deduplicate variants within term
+      - 7. Limit to max_variants_per_term (default: 5)
+    quality_checks:
+      - Ensure all variants are realistic and commonly seen
+      - Remove obviously redundant variants
+      - Sort variants alphabetically for deterministic output
+    output: Buckets with final term lists ready for Boolean construction
+  step_4_build_boolean_string:
+    purpose: Construct final Boolean search string from buckets
+    algorithm:
+      - 1. Filter out empty buckets
+      - 2. For each non-empty bucket:
+      -    a. Quote multi-word terms
+      -    b. Join all terms with OR
+      -    c. Wrap entire clause in parentheses
+      - 3. Join all bucket clauses with AND
+      - 4. If EXCLUSIONS bucket exists:
+      -    a. Build NOT clause
+      -    b. Append ' AND NOT (exclusion terms)'
+      - 5. Return single continuous line (no line breaks)
+    quoting_rules:
+      multi_word: Always quote terms with spaces
+      single_word: No quotes needed for single words
+      special_characters: Quote terms with dots, hyphens if platform requires
+      example: "help desk" vs helpdesk
+    output: Final Boolean string ready for use in search engine
+tech_spelling_variant_rules:
+  purpose: Canonical rules for expanding technology names with special characters
+  dot_separated_names:
+    rule: Generate 4 variants maximum
+    pattern:
+      - Original term (e.g., ASP.NET)
+      - Dot followed by space (ASP .NET)
+      - Space only (ASP NET)
+      - Concatenated (ASPNET)
+    examples:
+      ASP.NET:
+        - ASP.NET
+        - ASP .NET
+        - ASP NET
+        - ASPNET
+      VB.NET:
+        - VB.NET
+        - VB .NET
+        - VB NET
+        - VBNET
+      ADO.NET:
+        - ADO.NET
+        - ADO .NET
+        - ADO NET
+        - ADONET
+      C#.NET:
+        - C#.NET
+        - C# .NET
+        - C# NET
+  hyphenated_names:
+    rule: Generate 2-3 variants
+    pattern:
+      - Hyphenated form
+      - Space only form
+      - Concatenated (if commonly used)
+    examples:
+      client-server:
+        - client-server
+        - client server
+      front-end:
+        - front-end
+        - front end
+        - frontend
+      back-end:
+        - back-end
+        - back end
+        - backend
+      e-commerce:
+        - e-commerce
+        - e commerce
+        - ecommerce
+      multi-tenant:
+        - multi-tenant
+        - multi tenant
+        - multitenant
+  symbol_expansions:
+    rule: Expand symbols with well-known textual equivalents
+    mappings:
+      C#:
+        variants:
+          - C#
+          - C Sharp
+          - CSharp
+        context: Always include when C# appears
+      C++:
+        variants:
+          - C++
+          - C Plus Plus
+        context: Only expand 'C Plus Plus' if explicitly present or requested
+      F#:
+        variants:
+          - F#
+          - F Sharp
+          - FSharp
+        context: Functional programming context
+    prohibited: Do not create speculative expansions for non-standard symbols
+  abbreviation_pairs:
+    rule: Include both full form and acronym when both are industry standard
+    approved_pairs:
+      authentication_and_access:
+        Multi Factor Authentication:
+          - Multi Factor Authentication
+          - Multi-Factor Authentication
+          - MFA
+        Single Sign On:
+          - Single Sign On
+          - Single Sign-On
+          - SSO
+        Lightweight Directory Access Protocol:
+          - Lightweight Directory Access Protocol
+          - LDAP
+      platforms_and_suites:
+        Office 365:
+          - Office 365
+          - O365
+          - Office365
+        Microsoft 365:
+          - Microsoft 365
+          - M365
+        Amazon Web Services:
+          - Amazon Web Services
+          - AWS
+        Google Cloud Platform:
+          - Google Cloud Platform
+          - GCP
+        Elastic Kubernetes Service:
+          - Elastic Kubernetes Service
+          - EKS
+        Azure Kubernetes Service:
+          - Azure Kubernetes Service
+          - AKS
+      devops_and_infrastructure:
+        Continuous Integration:
+          - Continuous Integration
+          - CI
+        Continuous Deployment:
+          - Continuous Deployment
+          - CD
+        Continuous Delivery:
+          - Continuous Delivery
+          - CD
+        Infrastructure as Code:
+          - Infrastructure as Code
+          - IaC
+        Configuration Management:
+          - Configuration Management
+          - CM
+      windows_and_microsoft:
+        Active Directory:
+          - Active Directory
+          - AD
+        Group Policy:
+          - Group Policy
+          - GPO
+          - Group Policy Object
+        Distributed Component Object Model:
+          - Distributed Component Object Model
+          - DCOM
+        Internet Information Services:
+          - Internet Information Services
+          - IIS
+    context_requirements:
+      AD: Only use when Windows or identity context clearly present (avoid confusion with 'Advertisement')
+      CI: Only when development/DevOps context present
+      CD: Only when deployment context present (disambiguate from compact disc)
+output_format:
+  purpose: Define how results are presented to users
+  human_readable_bucket_preview:
+    purpose: Quick sanity check for recruiters before using Boolean
+    format: Bullet list showing each bucket and its terms
+    example:
+      - TITLES: "help desk analyst" OR "service desk analyst" OR "desktop support"
+      - CORE_TECH: "Windows 10" OR "Windows 11" OR "O365" OR "Office 365"
+      - ACCESS_SECURITY: "password reset" OR "account unlock" OR "Active Directory" OR "AD"
+    note: This preview is NOT used by search engine - only for human review
+  final_boolean_line:
+    purpose: Single continuous Boolean string ready for search engine
+    format: Single line, no breaks, parentheses around each bucket, AND between buckets
+    rules:
+      - Parenthesize each bucket clause
+      - Use OR between terms inside bucket
+      - Use AND between buckets
+      - Optionally append ' AND NOT (...)' for exclusions
+      - No locations unless explicitly requested
+      - No line breaks, tabs, or comments
+    example: ("help desk analyst" OR "service desk analyst" OR "desktop support") AND ("Windows 10" OR "Windows 11" OR "O365" OR "Office 365") AND ("password reset" OR "account unlock" OR "Active Directory" OR "AD")
+  optional_variants:
+    TIGHT_VERSION:
+      description: Fewer synonyms, only MUST terms
+      use_when: High precision required, willing to sacrifice volume
+      includes: TITLES + CORE_TECH (MUST only)
+    STANDARD_VERSION:
+      description: Balanced - MUST + STRONG terms
+      use_when: Default mode for most searches
+      includes: TITLES + CORE_TECH (MUST + STRONG) + PLATFORMS + ACCESS_SECURITY
+    WIDE_VERSION:
+      description: More synonyms, tense variants, wildcards if allowed
+      use_when: Maximum volume needed, willing to trade some precision
+      includes: All buckets including OPTIONAL terms, full variant expansion
+search_modes:
+  purpose: Support different sourcing workflows and strategies
+  priority_tagging:
+    MUST: Absolutely required to keep search on target
+    STRONG: Highly desirable, but can be dropped for volume
+    OPTIONAL: Nice to have, primarily for enrichment or later stages
+  mode_definitions:
+    STANDARD:
+      description: Single well-balanced Boolean for day-to-day usage
+      includes: All MUST items + selected STRONG items
+      output: One Boolean string
+      use_case: Default mode for most recruiting searches
+    STAGED:
+      description: Three queries from same buckets for progressive sourcing
+      outputs:
+        STAGE_1_CORE:
+          includes: Only MUST terms across TITLES + CORE_TECH
+          goal: Tight, high quality, smaller volume
+          use_case: Initial search for perfect matches
+        STAGE_2_EXPANDED:
+          includes: MUST + STRONG terms, optional DOMAIN filter
+          goal: Balanced quality and volume
+          use_case: Second pass if Stage 1 insufficient
+        STAGE_3_BROAD:
+          includes: MUST + STRONG + selected OPTIONAL synonyms and wildcards
+          goal: Maximum volume, cast wide net
+          use_case: Final pass for hard-to-fill roles
+      output: Three Boolean strings with explanatory labels
+      use_case: Hard-to-fill roles requiring multiple sourcing passes
+    DISCOVERY:
+      description: Explore adjacent profiles and related roles
+      includes: Relaxed domain filters, more OPTIONAL synonyms, broader titles
+      caveat: Clearly label as BROAD query to avoid confusion
+      use_case: Market mapping, competitor analysis, exploring new talent pools
+location_policy:
+  default_behavior: Do NOT add locations by default
+  prohibited_by_default:
+    - cities
+    - states
+    - zip codes
+    - remote
+    - onsite
+    - hybrid
+  when_to_add_locations:
+    explicit_user_request: User says 'add Seattle' or 'include New York'
+    location_block_provided: User provides structured location clause
+    example_integration: AND (Seattle OR "San Francisco" OR Austin OR Remote)
+  location_formatting:
+    cities: Quote multi-word cities: "San Francisco", "New York"
+    states: Full name or abbreviation: California OR CA
+    remote: Include exactly as specified: Remote OR "Work from home" OR WFH
+exclusion_policy:
+  default_behavior: Do NOT invent exclusions
+  rule: NOT is only used when user explicitly provides exclusion terms
+  when_to_use_NOT:
+    explicit_user_exclusions: User says 'exclude junior' or 'no C2C'
+    clear_anti_pattern_in_jd: JD explicitly states 'not looking for contractors'
+    technical_exclusions: Exclude specific unwanted technologies if specified
+  exclusion_examples:
+    role_exclusions: AND NOT (junior OR intern OR entry)
+    tech_exclusions: AND NOT (WordPress OR Drupal)
+    work_type_exclusions: AND NOT (C2C OR corp-to-corp OR contractor)
+  prohibited: Never invent exclusions based on assumptions or 'typical' patterns
+synonym_governance:
+  purpose: Control synonym sources and prevent hallucination
+  configuration_modes:
+    model_only:
+      description: Model infers synonyms following framework rules
+      safety: Medium - requires strict adherence to approved synonym sets
+      use_when: No external library available
+    library_only:
+      description: Use only synonyms from provided library
+      safety: High - all synonyms pre-approved
+      use_when: Maximum control required, production systems
+      example_library_structure:
+        help_desk:
+          titles:
+            - Help Desk Analyst
+            - Service Desk Analyst
+            - Technical Support Specialist
+          skills:
+            - ticketing
+            - password reset
+            - Active Directory
+        asp_net:
+          tech:
+            - ASP.NET
+            - ASP .NET
+            - ASP NET
+            - ASPNET
+    hybrid:
+      description: Library as base, model adds only very common/unambiguous terms
+      safety: Medium-high - library provides guardrails
+      use_when: Balance between control and flexibility
+      rules:
+        - Prefer library terms over newly generated synonyms
+        - Model may add synonyms only if very common AND consistent with JD AND library
+        - Log when model adds terms not in library for audit
+  external_library_integration:
+    lookup_process:
+      - Parse JD to identify key roles and technologies
+      - Look up library keys matching identified terms
+      - Inject library entries into relevant buckets as high-confidence terms
+      - Detect conflicts (e.g., JD suggests help desk but library key is system administrator)
+      - Log which library entries were used for auditability
+decision_logging:
+  purpose: Explain WHY terms were included for transparency and trust
+  output_sections:
+    ASSUMPTIONS:
+      description: Short bullets about role interpretation
+      examples:
+        - Treated 'desktop support' as equivalent to 'service desk' based on L1 support context in JD
+        - Identified role as mid-level based on '3-5 years experience' requirement
+        - Interpreted 'cloud' as AWS/Azure/GCP based on mentioned technologies
+    INCLUSIONS:
+      description: Key design choices and why terms were added
+      examples:
+        - Included both 'Active Directory' and 'AD' because identity context is explicit
+        - Added 'O365' and 'Office 365' as platform term based on JD requirements
+        - Included morphological variants (support/supported/supporting) because wildcards not supported
+    EXCLUSIONS_REASONING:
+      description: Why certain potential terms were NOT added
+      examples:
+        - Did not include 'system administrator' title because JD explicitly end-user support focused
+        - Did not add 'Python' despite DevOps context - not mentioned in JD (zero hallucination policy)
+        - Did not include 'senior' keyword - no explicit seniority level in title or requirements
+    QUALITY_NOTES:
+      description: Warnings or suggestions for recruiter
+      examples:
+        - Query is broad - expect high volume results, recommend using TIGHT version first
+        - Only 2 core technologies specified - consider adding more filters for precision
+        - Strong title overlap with 'developer' and 'engineer' - results may be very similar
+  debug_mode:
+    purpose: Engineering and research use - return structured data
+    outputs:
+      raw_buckets: Buckets with term lists and priorities
+      source_tags: Each term tagged as 'from_JD', 'from_library', or 'from_model'
+      all_mode_booleans: Rendered Boolean for STANDARD, STAGED, DISCOVERY modes
+      variant_expansion_log: Show how each base term was expanded
+    format: JSON structure for programmatic processing
+quality_checks:
+  purpose: Guardrails to ensure output quality and prevent errors
+  length_and_term_limits:
+    configurable_parameters:
+      max_terms_per_bucket: 20
+      max_total_terms: 100
+      max_length_chars: 2000
+    when_limits_exceeded:
+      priority_based_dropping:
+        - Drop OPTIONAL terms first
+        - Then drop STRONG terms
+        - Preserve all MUST terms if possible
+        - Log what was dropped in decision log
+      alert: Warn user that query was truncated due to length limits
+  deduplication_and_overlap:
+    rules:
+      - Deduplicate identical terms across buckets
+      - Avoid obviously redundant variants (e.g., don't add 'asp dot net' if have ASP.NET and ASP .NET)
+      - Remove terms that are substrings of other terms in same bucket
+  sanity_checks:
+    pre_output_validations:
+      - Ensure at least one non-empty bucket present
+      - Ensure Boolean doesn't consist only of stop words or generic verbs
+      - Check for balanced parentheses
+      - Verify proper quote matching
+      - Confirm AND/OR/NOT operators used correctly
+    warnings:
+      extremely_broad: Warn if query is only titles with no tech filters
+      extremely_narrow: Warn if query has 10+ AND clauses likely to return zero results
+      no_tech_terms: Warn if CORE_TECH bucket is empty for technical role
+platform_profiles:
+  purpose: Adapt Boolean syntax for different search platforms
+  generic_profile:
+    name: Generic Resume DB / LinkedIn
+    wildcards_supported: false
+    proximity_operators: false
+    field_search: false
+    behavior: Expand all morphological variants explicitly
+  linkedin_recruiter_profile:
+    name: LinkedIn Recruiter
+    wildcards_supported: false
+    proximity_operators: false
+    field_search: true
+    special_features:
+      - title:
+      - company:
+      - location:
+    notes: Can use title: prefix for job title filtering
+  dice_profile:
+    name: Dice Job Board
+    wildcards_supported: true
+    proximity_operators: false
+    field_search: true
+    behavior: Use wildcards for morphological variants
+  indeed_profile:
+    name: Indeed
+    wildcards_supported: false
+    proximity_operators: false
+    field_search: true
+    behavior: Explicit expansion, supports some advanced operators
+  ats_generic_profile:
+    name: Generic ATS
+    wildcards_supported: false
+    proximity_operators: false
+    field_search: false
+    notes: Most ATS systems have limited Boolean support - use simple strings
+implementation_notes:
+  for_developers:
+    data_structures:
+      bucket_model:
+        fields:
+          - name
+          - terms
+          - priority
+          - variants
+        methods:
+          - add_term
+          - expand_variants
+          - render_clause
+      configuration_object:
+        fields:
+          - platform
+          - wildcards_allowed
+          - include_soft_skills
+          - include_nice_to_have
+          - strict_mode
+          - max_length
+    pipeline_functions:
+      - parse_input_to_tokens(text, params) -> tokens
+      - assign_tokens_to_buckets(tokens) -> buckets
+      - expand_variants(buckets, params) -> buckets_with_variants
+      - build_boolean(buckets_with_variants, params) -> string
+    determinism: Sort terms inside each bucket alphabetically before rendering
+    logging: Log extracted tokens and buckets for inspection and debugging
+    json_output: Option to output intermediate JSON describing buckets and terms
+usage_examples:
+  example_1_help_desk:
+    input:
+      jd_summary: Help desk or service desk profile, strong Windows and O365 support, must handle password resets and Active Directory account unlocks
+      config:
+        wildcards_allowed: false
+        include_nice_to_have: false
+    extraction:
+      titles:
+        - help desk analyst
+        - service desk analyst
+        - desktop support
+      core_tech:
+        - Windows 10
+        - Windows 11
+        - O365
+        - Office 365
+      access_security:
+        - password reset
+        - account unlock
+        - Active Directory
+        - AD
+    buckets:
+      TITLES:
+        - help desk analyst
+        - service desk analyst
+        - desktop support
+      CORE_TECH:
+        - Windows 10
+        - Windows 11
+        - O365
+        - Office 365
+      ACCESS_SECURITY:
+        - password reset
+        - account unlock
+        - Active Directory
+        - AD
+    output:
+      bucket_preview:
+        - TITLES: "help desk analyst" OR "service desk analyst" OR "desktop support"
+        - CORE_TECH: "Windows 10" OR "Windows 11" OR "O365" OR "Office 365"
+        - ACCESS_SECURITY: "password reset" OR "account unlock" OR "Active Directory" OR "AD"
+      final_boolean: ("help desk analyst" OR "service desk analyst" OR "desktop support") AND ("Windows 10" OR "Windows 11" OR "O365" OR "Office 365") AND ("password reset" OR "account unlock" OR "Active Directory" OR "AD")
+  example_2_devops_engineer:
+    input:
+      jd_summary: Senior DevOps Engineer, 5+ years experience, must have AWS, Kubernetes, Terraform, Docker, Jenkins. Nice to have: Python, Ansible, Prometheus
+      config:
+        wildcards_allowed: true
+        include_nice_to_have: true
+    extraction:
+      titles:
+        - DevOps Engineer
+        - Site Reliability Engineer
+        - SRE
+        - Platform Engineer
+      core_tech_must:
+        - AWS
+        - Amazon Web Services
+        - Kubernetes
+        - K8s
+        - Terraform
+        - Docker
+        - Jenkins
+      core_tech_nice:
+        - Python
+        - Ansible
+        - Prometheus
+      seniority:
+        - Senior
+        - Sr
+    buckets:
+      TITLES:
+        - DevOps Engineer
+        - Site Reliability Engineer
+        - SRE
+        - Platform Engineer
+      CORE_TECH:
+        - AWS
+        - Amazon Web Services
+        - Kubernetes
+        - K8s
+        - Terraform
+        - Docker
+        - Jenkins
+      NICE_TO_HAVE:
+        - Python
+        - Ansible
+        - Prometheus
+      SOFT_FILTERS:
+        - Senior
+        - Sr
+    output:
+      standard_version: ("DevOps Engineer" OR "Site Reliability Engineer" OR SRE OR "Platform Engineer") AND (AWS OR "Amazon Web Services" OR Kubernetes OR K8s OR Terraform OR Docker OR Jenkins)
+      wide_version: ("DevOps Engineer" OR "Site Reliability Engineer" OR SRE OR "Platform Engineer") AND (AWS OR "Amazon Web Services" OR Kubernetes OR K8s OR Terraform OR Docker OR Jenkins) AND (Python OR Ansible OR Prometheus OR Senior OR Sr)

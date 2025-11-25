@@ -1,0 +1,568 @@
+{
+  "module_name": "Fallback Logic & Resilience Patterns",
+  "purpose": "Ensure ARK Intelligence remains operational even when components fail",
+  "version": "2.0",
+
+  "core_principle": "Never leave the user empty-handed. Always provide value, even if degraded.",
+
+  "fallback_strategies": {
+    "data_source_fallbacks": {
+      "salary_data": {
+        "primary": {
+          "source": "Real-time web search (Google/Bing)",
+          "freshness": "Current (2024/2025 data)",
+          "accuracy": "High (multiple sources cross-referenced)",
+          "latency": "2-5 seconds"
+        },
+
+        "secondary": {
+          "source": "Cached web search results",
+          "freshness": "Up to 24 hours old",
+          "accuracy": "High (from previous searches)",
+          "latency": "<1 second",
+          "when": "Primary fails or rate limited"
+        },
+
+        "tertiary": {
+          "source": "Built-in salary database",
+          "freshness": "6-12 months old",
+          "accuracy": "Medium (may be outdated)",
+          "latency": "<1 second",
+          "when": "Primary and secondary fail",
+          "caveat": "Provide explicit warning: 'Based on data from [date], actual rates may be 10-20% higher. Recommend validating with recent sources.'"
+        },
+
+        "ultimate_fallback": {
+          "source": "General market knowledge + caveats",
+          "response": "'I don't have current salary data for this role. Based on general market trends, similar roles typically range $X-$Y, but I strongly recommend:\n1. Checking Glassdoor, Levels.fyi for current data\n2. Consulting with industry peers\n3. Using a compensation consultant'",
+          "when": "All data sources fail"
+        }
+      },
+
+      "company_information": {
+        "primary": {
+          "source": "Real-time web search (LinkedIn, company website, Crunchbase)",
+          "data": "Current employee count, funding, news, reputation"
+        },
+
+        "secondary": {
+          "source": "Cached company data (30 days)",
+          "when": "Primary fails"
+        },
+
+        "tertiary": {
+          "source": "Internal company database (periodically updated)",
+          "when": "Web search unavailable"
+        },
+
+        "ultimate_fallback": {
+          "response": "'I couldn't find detailed information about [Company]. Here's what I recommend:\n1. Check their LinkedIn company page\n2. Search Google News for recent coverage\n3. Review Glassdoor for employee sentiment\n4. Ask the candidate about the company during screening'",
+          "when": "No data available"
+        }
+      },
+
+      "technology_validation": {
+        "primary": {
+          "source": "Real-time web search (official docs, Wikipedia, GitHub)",
+          "data": "Release dates, versions, adoption stats"
+        },
+
+        "secondary": {
+          "source": "Built-in technology database (periodically updated)",
+          "when": "Web search fails",
+          "caveat": "Add disclaimer: 'Based on my training data (last updated Jan 2025). Please verify for critical decisions.'"
+        },
+
+        "ultimate_fallback": {
+          "response": "'I'm not certain about [technology]. To validate:\n1. Check official documentation/website\n2. Search GitHub for release history\n3. Verify with technical team member'",
+          "when": "No reliable data",
+          "action": "Flag for manual verification"
+        }
+      }
+    },
+
+    "functional_fallbacks": {
+      "resume_parsing": {
+        "primary": {
+          "method": "Advanced PDF parser with ML",
+          "quality": "High (handles complex layouts, tables, columns)"
+        },
+
+        "secondary": {
+          "method": "Standard PDF text extraction",
+          "quality": "Medium (handles simple layouts)",
+          "when": "Advanced parser fails or times out"
+        },
+
+        "tertiary": {
+          "method": "OCR (Optical Character Recognition)",
+          "quality": "Low (may have errors)",
+          "when": "Text extraction fails (image-based PDF)",
+          "caveat": "Warn user: 'Resume appears to be image-based. Parsing may be less accurate. Please review results carefully.'"
+        },
+
+        "ultimate_fallback": {
+          "method": "Manual mode - show user raw text, ask them to paste key info",
+          "response": "'Unable to parse this resume automatically. Please paste the key sections (Experience, Skills, Education) and I'll analyze from there.'",
+          "when": "All parsing methods fail"
+        }
+      },
+
+      "candidate_scoring": {
+        "primary": {
+          "method": "Full analysis with web search validation, skills adjacency, persona profiling",
+          "output": "Comprehensive score with 10+ dimensions"
+        },
+
+        "secondary": {
+          "method": "Standard analysis without web validation",
+          "output": "Basic score without real-time validation",
+          "when": "Web search unavailable",
+          "caveat": "Note: 'Analysis without real-time validation. Technology timelines not verified.'"
+        },
+
+        "tertiary": {
+          "method": "Simple keyword matching",
+          "output": "Basic yes/no match on required skills",
+          "when": "Full system unavailable",
+          "caveat": "Warn: 'Basic analysis only. Manual review recommended.'"
+        },
+
+        "ultimate_fallback": {
+          "method": "Provide analysis framework for manual scoring",
+          "response": "'System experiencing issues. Here's how to manually score:\n1. Check for core skills: [list]\n2. Verify experience level: [X] years\n3. Review achievements for [specific evidence]\n4. Score 0-10 based on match\nI'll assist with specific questions.'",
+          "when": "Complete system failure"
+        }
+      },
+
+      "boolean_string_generation": {
+        "primary": {
+          "method": "AI-generated with skills taxonomy, synonyms, market intelligence",
+          "output": "3 optimized strings (wide, focused, niche)"
+        },
+
+        "secondary": {
+          "method": "Template-based with keyword substitution",
+          "output": "Standard boolean strings without advanced optimization",
+          "when": "AI generation fails"
+        },
+
+        "tertiary": {
+          "method": "Provide boolean building blocks + examples",
+          "response": "'Here are the core skills and synonyms. Example boolean structure:\n(Title1 OR Title2) AND (Skill1 OR Skill2) AND Location\nYou can customize as needed.'",
+          "when": "Automation unavailable"
+        }
+      }
+    },
+
+    "integration_fallbacks": {
+      "ats_integration": {
+        "primary": {
+          "method": "Real-time API sync (webhook-triggered)",
+          "latency": "<5 seconds"
+        },
+
+        "secondary": {
+          "method": "Polling (check every 5 minutes)",
+          "latency": "Up to 5 minutes",
+          "when": "Webhooks down"
+        },
+
+        "tertiary": {
+          "method": "Manual sync (user clicks 'sync now')",
+          "latency": "On-demand",
+          "when": "Automated sync failing"
+        },
+
+        "ultimate_fallback": {
+          "method": "Export/import CSV",
+          "process": "ARK exports data → User uploads to ATS",
+          "when": "All API methods unavailable"
+        }
+      },
+
+      "email_automation": {
+        "primary": {
+          "method": "Direct API integration (Gmail/Outlook API)",
+          "features": "Send emails, track opens, sync to ATS"
+        },
+
+        "secondary": {
+          "method": "SMTP relay",
+          "features": "Send emails only (no tracking)",
+          "when": "API integration down"
+        },
+
+        "tertiary": {
+          "method": "Generate email draft, user sends manually",
+          "process": "ARK creates email → User copies to email client → Sends",
+          "when": "No automated sending available"
+        }
+      },
+
+      "slack_notifications": {
+        "primary": {
+          "method": "Real-time Slack webhook",
+          "when": "Strong candidate found, urgent alerts"
+        },
+
+        "secondary": {
+          "method": "Email notification instead",
+          "when": "Slack webhook failing"
+        },
+
+        "tertiary": {
+          "method": "In-app notification only",
+          "when": "All external notifications failing"
+        }
+      }
+    }
+  },
+
+  "resilience_patterns": {
+    "redundancy": {
+      "purpose": "Multiple ways to accomplish the same goal",
+
+      "data_redundancy": {
+        "multiple_sources": "Never rely on single data source",
+        "example": "Salary data from: Web search, cached data, built-in database",
+        "rule": "Always have 2+ fallback options"
+      },
+
+      "functional_redundancy": {
+        "multiple_methods": "Different ways to achieve same result",
+        "example": "Resume parsing: Advanced ML parser, standard text extraction, OCR, manual input",
+        "rule": "Degrade gracefully through progressively simpler methods"
+      },
+
+      "integration_redundancy": {
+        "multiple_channels": "Different ways to connect with external systems",
+        "example": "ATS sync: Real-time API, polling, manual sync, CSV export/import",
+        "rule": "Never make external dependency mandatory - always have manual fallback"
+      }
+    },
+
+    "caching_and_persistence": {
+      "purpose": "Store data to survive temporary outages",
+
+      "aggressive_caching": {
+        "what_to_cache": {
+          "web_search_results": "Cache for 1-24 hours depending on type",
+          "company_data": "Cache for 30 days",
+          "technology_info": "Cache for 90 days",
+          "API_responses": "Cache for 5-60 minutes",
+          "analysis_results": "Cache for 7 days (candidate may apply elsewhere)"
+        },
+
+        "cache_strategy": {
+          "write_through": "Update cache whenever fetching new data",
+          "read_through": "Check cache first, fetch if missing",
+          "ttl": "Time-to-live per data type",
+          "invalidation": "Clear cache on explicit user request or data age"
+        },
+
+        "when_to_use_cache": {
+          "proactively": "Always check cache first to save time/cost",
+          "fallback": "Use cache if primary source fails",
+          "offline_mode": "Rely heavily on cache if network unavailable"
+        }
+      },
+
+      "data_persistence": {
+        "local_storage": "Store user preferences, recent analyses, draft reports",
+        "session_storage": "Maintain state during session (survives page refresh)",
+        "database": "Persist all candidate data, analytics, audit logs",
+        "backups": "Daily backups to separate location"
+      }
+    },
+
+    "progressive_disclosure": {
+      "purpose": "Show what's available even if some features down",
+
+      "approach": {
+        "show_core": "Always show core functionality (resume analysis, JD breakdown)",
+        "show_degraded": "Show features with reduced capability: 'Email automation (manual send only)'",
+        "hide_broken": "Hide features completely unavailable: 'Slack notifications temporarily unavailable'",
+        "communicate": "Tell user what's working and what's not"
+      },
+
+      "example": {
+        "normal_state": "All features available",
+        "degraded_state": "Web search down → Show: 'Using cached data (3 hours old) - real-time validation unavailable'",
+        "minimal_state": "Only core features → Show: 'Providing basic analysis - advanced features temporarily unavailable'"
+      }
+    },
+
+    "circuit_breaker_pattern": {
+      "purpose": "Stop trying things that are consistently failing",
+
+      "states": {
+        "closed": {
+          "meaning": "Circuit is closed, requests flow normally",
+          "behavior": "All requests attempt to use service"
+        },
+
+        "open": {
+          "meaning": "Circuit is open, service is considered down",
+          "behavior": "All requests immediately use fallback (don't even try primary)",
+          "duration": "Stay open for 5 minutes"
+        },
+
+        "half_open": {
+          "meaning": "Testing if service recovered",
+          "behavior": "Allow 1 request through to test",
+          "outcomes": {
+            "success": "Close circuit, resume normal operations",
+            "failure": "Open circuit again for another 5 minutes"
+          }
+        }
+      },
+
+      "thresholds": {
+        "open_circuit_if": "5+ failures within 1 minute",
+        "retry_after": "5 minutes",
+        "close_circuit_if": "3 consecutive successes"
+      },
+
+      "example": {
+        "service": "LinkedIn API",
+        "scenario": "LinkedIn API returning errors repeatedly",
+        "action": "Open circuit after 5 failures → Stop calling LinkedIn → Use cached profile data → Test every 5 min → Resume when working"
+      }
+    },
+
+    "bulkhead_pattern": {
+      "purpose": "Isolate failures so they don't cascade",
+
+      "concept": "Like watertight compartments on a ship - if one floods, others stay dry",
+
+      "implementation": {
+        "separate_resources": "Don't let one feature's failure affect others",
+        "resource_pools": {
+          "web_search_pool": "Dedicated resources for web search",
+          "analysis_pool": "Dedicated resources for candidate analysis",
+          "integration_pool": "Dedicated resources for ATS/CRM sync",
+          "reporting_pool": "Dedicated resources for report generation"
+        },
+
+        "isolation": "If web search pool exhausted, analysis still works using cached data"
+      },
+
+      "example": {
+        "scenario": "Report generation consuming all resources",
+        "without_bulkhead": "Entire system slows down, all users affected",
+        "with_bulkhead": "Only report generation slow, candidate analysis unaffected"
+      }
+    },
+
+    "timeout_and_deadline": {
+      "purpose": "Don't wait forever - fail fast and move on",
+
+      "timeouts": {
+        "web_search": "5 seconds max",
+        "api_calls": "10 seconds max",
+        "resume_parsing": "30 seconds max",
+        "batch_processing": "5 minutes max",
+        "report_generation": "2 minutes max (then switch to async)"
+      },
+
+      "behavior_on_timeout": {
+        "abort": "Stop the operation",
+        "fallback": "Use alternative method (cached data, simpler approach)",
+        "async": "Move to background processing, notify user when complete",
+        "notify": "Tell user: 'Taking longer than expected, continuing in background'"
+      },
+
+      "deadline_propagation": {
+        "concept": "If upstream request has 10s deadline, downstream requests get shorter deadlines",
+        "example": "User request has 30s timeout → Web search gets 5s → API call gets 8s → Parsing gets 15s",
+        "benefit": "Ensures total operation completes within user's timeout"
+      }
+    },
+
+    "health_checks_and_monitoring": {
+      "purpose": "Detect failures early and route around them",
+
+      "continuous_health_checks": {
+        "what_to_monitor": {
+          "external_apis": "Ping every 60 seconds",
+          "internal_services": "Ping every 30 seconds",
+          "database": "Ping every 10 seconds",
+          "cache": "Ping every 30 seconds"
+        },
+
+        "health_metrics": {
+          "latency": "How fast is it responding?",
+          "error_rate": "What % of requests failing?",
+          "throughput": "How many requests per second?",
+          "saturation": "How close to capacity?"
+        },
+
+        "health_states": {
+          "healthy": "Latency <100ms, error rate <1%, plenty of capacity",
+          "degraded": "Latency 100-500ms, error rate 1-5%, approaching capacity",
+          "unhealthy": "Latency >500ms, error rate >5%, at/over capacity",
+          "down": "Not responding at all"
+        }
+      },
+
+      "adaptive_behavior": {
+        "when_healthy": "Use service normally",
+        "when_degraded": "Reduce request rate, use caching more aggressively",
+        "when_unhealthy": "Use fallback immediately, don't even try primary",
+        "when_down": "Circuit breaker open, full fallback mode"
+      }
+    },
+
+    "self_healing": {
+      "purpose": "Automatically recover from failures without human intervention",
+
+      "auto_recovery_actions": {
+        "retry_failed_operations": {
+          "what": "Operations that failed due to transient errors",
+          "how": "Retry with exponential backoff",
+          "max_retries": 5,
+          "example": "Failed to sync candidate to ATS → Retry 5 times → Queue for manual review if still failing"
+        },
+
+        "reset_connections": {
+          "what": "Database connections, API connections that are stale",
+          "how": "Close and reopen connection",
+          "when": "After 3 consecutive failures",
+          "example": "Database connection timeout → Close connection → Open new connection → Retry query"
+        },
+
+        "clear_corrupted_cache": {
+          "what": "Cached data that's causing errors",
+          "how": "Delete cache entry, fetch fresh data",
+          "when": "Cache entry causing repeated failures",
+          "example": "Cached search result returning errors → Clear cache → Fetch fresh data"
+        },
+
+        "restart_failed_components": {
+          "what": "Internal services that crashed",
+          "how": "Automatic restart (up to 3 times)",
+          "when": "Component becomes unresponsive",
+          "example": "Report generator crashed → Restart → Resume processing"
+        }
+      },
+
+      "gradual_recovery": {
+        "after_outage": "Don't immediately return to full capacity",
+        "ramp_up": {
+          "step_1": "Serve 10% of normal traffic for 2 minutes",
+          "step_2": "If stable, increase to 25% for 2 minutes",
+          "step_3": "If stable, increase to 50% for 2 minutes",
+          "step_4": "If stable, increase to 100%"
+        },
+        "benefit": "Prevents thundering herd problem, allows system to stabilize"
+      }
+    }
+  },
+
+  "testing_resilience": {
+    "purpose": "Verify fallbacks actually work before you need them",
+
+    "chaos_engineering": {
+      "concept": "Deliberately break things in controlled way to test resilience",
+
+      "tests_to_run": {
+        "kill_external_api": {
+          "test": "Simulate LinkedIn API down",
+          "expectation": "System uses cached data, analysis continues with caveat"
+        },
+
+        "slow_web_search": {
+          "test": "Simulate web search taking 30+ seconds",
+          "expectation": "Timeout after 5s, fallback to cached data"
+        },
+
+        "corrupt_resume": {
+          "test": "Upload malformed PDF",
+          "expectation": "Graceful error message + suggestion to try different format"
+        },
+
+        "database_timeout": {
+          "test": "Simulate database slow/unresponsive",
+          "expectation": "Timeout, retry, eventual error message if persistent"
+        },
+
+        "rate_limit_exceeded": {
+          "test": "Send 1000 requests in 1 minute",
+          "expectation": "Throttle kicks in, requests queued, clear message to user"
+        },
+
+        "network_partition": {
+          "test": "Simulate loss of internet connectivity",
+          "expectation": "Offline mode with cached data, clear indication of offline state"
+        }
+      },
+
+      "frequency": "Run chaos tests weekly in staging, monthly in production (carefully)"
+    },
+
+    "disaster_recovery_drills": {
+      "scenarios": {
+        "complete_system_outage": {
+          "test": "Simulate total system failure",
+          "expectation": "Status page updated, users notified, recovery time < 4 hours"
+        },
+
+        "data_corruption": {
+          "test": "Simulate database corruption",
+          "expectation": "Restore from backup, data loss < 1 hour"
+        },
+
+        "third_party_outage": {
+          "test": "All ATS APIs down",
+          "expectation": "Queue operations, resume automatically when services return"
+        }
+      },
+
+      "frequency": "Quarterly disaster recovery drills"
+    }
+  },
+
+  "user_communication": {
+    "purpose": "Keep users informed when things aren't working perfectly",
+
+    "status_indicators": {
+      "system_healthy": {
+        "indicator": "Green checkmark or no indicator",
+        "message": "None (everything working)"
+      },
+
+      "degraded_performance": {
+        "indicator": "Yellow warning icon",
+        "message": "'Some features running slower than usual. Using cached data where possible.'",
+        "details": "Click for details: 'Web search experiencing delays. Results may be up to 24 hours old.'"
+      },
+
+      "partial_outage": {
+        "indicator": "Orange warning icon",
+        "message": "'LinkedIn integration temporarily unavailable. All other features operational.'",
+        "details": "Link to status page with more info"
+      },
+
+      "major_outage": {
+        "indicator": "Red error banner",
+        "message": "'ARK Intelligence is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'",
+        "details": "Link to status page, support contact"
+      }
+    },
+
+    "proactive_communication": {
+      "before_user_notices": "If we detect issue, tell users before they encounter it",
+      "set_expectations": "Tell users what will/won't work",
+      "provide_alternatives": "Suggest workarounds or manual processes",
+      "keep_updated": "Update users as situation changes"
+    },
+
+    "transparency": {
+      "be_honest": "If something's broken, say so - don't hide behind vague messages",
+      "explain_impact": "Tell users how it affects them",
+      "share_timeline": "Give realistic estimate of when fixed (under-promise, over-deliver)",
+      "show_progress": "Update on recovery efforts"
+    }
+  }
+}

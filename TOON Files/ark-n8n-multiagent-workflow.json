@@ -1,0 +1,356 @@
+{
+  "name": "ARK Intelligence Multi-Agent Recruiter Copilot",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const jobDescription = $json.jobDescription || $json.job_description || '<PASTE JOB DESCRIPTION OR PIPE FROM UPSTREAM>';\nconst resume = $json.resume || $json.candidate_profile || '<PASTE RESUME OR PIPE FROM ATS>';\nconst userMessage = $json.user_message || $json.request || 'Provide a recruiter-ready fit assessment.';\nconst conversationGoal = $json.goal || 'Deliver actionable hiring intelligence and next-step recommendations.';\nreturn [{\n  json: {\n    jobDescription,\n    resume,\n    userMessage,\n    conversationGoal,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Collect Conversation Context",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const context = items[0].json;\nconst agents = [\n  { agentName: 'Core Foundation Brain', toonPath: 'archive-v2-json/ark-core-foundation.toon', purpose: 'the system nucleus that enforces guardrails, tone, and persona guidelines', outputKey: 'core_foundation' },\n  { agentName: 'Context & Resilience Sentinel', toonPath: 'archive-v2-json/ark-context-resilience.toon', purpose: 'monitors ambiguity, risk, and fallback strategies to keep the conversation stable', outputKey: 'context_resilience' },\n  { agentName: 'Analytics & Compliance Analyst', toonPath: 'archive-v2-json/ark-analytics-compliance.toon', purpose: 'surfaces analytics, compliance controls, and signal summaries', outputKey: 'analytics_compliance' },\n  { agentName: 'Boolean Strategy Engineer', toonPath: 'archive-v2-json/ark-boolean-engine.toon', purpose: 'creates boolean and semantic search plans to expand sourcing reach', outputKey: 'boolean_engine' },\n  { agentName: 'Enhancement Playbook Advisor', toonPath: 'archive-v2-json/ark-enhancements-guide.toon', purpose: 'recommends iterative improvements, tuning, and roadmap accelerators', outputKey: 'enhancements_guide' },\n  { agentName: 'Integrations & Search Orchestrator', toonPath: 'archive-v2-json/ark-integrations-search.toon', purpose: 'maps API/data integrations and web search fusion workflows', outputKey: 'integrations_search' },\n  { agentName: 'Intelligence Engines Architect', toonPath: 'archive-v2-json/ark-intelligence-engines.toon', purpose: 'designs reasoning loops, scoring matrices, and intelligence modules', outputKey: 'intelligence_engines' },\n  { agentName: 'Matching Suite Specialist', toonPath: 'archive-v2-json/ark-matching-suite.toon', purpose: 'evaluates JD-to-resume alignment and produces recruiter briefings', outputKey: 'matching_suite' },\n  { agentName: 'Operational Standards Lead', toonPath: 'archive-v2-json/ark-operational-standards.toon', purpose: 'enforces SOPs, QA criteria, and delivery formatting', outputKey: 'operational_standards' },\n  { agentName: 'Security & Feedback Monitor', toonPath: 'archive-v2-json/ark-security-feedback.toon', purpose: 'tracks safety, feedback routing, and escalation handling', outputKey: 'security_feedback' }\n];\nreturn agents.map(agent => ({\n  json: {\n    ...context,\n    ...agent\n  }\n}));"
+      },
+      "id": "3",
+      "name": "Initialize Agent Registry",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{$json[\"toonPath\"]}}",
+        "binaryPropertyName": "data"
+      },
+      "id": "4",
+      "name": "Read TOON Blueprint",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "source": "binary",
+        "destination": "json",
+        "binaryPropertyName": "data",
+        "dataPropertyName": "toonContent"
+      },
+      "id": "5",
+      "name": "Binary \u279c Text",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.map(item => {\n  const { agentName, purpose, jobDescription, resume, userMessage, conversationGoal, toonContent, toonPath, outputKey, timestamp } = item.json;\n  const promptMessages = [\n    {\n      role: 'system',\n      content: [\n        { type: 'text', text: `You are ${agentName}, ${purpose}. Follow the ARK Intelligence guardrails strictly.` },\n        { type: 'text', text: 'TOON OPERATING BLUEPRINT:\n' + toonContent }\n      ]\n    },\n    {\n      role: 'user',\n      content: [\n        { type: 'text', text: 'Primary Request:\n' + userMessage },\n        { type: 'text', text: 'Job Description:\n' + jobDescription },\n        { type: 'text', text: 'Candidate Profile:\n' + resume },\n        { type: 'text', text: 'Engagement Goal:\n' + conversationGoal },\n        { type: 'text', text: 'Timestamp:\n' + timestamp }\n      ]\n    }\n  ];\n  return {\n    json: {\n      agentName,\n      purpose,\n      jobDescription,\n      resume,\n      userMessage,\n      conversationGoal,\n      toonPath,\n      outputKey,\n      timestamp,\n      promptMessages\n    }\n  };\n});"
+      },
+      "id": "6",
+      "name": "Compose Agent Prompt",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "model": "gpt-4o-mini",
+        "messages": "={{$json[\"promptMessages\"]}}",
+        "options": {
+          "responseFormat": "json_object",
+          "temperature": 0.2
+        }
+      },
+      "id": "7",
+      "name": "Run Agent (OpenAI Chat)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        220
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine"
+      },
+      "id": "8",
+      "name": "Merge Agent Context",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.map(item => {\n  const completion = item.json.data?.choices?.[0]?.message?.content || item.json.choices?.[0]?.message?.content || item.json.response || '';\n  return {\n    json: {\n      agentName: item.json.agentName,\n      purpose: item.json.purpose,\n      outputKey: item.json.outputKey,\n      jobDescription: item.json.jobDescription,\n      resume: item.json.resume,\n      userMessage: item.json.userMessage,\n      conversationGoal: item.json.conversationGoal,\n      timestamp: item.json.timestamp,\n      agentResponse: completion\n    }\n  };\n});"
+      },
+      "id": "9",
+      "name": "Agent Output Formatter",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const agentReports = items.map(item => ({\n  agentName: item.json.agentName,\n  outputKey: item.json.outputKey,\n  purpose: item.json.purpose,\n  agentResponse: item.json.agentResponse\n}));\nconst base = items[0]?.json || {};\nreturn [{\n  json: {\n    jobDescription: base.jobDescription,\n    resume: base.resume,\n    userMessage: base.userMessage,\n    conversationGoal: base.conversationGoal,\n    timestamp: base.timestamp,\n    agentReports\n  }\n}];"
+      },
+      "id": "10",
+      "name": "Aggregate Agent Responses",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "model": "gpt-4o",
+        "messages": "=[\n  {\n    \"role\": \"system\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": \"You are the ARK Orchestrator. Fuse specialist agent outputs into one recruiter-ready intelligence package with explicit next steps.\" }\n    ]\n  },\n  {\n    \"role\": \"user\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": 'Primary Request: ' + $json.userMessage },\n      { \"type\": \"text\", \"text\": 'Job Description:\n' + $json.jobDescription },\n      { \"type\": \"text\", \"text\": 'Candidate Profile:\n' + $json.resume },\n      { \"type\": \"text\", \"text\": 'Agent Reports JSON:\n' + JSON.stringify($json.agentReports, null, 2) }\n    ]\n  }\n]",
+        "options": {
+          "responseFormat": "json_object",
+          "temperature": 0.1
+        }
+      },
+      "id": "11",
+      "name": "Orchestrator Synthesis (OpenAI)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 2,
+      "position": [
+        2580,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "const completion = item.json.choices?.[0]?.message?.content || item.json.data?.choices?.[0]?.message?.content || item.json.response || '';\\nconst agentReports = item.json.agentReports || [];\\nreturn [{\\n  json: {\\n    finalDeliverable: completion,\\n    agentReports,\\n    jobDescription: item.json.jobDescription || '',\\n    resume: item.json.resume || '',\\n    userMessage: item.json.userMessage || '',\\n    conversationGoal: item.json.conversationGoal || '',\\n    timestamp: item.json.timestamp || ''\\n  }\\n}];"
+      },
+      "id": "12",
+      "name": "Structure Final Output",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine"
+      },
+      "id": "13",
+      "name": "Merge Final Context",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [
+        2820,
+        460
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Collect Conversation Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Conversation Context": {
+      "main": [
+        [
+          {
+            "node": "Initialize Agent Registry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Agent Registry": {
+      "main": [
+        [
+          {
+            "node": "Read TOON Blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read TOON Blueprint": {
+      "main": [
+        [
+          {
+            "node": "Binary \u279c Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binary \u279c Text": {
+      "main": [
+        [
+          {
+            "node": "Compose Agent Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose Agent Prompt": {
+      "main": [
+        [
+          {
+            "node": "Run Agent (OpenAI Chat)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Agent Context",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Run Agent (OpenAI Chat)": {
+      "main": [
+        [
+          {
+            "node": "Merge Agent Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Agent Context": {
+      "main": [
+        [
+          {
+            "node": "Agent Output Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Output Formatter": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Agent Responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Agent Responses": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator Synthesis (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Final Context",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Orchestrator Synthesis (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Merge Final Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Final Context": {
+      "main": [
+        [
+          {
+            "node": "Structure Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "staticData": {},
+  "versionId": "eac2b1a8-3d26-47bb-9f46-arkmultiagent"
+}

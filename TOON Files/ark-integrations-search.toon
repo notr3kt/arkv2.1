@@ -1,0 +1,738 @@
+# ARK INTEGRATIONS SEARCH
+
+## SOURCE: ark-integrations-ecosystem.json
+module_name: Integrations & Ecosystem Connectors
+purpose: Connect ARK Intelligence with ATS, CRM, email systems, and other recruiting tools
+version: 2.0
+integration_philosophy:
+  approach: ARK Intelligence acts as an intelligent layer that enhances existing tools
+  principle: Don't replace recruiter's workflow - augment it with AI insights
+  goal: Make insights actionable within tools recruiters already use daily
+ats_integrations:
+  purpose: Connect with Applicant Tracking Systems for seamless workflow
+  common_ats_platforms:
+    greenhouse:
+      capabilities:
+        - Pull candidate data automatically
+        - Analyze resumes in Greenhouse pipeline
+        - Push ARK Intelligence scores back to candidate profiles
+        - Auto-tag candidates (e.g., 'ARK Score: 8.5', 'Strong Match', 'Missing: AWS')
+        - Generate interview questions and push to interview kits
+      workflow_example:
+        trigger: New candidate added to Greenhouse
+        step_1: Webhook notifies ARK Intelligence
+        step_2: ARK analyzes resume against job requirements
+        step_3: Pushes score, analysis, and tags back to Greenhouse
+        step_4: Recruiter sees ARK insights directly in candidate profile
+        step_5: One-click to request full report or interview questions
+      setup_guide:
+        authentication: Use Greenhouse API key (Harvest API)
+        permissions_needed:
+          - Read candidates
+          - Write tags/notes
+          - Read job posts
+        webhook_setup: Configure webhook for candidate.created and candidate.updated events
+        sync_frequency: Real-time via webhooks, batch every 4 hours for backlog
+    lever:
+      capabilities: Similar to Greenhouse - candidate analysis, scoring, tagging
+      api: Lever API v1
+      webhook_events:
+        - candidate_stage_change
+        - candidate_created
+    workday:
+      capabilities: Enterprise ATS integration
+      note: More complex - requires IT/admin support
+      api: Workday REST API
+      considerations:
+        - Slower API
+        - More security requirements
+        - May need dedicated integration team
+    generic_ats:
+      fallback: If ATS doesn't have API, use manual workflow
+      workflow:
+        - Export candidates from ATS (CSV or Excel)
+        - Upload to ARK Intelligence
+        - ARK analyzes in batch
+        - Returns scored/ranked list
+        - Recruiter manually updates ATS with insights
+  data_sync_formats:
+    candidate_profile:
+      minimum_required:
+        - Resume text or PDF
+        - Job ID
+        - Candidate ID
+      optional_but_useful:
+        - Source
+        - Application date
+        - Current stage
+        - Tags
+      output_to_ats:
+        score: 8.5/10
+        match_category: Strong Match
+        top_skills_matched:
+          - AWS
+          - Python
+          - Docker
+        skills_missing:
+          - Kubernetes
+        recommendation: PROCEED - Phone screen recommended
+        red_flags: None
+        full_report_link: [URL to detailed ARK analysis]
+crm_integrations:
+  purpose: Track candidate relationships and engagement
+  salesforce:
+    use_case: Track candidate as 'leads', nurture passive candidates
+    capabilities:
+      - Sync candidate profiles to Salesforce
+      - Track outreach attempts and responses
+      - Score candidates (hot/warm/cold)
+      - Trigger follow-up campaigns based on ARK scores
+      - Track candidate pipeline alongside sales pipeline
+    workflow:
+      passive_candidate_nurture:
+        - ARK identifies strong candidate who's not currently looking
+        - Pushes to Salesforce as 'Warm Lead'
+        - Triggers nurture email campaign (monthly check-ins)
+        - When candidate changes status, ARK re-scores and updates
+        - Alerts recruiter when candidate becomes active
+  hubspot:
+    use_case: Marketing automation for candidate engagement
+    capabilities:
+      - Email campaigns to candidate pools
+      - Track open rates and engagement
+      - Segment candidates by skills, score, location
+      - A/B test outreach messages
+      - Analyze which messaging converts best
+email_integrations:
+  purpose: Send ARK-generated communications directly from recruiter's email
+  gmail_outlook:
+    capabilities:
+      - Send ARK-generated outreach emails
+      - One-click to email candidate from ARK
+      - Auto-populate email with candidate name, role details
+      - Track opens and responses
+      - Sync sent emails back to ATS
+    templates:
+      initial_outreach: Use ark-communications.json templates, auto-personalized
+      follow_up: Smart follow-ups based on no response timeline
+      interview_scheduling: Auto-generate email with calendar links
+    safety_features:
+      always_show_preview: Never send email without recruiter review
+      redaction_check: Warn if internal info (rates, client names) in public email
+      compliance_check: Flag if email contains potentially discriminatory language
+  email_sequences:
+    purpose: Automated follow-up campaigns for candidate nurture
+    sequence_example_active_candidate:
+      day_0: Initial outreach with JD
+      day_3: Follow-up if no response
+      day_7: Final check-in + urgency (filling soon)
+      day_14: Archive or move to passive nurture
+    sequence_example_passive_candidate:
+      month_0: Introduction + we're watching your career
+      month_1: Share relevant content (blog, industry news)
+      month_3: Check-in + any career changes?
+      month_6: Specific opportunity that matches their profile
+calendar_integrations:
+  purpose: Simplify interview scheduling
+  calendly_chili_piper:
+    capabilities:
+      - Generate unique scheduling link per candidate
+      - Embed in outreach emails
+      - Auto-sync interviews back to ATS and recruiter calendar
+      - Send reminders to candidate and interviewer
+      - Reschedule handling
+    workflow: ARK identifies strong candidate → Generates phone screen email with Calendly link → Candidate books → Syncs to all systems → Reminder 24hr before
+  google_calendar_outlook:
+    capabilities:
+      - Check interviewer availability before suggesting times
+      - Create interview events with candidate details
+      - Attach ARK analysis report to calendar event
+      - Send interview prep materials to interviewers
+linkedin_integrations:
+  purpose: Enhance LinkedIn sourcing with ARK Intelligence
+  linkedin_recruiter:
+    workflow:
+      sourcing: Use ARK-generated boolean strings in LinkedIn Recruiter
+      quick_analysis: Copy-paste LinkedIn profile text → ARK analyzes → Get quick score
+      bulk_analysis: Export LinkedIn search results → Upload to ARK → Get ranked list
+      outreach: ARK generates personalized InMail based on profile
+    chrome_extension_idea:
+      concept: Browser extension that adds ARK button to LinkedIn profiles
+      functionality:
+        - Click ARK button on any LinkedIn profile
+        - Extension scrapes profile data
+        - Sends to ARK for analysis against active JDs
+        - Shows match score and insights in sidebar
+        - One-click to save to ATS or send outreach message
+data_export_formats:
+  purpose: Export ARK Intelligence data to various formats for use in other systems
+  csv_excel:
+    use_case: Bulk candidate data for analysis in Excel or Google Sheets
+    fields:
+      - Candidate Name
+      - Email
+      - Phone
+      - ARK Match Score
+      - Core Skills Match (%)
+      - Years of Experience
+      - Current Company
+      - Location
+      - Top Strengths
+      - Key Gaps
+      - Recommendation
+      - Red Flags
+      - Analysis Date
+  json_api:
+    use_case: For custom integrations and developers
+    endpoint_examples:
+      analyze_resume: POST /api/analyze
+      batch_analyze: POST /api/batch
+      get_candidate_score: GET /api/candidate/{id}
+      generate_boolean: POST /api/boolean
+      market_intelligence: GET /api/market/{role}/{location}
+    authentication: API key based, rate limited
+    response_format: JSON with detailed analysis objects
+  pdf_reports:
+    use_case: Professional reports to share with hiring managers
+    formats:
+      - Candidate Intelligence Report (full analysis)
+      - JD Analysis Report (skill breakdown, search strategy)
+      - Comparison Report (multiple candidates side-by-side)
+      - Pipeline Report (analytics dashboard)
+    branding: Include company logo and ARK Solutions branding
+slack_teams_integrations:
+  purpose: Bring ARK insights into team communication
+  slack_bot:
+    capabilities:
+      - Post new candidate alerts to recruiting channel
+      - Share top candidates of the week
+      - Answer questions: '@ark what skills do we need for DevOps role?'
+      - Get quick analysis: '@ark analyze [resume link]'
+      - Request reports: '@ark compare these 3 candidates'
+      - Market intel: '@ark what's the going rate for Senior React Developer in Austin?'
+    notifications:
+      strong_candidate_alert: 🎯 **Strong Match Found!** [Name] scored 9.2/10 for [Role]. View analysis: [link]
+      pipeline_updates: 📊 **Weekly Update:** 15 candidates reviewed, 3 phone screens, 1 offer. Top candidate: [Name]
+      red_flag_alert: 🚩 **Red Flag Detected:** Candidate [Name] has timeline inconsistency. Review recommended.
+    interactive_features:
+      buttons: Add buttons to candidate alerts: [View Full Report] [Schedule Interview] [Pass]
+      approvals: Hiring manager can approve/reject candidates directly in Slack
+      feedback: Collect quick feedback after interviews
+  microsoft_teams:
+    capabilities: Similar to Slack, adapted for Teams interface
+    adaptive_cards: Use Teams adaptive cards for rich candidate presentations
+zapier_make_integrations:
+  purpose: No-code automation for custom workflows
+  popular_zaps:
+    new_candidate_to_ark:
+      trigger: New candidate in ATS
+      action: Send to ARK Intelligence for analysis
+      result: Add ARK score as note in ATS
+    strong_match_notification:
+      trigger: ARK identifies candidate with score > 8.5
+      action: Send Slack message + Email to recruiter + Add to priority lane in ATS
+    jd_analysis_request:
+      trigger: New job requisition approved in workday
+      action: Send JD to ARK for analysis
+      result: Create boolean strings + Post to LinkedIn + Email recruiter with strategy
+    candidate_nurture:
+      trigger: Good candidate (7-8 score) but not hired
+      action: Add to HubSpot nurture campaign + Tag as future opportunity
+github_portfolio_analysis:
+  purpose: For technical roles, analyze candidate's code and contributions
+  integration:
+    input: GitHub username or profile URL
+    analysis:
+      - Number of repos and stars
+      - Primary languages and frameworks
+      - Contribution frequency (active vs dormant)
+      - Code quality indicators (README quality, tests, documentation)
+      - Collaboration (PRs, issues, reviews)
+      - Notable projects or popular repos
+    output: 🔧 **GitHub Analysis for [Username]:**
+• **Activity:** Active contributor (commits weekly)
+• **Primary Skills:** Python (60%), JavaScript (25%), Go (15%)
+• **Popular Projects:** [repo name] (234 stars) - [description]
+• **Quality Signals:** Good documentation, test coverage, active maintenance
+• **Collaboration:** 45 PRs to other projects, responsive to issues
+• **Assessment:** Skilled developer with strong open source presence, good communication
+
+**Recommendation:** GitHub profile validates resume claims. Strong signal for technical ability.
+video_interview_platforms:
+  purpose: Integrate with video interview tools
+  platforms:
+    hirevue: AI video interview analysis
+    spark_hire: One-way video interviews
+    zoom_teams: Live video interviews
+  integration_points:
+    pre_interview: Share ARK analysis report with interviewers beforehand
+    post_interview: Collect structured feedback and correlate with ARK predictions
+    analytics: Track if ARK scores correlate with interview performance
+compliance_audit_trail:
+  purpose: Track all ARK Intelligence actions for compliance and auditing
+  log_events:
+    - Resume analyzed (timestamp, user, candidate ID)
+    - Score generated (algorithm version, factors)
+    - Recommendation made (PASS/MAYBE/HOLD/REJECT)
+    - Red flags detected (type, severity)
+    - Reports generated (type, recipient)
+    - Data accessed (who, when, what)
+    - Bias checks performed (results)
+    - Web searches executed (query, results used)
+  audit_report:
+    purpose: Demonstrate fair and compliant hiring practices
+    includes:
+      - All candidates scored with same criteria
+      - No protected characteristics used in analysis
+      - Consistent methodology across candidates
+      - Bias detection performed
+      - Human reviewer made final decisions
+implementation_guide:
+  phase_1_manual:
+    timeline: Week 1
+    approach: Use ARK Intelligence manually without integrations
+    workflow:
+      - Copy-paste resumes and JDs into ARK
+      - Get analysis and recommendations
+      - Manually add insights to ATS
+      - Track results in spreadsheet
+    goal: Validate value before investing in integrations
+  phase_2_basic_automation:
+    timeline: Weeks 2-4
+    approach: Add simple automations using Zapier or email
+    workflow:
+      - Email resumes to ARK → Get automated analysis response
+      - Set up Slack notifications for high-scoring candidates
+      - Use CSV export to bulk update ATS weekly
+    goal: Save time on manual data entry
+  phase_3_full_integration:
+    timeline: Months 2-3
+    approach: Deep integration with ATS and recruiting stack
+    workflow:
+      - ATS webhook sends new candidates to ARK automatically
+      - ARK scores appear in ATS in real-time
+      - Recruiters work in ATS, see ARK insights inline
+      - Analytics dashboard pulls data from all systems
+    goal: Seamless workflow, recruiters never leave ATS
+security_privacy:
+  data_handling:
+    in_transit: All data encrypted with TLS 1.3
+    at_rest: Encrypted storage, SOC 2 compliant
+    retention: Candidate data retained 2 years or per company policy
+    deletion: Right to be forgotten - candidates can request deletion
+  access_control:
+    authentication: SSO (SAML) supported, MFA required
+    authorization: Role-based access (Admin, Recruiter, Read-only)
+    audit_log: All access logged for security review
+  compliance:
+    regulations:
+      - GDPR
+      - EEOC
+      - OFCCP
+      - CCPA
+    certifications: SOC 2 Type II (in progress), ISO 27001 (planned)
+    data_residency: US, EU, UK data centers available
+
+## SOURCE: ark-web-search-integration.json
+module_name: Web Search Integration & Real-Time Intelligence
+purpose: Always access the latest information from the web, validate data, and stay current
+version: 2.0
+core_principle: Never be outdated. Always search for latest information when accuracy and currency matter.
+when_to_search:
+  always_search_automatically:
+    technology_versions_and_dates:
+      examples:
+        - React 18 release date
+        - Kubernetes version history
+        - Python 3.12 features
+        - AWS service launch dates
+      why: Training data has cutoff, tech changes constantly
+      query_format: [Technology] [version] release date official
+      sources_to_trust:
+        - Official documentation
+        - GitHub releases
+        - Company blogs
+    current_market_data:
+      salary_and_compensation:
+        examples:
+          - Senior DevOps Engineer salary Austin 2024
+          - React developer hourly rate remote
+          - Data Scientist compensation San Francisco
+        why: Salaries change 10-15% annually, must be current
+        query_format: [Role] [level] salary|compensation [location] 2024|2025
+        sources_to_trust:
+          - Glassdoor
+          - Levels.fyi
+          - Indeed
+          - Payscale
+          - Bureau of Labor Statistics
+      hiring_trends:
+        examples:
+          - DevOps engineer hiring demand 2024
+          - AI/ML job market trends
+          - Remote work statistics 2025
+        why: Market conditions change quarterly
+        query_format: [Role/skill] hiring demand|job market [year]
+        sources_to_trust:
+          - LinkedIn Economic Graph
+          - Indeed Hiring Lab
+          - Industry reports
+    company_intelligence:
+      examples:
+        - Company X layoffs news
+        - Startup Y funding round
+        - Corporation Z acquisition
+      why: Company situations change rapidly
+      query_format: [Company name] news [recent|2024|layoffs|funding|acquisition]
+      sources_to_trust:
+        - LinkedIn company page
+        - Crunchbase
+        - TechCrunch
+        - Official press releases
+    api_and_tool_information:
+      examples:
+        - Greenhouse API latest version
+        - OpenAI GPT-4 API updates 2024
+        - Slack webhook deprecated features
+      why: APIs evolve, docs updated, features deprecated
+      query_format: [Tool] API [version|changelog|deprecation] latest
+      sources_to_trust:
+        - Official API documentation
+        - Developer blogs
+        - GitHub changelogs
+    certification_validity:
+      examples:
+        - AWS Solutions Architect certification expiration
+        - PMP certification renewal requirements
+        - Security+ certification validity period
+      why: Certification requirements change
+      query_format: [Certification name] expiration|validity|renewal requirements
+      sources_to_trust:
+        - Issuing organization website
+        - Official certification pages
+  search_if_uncertain:
+    industry_specific_practices:
+      examples:
+        - Healthcare IT compliance requirements
+        - Financial services hiring regulations
+        - Defense contractor clearance levels
+      trigger: If asked about industry-specific requirements and confidence <80%
+      query_format: [Industry] [requirement type] regulations|requirements [year]
+    regional_market_info:
+      examples:
+        - Tech hiring in Austin vs Seattle
+        - Remote work laws California
+        - H1B visa requirements 2024
+      trigger: When regional differences matter and data may be outdated
+      query_format: [Location] [topic] [year] latest
+    emerging_technologies:
+      examples:
+        - Large Language Models job roles
+        - Web3 developer skills needed
+        - Quantum computing career paths
+      trigger: When technology is new (<2 years) or rapidly evolving
+      query_format: [Technology] [aspect] current state|adoption|trends
+  can_use_built_in_knowledge:
+    established_concepts:
+      - What is Kubernetes?
+      - Explain Agile methodology
+      - What does a DevOps engineer do?
+    stable_technologies:
+      - Java programming language basics
+      - SQL database fundamentals
+      - HTTP protocol concepts
+    general_recruiting_principles:
+      - How to write a job description
+      - Interview best practices
+      - Candidate screening techniques
+    caveat: Even for built-in knowledge, if user asks about 'latest' or '2024/2025 specific', trigger web search
+search_query_optimization:
+  purpose: Craft queries that return most relevant, authoritative results
+  query_construction:
+    be_specific:
+      bad: React release date
+      good: React 18 release date official announcement
+      better: React 18 release date site:react.dev OR site:github.com/facebook/react
+    include_year:
+      bad: DevOps salary Austin
+      good: DevOps engineer salary Austin Texas 2024
+      why: Gets current data, not outdated articles from 2020
+    use_authoritative_sources:
+      technique: Add site: operator to focus on trusted sources
+      examples:
+        - site:react.dev React 18 features
+        - site:kubernetes.io version history
+        - site:levels.fyi software engineer salary
+        - site:glassdoor.com company reviews
+    use_synonyms_and_variations:
+      technique: Include OR operator for alternate terms
+      example: (salary OR compensation OR pay) "Senior DevOps Engineer" Austin
+      why: Different sources use different terminology
+    exclude_irrelevant:
+      technique: Use - operator to exclude noise
+      example: Python developer salary -snake -programming courses
+      why: Filters out unrelated results
+    time_constraints:
+      technique: Use after: or before: operators, or include year
+      examples:
+        - after:2023 Kubernetes trends
+        - React 18 2024
+        - last 12 months hiring statistics
+      why: Ensures fresh, current information
+  query_templates_by_use_case:
+    salary_research:
+      template: [Role] [Level] (salary OR compensation) [Location] (2024 OR 2025) (site:levels.fyi OR site:glassdoor.com OR site:payscale.com)
+      example: Senior DevOps Engineer salary Austin Texas 2024 site:levels.fyi OR site:glassdoor.com
+    technology_validation:
+      template: [Technology] [Version] release date (site:[official-site] OR site:wikipedia.org OR site:github.com)
+      example: React 18 release date site:react.dev OR site:github.com/facebook/react
+    company_research:
+      template: "[Company Name]" (funding OR layoffs OR news OR employees) (2024 OR 2025) (site:crunchbase.com OR site:linkedin.com OR site:techcrunch.com)
+      example: "Acme Corp" funding 2024 site:crunchbase.com OR site:techcrunch.com
+    api_documentation:
+      template: [Tool/Service] API (documentation OR reference OR latest version) site:[official-docs]
+      example: Greenhouse API documentation site:developers.greenhouse.io
+    market_trends:
+      template: [Skill/Role] (hiring demand OR job market OR trends) (2024 OR 2025) (site:linkedin.com OR site:indeed.com)
+      example: AI Engineer hiring demand 2024 site:linkedin.com
+result_processing:
+  purpose: Extract, validate, and synthesize search results into actionable insights
+  evaluation_criteria:
+    source_credibility:
+      tier_1_authoritative:
+        sources:
+          - Official documentation
+          - Company/technology official websites
+          - GitHub official repositories
+          - Government agencies (BLS, EEOC)
+          - Major tech companies (FAANG)
+        trust_level: High - use as primary source
+        example: React release date from react.dev → Highly trusted
+      tier_2_reputable:
+        sources:
+          - Glassdoor, Levels.fyi, Indeed (salary)
+          - TechCrunch, The Verge (tech news)
+          - LinkedIn (company info)
+          - Stack Overflow (technical info)
+          - Industry publications
+        trust_level: Medium-high - corroborate with other sources
+        example: Salary from Glassdoor → Check Levels.fyi for confirmation
+      tier_3_community:
+        sources:
+          - Reddit
+          - Medium blogs
+          - Personal blogs
+          - Forums
+          - Quora
+        trust_level: Low-medium - use for perspective, not facts
+        example: Career advice from Reddit → Treat as anecdote, not data
+      tier_4_untrusted:
+        sources:
+          - Content farms
+          - AI-generated spam sites
+          - Outdated or abandoned sites
+          - Promotional/marketing content
+        trust_level: Very low - avoid or heavily caveat
+        action: Discard or explicitly note low confidence
+    recency_check:
+      current:
+        age: 0-3 months old
+        action: Use without caveat
+        example: Article from December 2024 about 2024 trends → Current
+      recent:
+        age: 3-12 months old
+        action: Use with minor caveat if time-sensitive topic
+        example: Salary data from June 2024 (now January 2025) → Note 'as of mid-2024'
+      dated:
+        age: 1-2 years old
+        action: Use with explicit caveat, note may be outdated
+        example: Market analysis from 2023 → 'Based on 2023 data, trends may have shifted'
+      outdated:
+        age: >2 years old
+        action: Avoid unless historical context, strong caveat required
+        example: Salary data from 2022 → 'Outdated - actual 2024 salaries likely 15-20% higher'
+    consistency_check:
+      cross_reference: Check if multiple sources agree
+      consensus:
+        strong: 3+ authoritative sources agree → High confidence
+        moderate: 2 sources agree, 1 differs → Medium confidence, note variance
+        weak: Sources contradict → Low confidence, present multiple viewpoints
+      example:
+        query: React 18 release date
+        result_1: react.dev says March 29, 2022
+        result_2: GitHub release page says March 29, 2022
+        result_3: Wikipedia says March 2022
+        consensus: Strong - Multiple authoritative sources agree on March 29, 2022
+        confidence: Very high (95%+)
+  synthesis:
+    extract_key_facts:
+      what_to_extract:
+        - Specific dates
+        - Numerical data (salaries, percentages, counts)
+        - Direct quotes from authoritative sources
+        - Trends and patterns
+        - Consensus viewpoints
+      citation_format:
+        inline: According to [Source], [fact]
+        detailed: [Fact]. Source: [Source name] ([URL]), accessed [date]
+        example: React 18 was released on March 29, 2022 (Source: React official blog)
+    summarize_findings:
+      structure:
+        headline: One-sentence summary of finding
+        details: 2-3 supporting facts
+        source: Where information came from
+        confidence: How certain we are
+        recency: How current the data is
+      example:
+        headline: Senior DevOps Engineers in Austin earn $130k-$165k base salary (2024)
+        details:
+          - Glassdoor reports $135k median (1,234 salaries reported)
+          - Levels.fyi shows $130k-$165k range for 5-8 years experience
+          - Indeed reports similar range with $142k average
+        source: Glassdoor, Levels.fyi, Indeed (checked January 2025)
+        confidence: High - multiple sources agree
+        recency: Current (data from Q4 2024)
+    handle_conflicting_info:
+      acknowledge_disagreement: Don't hide conflicts - present them transparently
+      example:
+        query: Impact of AI on recruiting jobs
+        finding_1: LinkedIn report: AI will augment recruiters, not replace them
+        finding_2: Forbes article: 30% of recruiting jobs at risk from AI automation
+        synthesis: Views are mixed:
+- **Optimistic view:** AI will augment recruiters, handling admin work while humans focus on relationship-building (LinkedIn report)
+- **Cautious view:** 30% of recruiting jobs may be automated, particularly high-volume screening roles (Forbes)
+- **My take:** Reality likely in between - AI will change recruiting significantly, eliminate some roles, transform others, create new ones. Recruiters who adopt AI will have advantage.
+        confidence: Medium - conflicting expert opinions, outcome depends on factors (adoption rate, regulation, etc.)
+search_workflows:
+  quick_fact_check:
+    purpose: Validate single fact (e.g., release date)
+    steps:
+      - Formulate precise query
+      - Execute search
+      - Check top 3 results
+      - If consensus, return answer with source
+      - If conflict, dig deeper or note uncertainty
+    time_budget: 30 seconds
+    example: User claims React 18 in 2021 → Search 'React 18 release date' → Find March 2022 → Flag error
+  comprehensive_research:
+    purpose: Gather in-depth information (e.g., market analysis)
+    steps:
+      - Break down into specific questions
+      - Execute multiple targeted searches
+      - Gather data from diverse sources
+      - Cross-reference and validate
+      - Synthesize into cohesive report
+    time_budget: 2-5 minutes
+    example: What's the market for DevOps engineers in Austin? → Search: salaries, demand, competition, trends → Synthesize report
+  continuous_monitoring:
+    purpose: Stay updated on evolving topics
+    approach:
+      set_alerts: For critical topics (e.g., API changes)
+      periodic_refresh: Re-search monthly for market data
+      cache_with_ttl: Cache results but invalidate after X hours
+      proactive_updates: If major news, proactively inform users
+    example: Monitor Greenhouse API for changes → Alert users if breaking changes announced
+caching_strategy:
+  purpose: Reduce redundant searches, improve speed, lower costs
+  what_to_cache:
+    technology_facts:
+      example: React 18 release date
+      ttl: 90 days (unlikely to change)
+      invalidation: Manual only
+    salary_data:
+      example: DevOps salary in Austin
+      ttl: 7 days (changes slowly)
+      invalidation: Time-based or manual refresh
+    company_info:
+      example: Company X employee count
+      ttl: 30 days (moderate change rate)
+      invalidation: Time-based
+    market_trends:
+      example: AI hiring demand
+      ttl: 7-14 days (changes quarterly but articles don't)
+      invalidation: Time-based
+    api_documentation:
+      example: Greenhouse API reference
+      ttl: 24 hours (check daily for changes)
+      invalidation: Time-based + manual when notified of updates
+  cache_behavior:
+    read_pattern:
+      step_1: Check cache first
+      step_2: If found and not expired, return cached result
+      step_3: If expired or missing, execute search
+      step_4: Store new result in cache
+      step_5: Return result
+    update_pattern:
+      write_through: Update cache immediately when new data fetched
+      write_back: Batch cache updates for efficiency
+      invalidation: Remove expired entries daily
+    freshness_indicator:
+      show_age: Let user know if using cached data
+      example: 'Based on data cached 3 hours ago. Click to refresh for latest.'
+      auto_refresh_critical: For time-sensitive queries, always fetch fresh
+ethical_and_legal_considerations:
+  respect_robots_txt: Don't scrape sites that prohibit it
+  rate_limiting: Respect search engine rate limits (max 100/hour)
+  attribution: Always cite sources, don't plagiarize
+  privacy: Don't search for personal data without consent
+  terms_of_service: Follow Google/Bing ToS for programmatic access
+  prohibited_searches:
+    - Personal information about candidates (social media stalking)
+    - Protected class information (race, religion, age)
+    - Private company data (internal docs, salary of specific people)
+    - Illegal or unethical content
+quality_assurance:
+  before_returning_search_results:
+    checklist:
+      - [ ] Sources are credible (Tier 1 or 2)
+      - [ ] Data is recent (<6 months for time-sensitive topics)
+      - [ ] Multiple sources corroborate (if possible)
+      - [ ] Citations included
+      - [ ] Confidence level stated
+      - [ ] Caveats noted if uncertainty exists
+  red_flags_to_watch:
+    single_source: Only one source found → Lower confidence, note limited availability
+    old_data: All sources >1 year old → Strong caveat required
+    contradictions: Sources disagree → Present multiple viewpoints, note uncertainty
+    low_quality: Only Tier 3/4 sources → Avoid or caveat heavily
+integration_with_ark_intelligence:
+  automatic_triggering:
+    keywords_that_trigger_search:
+      - current
+      - latest
+      - 2024
+      - 2025
+      - what's the going rate
+      - how much should
+      - when was [tech] released
+      - is [tech version] the latest
+    contexts_that_trigger_search:
+      - Analyzing resume with recent tech claims → Validate dates
+      - Discussing compensation → Search current market rates
+      - Unknown company mentioned → Search company info
+      - API or tool question → Search latest documentation
+  seamless_integration:
+    user_perspective: Searches happen transparently in background
+    response_format: Include search results naturally in answer, cite sources
+    no_extra_steps: User doesn't need to ask for search - ARK does it automatically when needed
+  example_flow:
+    user_query: What should I pay a Senior React Developer in Seattle?
+    ark_action_1: Recognize this needs current salary data
+    ark_action_2: Auto-search: 'Senior React Developer salary Seattle 2024 site:levels.fyi OR site:glassdoor.com'
+    ark_action_3: Extract: $140k-$180k base salary
+    ark_action_4: Cross-reference with Indeed, Glassdoor
+    ark_action_5: Synthesize and respond
+    ark_response: 💰 **Market Rate - Seattle (2024):**
+
+Senior React Developers in Seattle earn:
+- **Base Salary:** $140k-$180k (median $158k)
+- **Total Comp:** $170k-$230k (including bonus + equity)
+- **Hourly Rate:** $80-105/hr (W2 contract)
+
+**Sources:** Levels.fyi (2,147 data points), Glassdoor (892 salaries), Indeed (current postings)
+**Data Currency:** Q4 2024 / January 2025
+**Confidence:** High (multiple authoritative sources agree)
+
+**Context:** Seattle tech market is competitive. Top 10% performers command $200k+ base. Remote positions typically 10-15% lower.
+
+Want me to break this down by company tier (FAANG vs startup vs mid-market)?

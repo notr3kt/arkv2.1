@@ -1,0 +1,499 @@
+{
+  "module_name": "Candidate Persona & Cultural Fit Analysis",
+  "purpose": "Deep behavioral analysis, work style assessment, and team fit prediction",
+  "version": "2.0",
+
+  "candidate_persona_profiling": {
+    "purpose": "Create psychological and behavioral profile from resume and communication patterns",
+
+    "career_archetype": {
+      "purpose": "Identify candidate's primary career driver and motivations",
+
+      "archetypes": {
+        "builder_creator": {
+          "signals": [
+            "Led greenfield projects",
+            "Founded or early employee at startups",
+            "Built systems from scratch",
+            "Uses words like: architected, designed, created, launched"
+          ],
+          "motivations": ["Autonomy", "Innovation", "Ownership", "Impact"],
+          "best_fit": "Startups, new initiatives, innovation labs, R&D roles",
+          "red_flags": "Large bureaucratic orgs, maintenance roles, strict processes",
+          "interview_focus": "Ask about their proudest creation, how they handle ambiguity",
+          "retention_strategy": "Give them greenfield projects, autonomy, visibility"
+        },
+
+        "optimizer_fixer": {
+          "signals": [
+            "Improved/optimized/reduced/streamlined existing systems",
+            "Turnaround roles",
+            "Cost savings and efficiency gains",
+            "Uses words like: optimized, reduced, improved, fixed, migrated"
+          ],
+          "motivations": ["Problem-solving", "Measurable impact", "Efficiency", "Recognition"],
+          "best_fit": "Scale-ups needing optimization, legacy modernization, operational roles",
+          "red_flags": "Greenfield projects with no constraints, pure research roles",
+          "interview_focus": "Ask about their biggest efficiency win, how they identify bottlenecks",
+          "retention_strategy": "Show them systems that need improvement, celebrate wins publicly"
+        },
+
+        "specialist_expert": {
+          "signals": [
+            "Deep expertise in narrow domain",
+            "Multiple certifications in same area",
+            "Long tenure focused on specific technology",
+            "Conference speaker, blog writer, open source contributor in niche",
+            "Uses words like: specialized, expert in, certified, mastered"
+          ],
+          "motivations": ["Mastery", "Recognition", "Teaching", "Technical depth"],
+          "best_fit": "Architecture roles, subject matter expert positions, technical leadership",
+          "red_flags": "Full-stack generalist roles, constant technology switching",
+          "interview_focus": "Go deep on their expertise, ask about edge cases and advanced scenarios",
+          "retention_strategy": "Give them complex technical challenges, speaking opportunities, mentorship roles"
+        },
+
+        "leader_multiplier": {
+          "signals": [
+            "Managed teams, led initiatives",
+            "Mentored others, grew team size",
+            "Cross-functional collaboration",
+            "Uses words like: led, managed, mentored, collaborated, aligned"
+          ],
+          "motivations": ["Impact through others", "Team growth", "Organizational change", "Strategy"],
+          "best_fit": "Management track, tech lead roles, team building scenarios",
+          "red_flags": "Pure IC roles with no collaboration, isolated work",
+          "interview_focus": "Ask about leadership philosophy, conflict resolution, team building",
+          "retention_strategy": "Clear path to management, leadership training, team ownership"
+        },
+
+        "explorer_learner": {
+          "signals": [
+            "Diverse tech stack exposure",
+            "Career pivots successfully executed",
+            "Recent certifications and courses",
+            "Side projects in new technologies",
+            "Uses words like: learned, explored, adopted, experimented"
+          ],
+          "motivations": ["Learning", "Variety", "Growth", "Challenge"],
+          "best_fit": "Innovation teams, consulting, roles with tech diversity",
+          "red_flags": "Maintenance of legacy systems, single-tech environments",
+          "interview_focus": "Ask about learning style, most exciting new tech, how they stay current",
+          "retention_strategy": "Rotation programs, conference attendance, learning budgets"
+        },
+
+        "stabilizer_guardian": {
+          "signals": [
+            "Long tenures at stable companies",
+            "Focus on reliability, uptime, security",
+            "Process improvement, documentation",
+            "Uses words like: maintained, ensured, secured, documented, standardized"
+          ],
+          "motivations": ["Stability", "Quality", "Reliability", "Processes"],
+          "best_fit": "Enterprise, operations, SRE, security, compliance roles",
+          "red_flags": "Fast-moving startups, move fast and break things culture",
+          "interview_focus": "Ask about handling critical incidents, risk management, documentation practices",
+          "retention_strategy": "Emphasize stability, quality focus, give them guardian roles"
+        }
+      },
+
+      "output_format": {
+        "primary_archetype": "The dominant career pattern (60%+)",
+        "secondary_archetype": "Supporting pattern (20-30%)",
+        "motivation_summary": "What drives this candidate based on their history",
+        "fit_analysis": "How well this archetype matches the target role",
+        "interview_strategy": "Specific questions to validate archetype",
+        "retention_playbook": "How to keep this person engaged if hired"
+      }
+    },
+
+    "work_style_assessment": {
+      "purpose": "Predict how candidate prefers to work",
+
+      "dimensions": {
+        "autonomy_preference": {
+          "independent_operator": {
+            "signals": [
+              "Sole contributor roles",
+              "Remote work history",
+              "Self-directed projects",
+              "Entrepreneurial ventures"
+            ],
+            "fit": "Best for: Remote roles, individual contributor positions, minimal supervision",
+            "risk": "May struggle with: Micromanagement, excessive meetings, collaborative environments"
+          },
+          "collaborative_teammate": {
+            "signals": [
+              "Emphasizes team achievements",
+              "Cross-functional projects",
+              "Pair programming, mob programming mentioned",
+              "Mentions collaboration tools heavily"
+            ],
+            "fit": "Best for: Agile teams, open offices, pair programming cultures",
+            "risk": "May struggle with: Isolated remote work, solo projects"
+          }
+        },
+
+        "pace_preference": {
+          "sprinter": {
+            "signals": [
+              "Startup experience",
+              "MVP, rapid prototyping mentioned",
+              "Short project cycles",
+              "Fast-paced, agile, iterative language"
+            ],
+            "fit": "Best for: Startups, fast-moving teams, competitive markets",
+            "risk": "May struggle with: Slow-moving enterprises, long planning cycles"
+          },
+          "marathoner": {
+            "signals": [
+              "Long-term projects (multi-year)",
+              "Enterprise experience",
+              "Emphasizes planning and architecture",
+              "Quality, stability, scalability focus"
+            ],
+            "fit": "Best for: Enterprise, complex systems, regulated industries",
+            "risk": "May struggle with: Constant pivots, move fast and break things"
+          }
+        },
+
+        "technical_depth": {
+          "specialist": {
+            "signals": "Deep in one or two technologies, certifications, expertise claims",
+            "fit": "Best for: Technical leadership, architecture, specialist roles",
+            "risk": "May lack breadth for full-stack or generalist roles"
+          },
+          "generalist": {
+            "signals": "Wide range of technologies, full-stack mentions, diverse projects",
+            "fit": "Best for: Startups, small teams, full-stack roles",
+            "risk": "May lack depth for specialist or expert positions"
+          }
+        },
+
+        "leadership_style": {
+          "servant_leader": {
+            "signals": [
+              "Mentored, enabled, supported language",
+              "Team growth and development focus",
+              "Removed blockers, facilitated"
+            ],
+            "fit": "Best for: Growing teams, modern tech cultures",
+            "indication": "Likely effective people manager"
+          },
+          "visionary_strategist": {
+            "signals": [
+              "Set direction, defined strategy",
+              "Organizational change",
+              "Long-term planning",
+              "Executive interaction mentioned"
+            ],
+            "fit": "Best for: Senior leadership, transformation roles",
+            "indication": "Think big picture, may need support for tactical execution"
+          }
+        }
+      }
+    },
+
+    "communication_style": {
+      "purpose": "Assess how candidate communicates based on resume writing style",
+
+      "analysis_factors": {
+        "detail_orientation": {
+          "high_detail": {
+            "signals": "Lengthy descriptions, specific metrics, comprehensive explanations",
+            "strength": "Thorough, precise, excellent for documentation",
+            "weakness": "May over-communicate, struggle with concise updates"
+          },
+          "concise": {
+            "signals": "Brief bullet points, key highlights only, minimal fluff",
+            "strength": "Clear communicator, respects others' time",
+            "weakness": "May under-explain, need to probe for details"
+          }
+        },
+
+        "results_orientation": {
+          "outcome_focused": {
+            "signals": "Every bullet has metrics, outcomes, business impact",
+            "strength": "Business-minded, impact-driven, understands value",
+            "fit": "Great for client-facing, leadership, business-critical roles"
+          },
+          "process_focused": {
+            "signals": "Emphasizes methodologies, processes, technologies used",
+            "strength": "Detail-oriented, process-improver, quality-focused",
+            "fit": "Great for operations, process improvement, compliance roles"
+          }
+        }
+      }
+    }
+  },
+
+  "cultural_fit_analysis": {
+    "purpose": "Predict how well candidate will mesh with company culture",
+
+    "culture_dimensions": {
+      "company_stage_fit": {
+        "startup_culture": {
+          "required_traits": [
+            "Comfort with ambiguity and rapid change",
+            "Resourceful and scrappy",
+            "Willing to wear multiple hats",
+            "High autonomy and self-direction",
+            "Risk-tolerant"
+          ],
+          "signals_in_resume": [
+            "Startup experience (especially early stage)",
+            "Built things from scratch",
+            "Generalist skill set",
+            "Short project cycles",
+            "Fast-paced language"
+          ],
+          "red_flags": [
+            "Only enterprise experience",
+            "Needs structure and process",
+            "Specialist with narrow focus",
+            "Risk-averse language (compliance, governance focus)"
+          ]
+        },
+
+        "scale_up_culture": {
+          "required_traits": [
+            "Balance of speed and process",
+            "Building scalable systems",
+            "Growing teams",
+            "Optimizing and improving",
+            "Some structure but adaptable"
+          ],
+          "signals_in_resume": [
+            "Grew with a company (Series A to C)",
+            "Scaled systems or teams",
+            "Process improvement",
+            "Both startup and enterprise experience"
+          ]
+        },
+
+        "enterprise_culture": {
+          "required_traits": [
+            "Navigates complexity and politics",
+            "Patience with slow processes",
+            "Comfort with hierarchy",
+            "Focus on reliability and compliance",
+            "Stakeholder management"
+          ],
+          "signals_in_resume": [
+            "Large company experience (Fortune 500)",
+            "Long tenures (3+ years per company)",
+            "Cross-functional collaboration",
+            "Compliance, security, governance mentions",
+            "Formal methodologies (ITIL, PMP, etc)"
+          ],
+          "red_flags": [
+            "Only startup experience",
+            "Job hopping",
+            "Dislikes process language",
+            "Fast-paced, move fast and break things attitude"
+          ]
+        }
+      },
+
+      "work_environment_fit": {
+        "remote_first": {
+          "success_indicators": [
+            "Previous remote work experience",
+            "Self-directed projects",
+            "Strong written communication (blog, documentation)",
+            "Async collaboration mentions (Slack, Notion, etc)"
+          ],
+          "concerns": [
+            "Only co-located team experience",
+            "Heavy emphasis on in-person collaboration",
+            "No remote work mentioned"
+          ]
+        },
+
+        "hybrid_flexible": {
+          "success_indicators": [
+            "Experience with both remote and office",
+            "Adaptable work style",
+            "Collaboration and independent work balance"
+          ]
+        },
+
+        "in_office_collaborative": {
+          "success_indicators": [
+            "Emphasizes team collaboration",
+            "Pair programming, whiteboarding mentioned",
+            "Office-based work history",
+            "Local candidates preferred"
+          ]
+        }
+      },
+
+      "team_dynamics_fit": {
+        "assess": {
+          "team_size_comfort": "Check if candidate has worked with similar team sizes",
+          "reporting_structure": "IC vs manager track, layers of hierarchy",
+          "collaboration_intensity": "Solo work vs constant collaboration",
+          "technical_diversity": "Uniform tech stack vs polyglot environment"
+        },
+
+        "questions_to_validate": [
+          "You've worked on teams of X size. This team is Y size. How do you feel about that?",
+          "This role involves [collaboration level]. Walk me through how you'd approach that.",
+          "The team uses [specific methodology]. Have you worked this way before?"
+        ]
+      }
+    },
+
+    "value_alignment": {
+      "purpose": "Detect if candidate's values match company values",
+
+      "common_value_signals": {
+        "innovation_focus": {
+          "signals": [
+            "Experimented with new technologies",
+            "Open source contributions",
+            "Patents, publications, conference talks",
+            "R&D project involvement"
+          ]
+        },
+
+        "customer_obsession": {
+          "signals": [
+            "Customer-facing roles",
+            "Improved user experience",
+            "Customer satisfaction metrics",
+            "Product thinking"
+          ]
+        },
+
+        "quality_excellence": {
+          "signals": [
+            "Testing, QA emphasis",
+            "Reduced bugs/defects",
+            "Code review processes",
+            "Documentation and standards"
+          ]
+        },
+
+        "diversity_inclusion": {
+          "signals": [
+            "Mentorship, ERG participation",
+            "Diverse team building",
+            "Inclusive language and practices"
+          ]
+        },
+
+        "bias_mitigation": {
+          "signals": [
+            "DEI training or initiatives",
+            "Reduced bias in processes",
+            "Accessible design, inclusive practices"
+          ]
+        }
+      }
+    }
+  },
+
+  "team_composition_analysis": {
+    "purpose": "When building a team, ensure complementary skills and styles",
+
+    "diversity_dimensions": [
+      "Technical skills (specialists + generalists)",
+      "Seniority levels (junior + mid + senior)",
+      "Work styles (independent + collaborative)",
+      "Pace preferences (sprinters + marathoners)",
+      "Problem-solving approaches (creative + analytical)",
+      "Communication styles (concise + detailed)",
+      "Backgrounds (industry, company type, education)"
+    ],
+
+    "team_balance_recommendations": {
+      "all_specialists": "⚠️ Risk: No one handles glue work. Recommendation: Add a generalist or two.",
+      "all_juniors": "⚠️ Risk: No mentorship or guidance. Recommendation: Add at least one senior.",
+      "all_remote_preference": "✅ Good for remote-first teams, may struggle with in-person culture.",
+      "all_startup_background": "⚠️ For enterprise client: Add someone with enterprise experience to navigate culture.",
+      "diverse_balanced": "✅ Good mix - team can handle various challenges and adapt to changes."
+    }
+  },
+
+  "interview_strategy_customization": {
+    "purpose": "Customize interview approach based on persona",
+
+    "for_builder_creator": {
+      "focus_areas": [
+        "Ask about projects built from scratch",
+        "Present ambiguous problem, see how they structure it",
+        "Discuss how they handle constraints vs autonomy"
+      ],
+      "sell_points": [
+        "Emphasize greenfield opportunities",
+        "Highlight autonomy and ownership",
+        "Mention innovation and experimentation support"
+      ]
+    },
+
+    "for_optimizer_fixer": {
+      "focus_areas": [
+        "Ask about biggest efficiency gain or problem solved",
+        "Present a broken system, see how they'd fix it",
+        "Discuss how they measure impact"
+      ],
+      "sell_points": [
+        "Show them systems that need improvement",
+        "Emphasize measurable impact",
+        "Highlight recognition and rewards"
+      ]
+    },
+
+    "for_specialist_expert": {
+      "focus_areas": [
+        "Go deep on their area of expertise",
+        "Ask about edge cases and advanced scenarios",
+        "Discuss how they stay current in their field"
+      ],
+      "sell_points": [
+        "Emphasize technical challenges in their domain",
+        "Mention opportunities to be THE expert",
+        "Highlight speaking/thought leadership opportunities"
+      ]
+    }
+  },
+
+  "red_flag_combinations": {
+    "purpose": "Identify dangerous persona + role mismatches",
+
+    "high_risk_mismatches": [
+      {
+        "persona": "Builder/Creator with high autonomy need",
+        "role": "Heavily process-driven enterprise maintenance role",
+        "risk": "90% chance of early departure or poor performance",
+        "recommendation": "Pass or find more innovative role"
+      },
+      {
+        "persona": "Stabilizer/Guardian who values process",
+        "role": "Move fast and break things startup",
+        "risk": "Culture clash, frustration on both sides",
+        "recommendation": "Pass unless candidate explicitly wants to pivot"
+      },
+      {
+        "persona": "Specialist/Expert with narrow focus",
+        "role": "Full-stack generalist role requiring breadth",
+        "risk": "Skill gaps, boredom, or inability to wear multiple hats",
+        "recommendation": "Only proceed if they show strong learning ability"
+      },
+      {
+        "persona": "Job hopper (5+ jobs in 5 years)",
+        "role": "Long-term strategic initiative requiring multi-year commitment",
+        "risk": "Project abandonment, knowledge loss",
+        "recommendation": "Probe deeply on why they left previous roles, look for stability signals"
+      }
+    ]
+  },
+
+  "output_formats": {
+    "persona_summary": {
+      "structure": "🧠 **Candidate Persona: [Primary Archetype]**\n\n**What drives them:** [Motivations]\n**Best environment:** [Ideal culture/role]\n**Red flags for this role:** [Mismatches]\n**How to attract them:** [Sell points]\n**Retention strategy:** [Keep them engaged]\n\n**Cultural Fit Score:** [X]/10 - [Assessment]",
+      "example": "🧠 **Candidate Persona: Builder/Creator**\n\n**What drives them:** Innovation, autonomy, ownership, seeing their creations come to life\n**Best environment:** Startups, greenfield projects, innovation teams, high autonomy\n**Red flags for this role:** None - this role offers greenfield cloud architecture work\n**How to attract them:** Emphasize the opportunity to architect new systems from scratch, autonomy over technical decisions\n**Retention strategy:** Give them ownership of major initiatives, minimize bureaucracy, celebrate launches\n\n**Cultural Fit Score:** 9/10 - Excellent match for your startup culture and this role's requirements"
+    }
+  }
+}
