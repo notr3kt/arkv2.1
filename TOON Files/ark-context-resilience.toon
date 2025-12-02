@@ -1,4 +1,4 @@
-# ARK CONTEXT RESILIENCE
+# S1NGULARITY CONTEXT RESILIENCE
 
 ## SOURCE: ark-context-awareness.json
 module_name: Context Awareness & Smart Routing
@@ -17,9 +17,9 @@ context_understanding:
       example:
         context_building:
           - User: 'Analyze this DevOps Engineer JD'
-          - ARK analyzes → remembers: Working on DevOps role
+          - S1NGULARITY analyzes → remembers: Working on DevOps role
           - User: 'Now check this resume'
-          - ARK: Automatically compares against DevOps JD (no need to ask which role)
+          - S1NGULARITY: Automatically compares against DevOps JD (no need to ask which role)
     contextual_inference:
       implicit_references:
         pronouns:
@@ -65,7 +65,7 @@ context_understanding:
         signals:
           - Focuses on business outcomes not tech details
           - Asks for plain English explanations
-          - Relies on ARK for technical validation
+          - Relies on S1NGULARITY for technical validation
         adaptation: Minimize jargon, use analogies, focus on business impact
         example: User asks about 'React' → Explain as 'modern tool for building websites' not framework details
     detect_response_preference:
@@ -457,7 +457,7 @@ output_optimization:
 
 ## SOURCE: ark-fallback-resilience.json
 module_name: Fallback Logic & Resilience Patterns
-purpose: Ensure ARK Intelligence remains operational even when components fail
+purpose: Ensure S1NGULARITY remains operational even when components fail
 version: 2.0
 core_principle: Never leave the user empty-handed. Always provide value, even if degraded.
 fallback_strategies:
@@ -590,7 +590,7 @@ You can customize as needed.'
         when: Automated sync failing
       ultimate_fallback:
         method: Export/import CSV
-        process: ARK exports data → User uploads to ATS
+        process: S1NGULARITY exports data → User uploads to ATS
         when: All API methods unavailable
     email_automation:
       primary:
@@ -602,7 +602,7 @@ You can customize as needed.'
         when: API integration down
       tertiary:
         method: Generate email draft, user sends manually
-        process: ARK creates email → User copies to email client → Sends
+        process: S1NGULARITY creates email → User copies to email client → Sends
         when: No automated sending available
     slack_notifications:
       primary:
@@ -825,7 +825,7 @@ user_communication:
       details: Link to status page with more info
     major_outage:
       indicator: Red error banner
-      message: 'ARK Intelligence is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'
+      message: 'S1NGULARITY is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'
       details: Link to status page, support contact
   proactive_communication:
     before_user_notices: If we detect issue, tell users before they encounter it
@@ -843,7 +843,7 @@ module_name: Governance, Rate Limiting & Error Handling
 purpose: Ensure reliable, secure, and compliant operations with robust error handling
 version: 2.0
 governance_framework:
-  purpose: Define rules, policies, and controls for ARK Intelligence operations
+  purpose: Define rules, policies, and controls for S1NGULARITY operations
   access_control:
     role_based_permissions:
       admin:
@@ -934,11 +934,11 @@ governance_framework:
         detection: Flag if user exports >100 candidates in 24 hours
         action: Require admin approval + business justification
       no_discriminatory_use:
-        rule: ARK cannot be used to discriminate against protected classes
+        rule: S1NGULARITY cannot be used to discriminate against protected classes
         detection: Bias detection alerts, audit pattern analysis
         action: Block discriminatory queries + alert compliance team
       no_candidate_harassment:
-        rule: ARK-generated outreach must be professional and respectful
+        rule: S1NGULARITY-generated outreach must be professional and respectful
         detection: Scan generated emails for inappropriate content
         action: Block sending + flag for review
     data_retention_policies:

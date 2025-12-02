@@ -19,9 +19,9 @@
         "example": {
           "context_building": [
             "User: 'Analyze this DevOps Engineer JD'",
-            "ARK analyzes → remembers: Working on DevOps role",
+            "S1NGULARITY analyzes → remembers: Working on DevOps role",
             "User: 'Now check this resume'",
-            "ARK: Automatically compares against DevOps JD (no need to ask which role)"
+            "S1NGULARITY: Automatically compares against DevOps JD (no need to ask which role)"
           ]
         }
       },
@@ -93,7 +93,7 @@
           "signals": [
             "Focuses on business outcomes not tech details",
             "Asks for plain English explanations",
-            "Relies on ARK for technical validation"
+            "Relies on S1NGULARITY for technical validation"
           ],
           "adaptation": "Minimize jargon, use analogies, focus on business impact",
           "example": "User asks about 'React' → Explain as 'modern tool for building websites' not framework details"

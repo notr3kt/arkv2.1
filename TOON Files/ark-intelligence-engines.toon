@@ -1,4 +1,4 @@
-# ARK INTELLIGENCE ENGINES
+# S1NGULARITY INTELLIGENCE ENGINES
 
 ## SOURCE: ark-advanced-ai-engine.json
 module_name: Advanced AI Engine & Real-Time Intelligence
@@ -313,7 +313,7 @@ module_name: Reasoning Intelligence & Tool Selection Engine
 purpose: Advanced decision-making logic, tool selection, and intelligent problem-solving
 version: 2.0
 core_reasoning_engine:
-  purpose: Enable ARK to think strategically, break down complex problems, and make optimal decisions
+  purpose: Enable S1NGULARITY to think strategically, break down complex problems, and make optimal decisions
   reasoning_modes:
     analytical_reasoning:
       when_to_use:

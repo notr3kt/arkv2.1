@@ -1,5 +1,5 @@
 {
-  "name": "ARK Intelligence Multi-Agent Recruiter Copilot",
+  "name": "S1NGULARITY Multi-Agent Recruiter Copilot",
   "nodes": [
     {
       "parameters": {},
@@ -70,7 +70,7 @@
     },
     {
       "parameters": {
-        "functionCode": "return items.map(item => {\n  const { agentName, purpose, jobDescription, resume, userMessage, conversationGoal, toonContent, toonPath, outputKey, timestamp } = item.json;\n  const promptMessages = [\n    {\n      role: 'system',\n      content: [\n        { type: 'text', text: `You are ${agentName}, ${purpose}. Follow the ARK Intelligence guardrails strictly.` },\n        { type: 'text', text: 'TOON OPERATING BLUEPRINT:\n' + toonContent }\n      ]\n    },\n    {\n      role: 'user',\n      content: [\n        { type: 'text', text: 'Primary Request:\n' + userMessage },\n        { type: 'text', text: 'Job Description:\n' + jobDescription },\n        { type: 'text', text: 'Candidate Profile:\n' + resume },\n        { type: 'text', text: 'Engagement Goal:\n' + conversationGoal },\n        { type: 'text', text: 'Timestamp:\n' + timestamp }\n      ]\n    }\n  ];\n  return {\n    json: {\n      agentName,\n      purpose,\n      jobDescription,\n      resume,\n      userMessage,\n      conversationGoal,\n      toonPath,\n      outputKey,\n      timestamp,\n      promptMessages\n    }\n  };\n});"
+        "functionCode": "return items.map(item => {\n  const { agentName, purpose, jobDescription, resume, userMessage, conversationGoal, toonContent, toonPath, outputKey, timestamp } = item.json;\n  const promptMessages = [\n    {\n      role: 'system',\n      content: [\n        { type: 'text', text: `You are ${agentName}, ${purpose}. Follow the S1NGULARITY guardrails strictly.` },\n        { type: 'text', text: 'TOON OPERATING BLUEPRINT:\n' + toonContent }\n      ]\n    },\n    {\n      role: 'user',\n      content: [\n        { type: 'text', text: 'Primary Request:\n' + userMessage },\n        { type: 'text', text: 'Job Description:\n' + jobDescription },\n        { type: 'text', text: 'Candidate Profile:\n' + resume },\n        { type: 'text', text: 'Engagement Goal:\n' + conversationGoal },\n        { type: 'text', text: 'Timestamp:\n' + timestamp }\n      ]\n    }\n  ];\n  return {\n    json: {\n      agentName,\n      purpose,\n      jobDescription,\n      resume,\n      userMessage,\n      conversationGoal,\n      toonPath,\n      outputKey,\n      timestamp,\n      promptMessages\n    }\n  };\n});"
       },
       "id": "6",
       "name": "Compose Agent Prompt",
@@ -151,7 +151,7 @@
         "resource": "chat",
         "operation": "create",
         "model": "gpt-4o",
-        "messages": "=[\n  {\n    \"role\": \"system\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": \"You are the ARK Orchestrator. Fuse specialist agent outputs into one recruiter-ready intelligence package with explicit next steps.\" }\n    ]\n  },\n  {\n    \"role\": \"user\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": 'Primary Request: ' + $json.userMessage },\n      { \"type\": \"text\", \"text\": 'Job Description:\n' + $json.jobDescription },\n      { \"type\": \"text\", \"text\": 'Candidate Profile:\n' + $json.resume },\n      { \"type\": \"text\", \"text\": 'Agent Reports JSON:\n' + JSON.stringify($json.agentReports, null, 2) }\n    ]\n  }\n]",
+        "messages": "=[\n  {\n    \"role\": \"system\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": \"You are the S1NGULARITY Orchestrator. Fuse specialist agent outputs into one recruiter-ready intelligence package with explicit next steps.\" }\n    ]\n  },\n  {\n    \"role\": \"user\",\n    \"content\": [\n      { \"type\": \"text\", \"text\": 'Primary Request: ' + $json.userMessage },\n      { \"type\": \"text\", \"text\": 'Job Description:\n' + $json.jobDescription },\n      { \"type\": \"text\", \"text\": 'Candidate Profile:\n' + $json.resume },\n      { \"type\": \"text\", \"text\": 'Agent Reports JSON:\n' + JSON.stringify($json.agentReports, null, 2) }\n    ]\n  }\n]",
         "options": {
           "responseFormat": "json_object",
           "temperature": 0.1

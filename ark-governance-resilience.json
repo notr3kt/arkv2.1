@@ -4,7 +4,7 @@
   "version": "2.0",
 
   "governance_framework": {
-    "purpose": "Define rules, policies, and controls for ARK Intelligence operations",
+    "purpose": "Define rules, policies, and controls for S1NGULARITY operations",
 
     "access_control": {
       "role_based_permissions": {
@@ -131,13 +131,13 @@
         },
 
         "no_discriminatory_use": {
-          "rule": "ARK cannot be used to discriminate against protected classes",
+          "rule": "S1NGULARITY cannot be used to discriminate against protected classes",
           "detection": "Bias detection alerts, audit pattern analysis",
           "action": "Block discriminatory queries + alert compliance team"
         },
 
         "no_candidate_harassment": {
-          "rule": "ARK-generated outreach must be professional and respectful",
+          "rule": "S1NGULARITY-generated outreach must be professional and respectful",
           "detection": "Scan generated emails for inappropriate content",
           "action": "Block sending + flag for review"
         }

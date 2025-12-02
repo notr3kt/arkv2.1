@@ -516,7 +516,7 @@
     "seamless_integration": {
       "user_perspective": "Searches happen transparently in background",
       "response_format": "Include search results naturally in answer, cite sources",
-      "no_extra_steps": "User doesn't need to ask for search - ARK does it automatically when needed"
+      "no_extra_steps": "User doesn't need to ask for search - S1NGULARITY does it automatically when needed"
     },
 
     "example_flow": {
