@@ -1,0 +1,205 @@
+# S1NGULARITY .gitignore
+
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ========================================
+# Virtual Environments
+# ========================================
+venv/
+ENV/
+env/
+.venv
+env.bak/
+venv.bak/
+
+# ========================================
+# Environment Variables & Secrets
+# ========================================
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+*.key
+*.pem
+credentials.json
+secrets.json
+
+# ========================================
+# IDEs & Editors
+# ========================================
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ========================================
+# Databases
+# ========================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+s1ngularity.db
+
+# PostgreSQL
+*.sql
+pg_data/
+
+# ========================================
+# Logs
+# ========================================
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ========================================
+# Testing
+# ========================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# ========================================
+# Docker
+# ========================================
+docker-compose.override.yml
+.docker/
+
+# ========================================
+# Celery
+# ========================================
+celerybeat-schedule
+celerybeat.pid
+
+# ========================================
+# Redis
+# ========================================
+dump.rdb
+
+# ========================================
+# Jupyter Notebook
+# ========================================
+.ipynb_checkpoints
+*.ipynb
+
+# ========================================
+# mypy
+# ========================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ========================================
+# Ruff
+# ========================================
+.ruff_cache/
+
+# ========================================
+# Documentation
+# ========================================
+docs/_build/
+site/
+
+# ========================================
+# Temporary Files
+# ========================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# ========================================
+# OS-specific
+# ========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ========================================
+# Project-specific
+# ========================================
+# Uploaded files
+uploads/
+temp_files/
+
+# Cached modules (if cached to disk)
+.module_cache/
+
+# Analytics exports
+exports/
+reports/
+
+# ========================================
+# CI/CD
+# ========================================
+.github/workflows/*.local.yml
