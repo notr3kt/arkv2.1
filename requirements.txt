@@ -54,14 +54,10 @@ python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 bcrypt==4.1.2
 
-# CORS & Middleware
-python-cors==1.0.0
-
 # Testing
 pytest==8.0.0
 pytest-asyncio==0.23.5
 pytest-cov==4.1.0
-httpx==0.26.0  # For testing async endpoints
 
 # Development Tools
 black==24.2.0
@@ -70,7 +66,6 @@ mypy==1.8.0
 
 # Task Queue (Optional)
 celery==5.3.6
-redis==5.0.1
 
 # Utilities
 python-dateutil==2.8.2
