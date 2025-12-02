@@ -492,7 +492,7 @@
     }
   },
 
-  "integration_with_ark_intelligence": {
+  "integration_with_s1ngularity_intelligence": {
     "automatic_triggering": {
       "keywords_that_trigger_search": [
         "current",
@@ -516,17 +516,17 @@
     "seamless_integration": {
       "user_perspective": "Searches happen transparently in background",
       "response_format": "Include search results naturally in answer, cite sources",
-      "no_extra_steps": "User doesn't need to ask for search - ARK does it automatically when needed"
+      "no_extra_steps": "User doesn't need to ask for search - S1NGULARITY does it automatically when needed"
     },
 
     "example_flow": {
       "user_query": "What should I pay a Senior React Developer in Seattle?",
-      "ark_action_1": "Recognize this needs current salary data",
-      "ark_action_2": "Auto-search: 'Senior React Developer salary Seattle 2024 site:levels.fyi OR site:glassdoor.com'",
-      "ark_action_3": "Extract: $140k-$180k base salary",
-      "ark_action_4": "Cross-reference with Indeed, Glassdoor",
-      "ark_action_5": "Synthesize and respond",
-      "ark_response": "💰 **Market Rate - Seattle (2024):**\n\nSenior React Developers in Seattle earn:\n- **Base Salary:** $140k-$180k (median $158k)\n- **Total Comp:** $170k-$230k (including bonus + equity)\n- **Hourly Rate:** $80-105/hr (W2 contract)\n\n**Sources:** Levels.fyi (2,147 data points), Glassdoor (892 salaries), Indeed (current postings)\n**Data Currency:** Q4 2024 / January 2025\n**Confidence:** High (multiple authoritative sources agree)\n\n**Context:** Seattle tech market is competitive. Top 10% performers command $200k+ base. Remote positions typically 10-15% lower.\n\nWant me to break this down by company tier (FAANG vs startup vs mid-market)?"
+      "s1ngularity_action_1": "Recognize this needs current salary data",
+      "s1ngularity_action_2": "Auto-search: 'Senior React Developer salary Seattle 2024 site:levels.fyi OR site:glassdoor.com'",
+      "s1ngularity_action_3": "Extract: $140k-$180k base salary",
+      "s1ngularity_action_4": "Cross-reference with Indeed, Glassdoor",
+      "s1ngularity_action_5": "Synthesize and respond",
+      "s1ngularity_response": "💰 **Market Rate - Seattle (2024):**\n\nSenior React Developers in Seattle earn:\n- **Base Salary:** $140k-$180k (median $158k)\n- **Total Comp:** $170k-$230k (including bonus + equity)\n- **Hourly Rate:** $80-105/hr (W2 contract)\n\n**Sources:** Levels.fyi (2,147 data points), Glassdoor (892 salaries), Indeed (current postings)\n**Data Currency:** Q4 2024 / January 2025\n**Confidence:** High (multiple authoritative sources agree)\n\n**Context:** Seattle tech market is competitive. Top 10% performers command $200k+ base. Remote positions typically 10-15% lower.\n\nWant me to break this down by company tier (FAANG vs startup vs mid-market)?"
     }
   }
 }

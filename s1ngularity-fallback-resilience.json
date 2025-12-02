@@ -1,6 +1,6 @@
 {
   "module_name": "Fallback Logic & Resilience Patterns",
-  "purpose": "Ensure ARK Intelligence remains operational even when components fail",
+  "purpose": "Ensure S1NGULARITY remains operational even when components fail",
   "version": "2.0",
 
   "core_principle": "Never leave the user empty-handed. Always provide value, even if degraded.",
@@ -176,7 +176,7 @@
 
         "ultimate_fallback": {
           "method": "Export/import CSV",
-          "process": "ARK exports data → User uploads to ATS",
+          "process": "S1NGULARITY exports data → User uploads to ATS",
           "when": "All API methods unavailable"
         }
       },
@@ -195,7 +195,7 @@
 
         "tertiary": {
           "method": "Generate email draft, user sends manually",
-          "process": "ARK creates email → User copies to email client → Sends",
+          "process": "S1NGULARITY creates email → User copies to email client → Sends",
           "when": "No automated sending available"
         }
       },
@@ -546,7 +546,7 @@
 
       "major_outage": {
         "indicator": "Red error banner",
-        "message": "'ARK Intelligence is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'",
+        "message": "'S1NGULARITY is experiencing technical difficulties. We're working to restore service. Estimated recovery: [time]'",
         "details": "Link to status page, support contact"
       }
     },

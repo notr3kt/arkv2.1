@@ -42,15 +42,15 @@
         "subject": "[ROLE] | [WORK_MODEL] in [LOCATION] | [DURATION] | [TYPE]",
         "structure": [
           "Greeting with first name",
-          "Intro: recruiter with ARK Solutions",
+          "Intro: recruiter with S1NGULARITY Solutions",
           "Job Snapshot (bullets): work model, interview type, employment type, duration, travel, local-only",
           "Important Notes: only JD-explicit items (clearance, veteran pref, etc)",
           "Full JD: verbatim clean text, no internal notes",
           "Submission Checklist: resume, legal name, location, work auth, W2/C2C pref, experience years, start date, rate (internal), DL if local-only, clearance if needed, background consent",
-          "Signature: Name, ARK Solutions Inc, contact info",
+          "Signature: Name, S1NGULARITY Solutions Inc, contact info",
           "Optional: EEO/ADA footer"
         ],
-        "example": "Hi John,\n\nI'm a recruiter with ARK Solutions, Inc. We're supporting a federal engagement for a Senior DevOps Engineer based in Washington, DC.\n\n**Job Snapshot**\n- Work Model: Hybrid (3 days/week onsite)\n- Interview Type: In-Person\n- Employment Type: W2 only\n- Duration: 12+ months\n- Travel: None\n- Local Only: Yes\n\n**Important Notes**\n- Secret clearance required\n- Must be within 50 miles of DC Metro\n- Start within 2 weeks of offer\n\n[Full JD text here]\n\n**Submission Checklist**\n- Updated resume (PDF)\n- Legal name\n- Location (City, State, ZIP)\n- Work authorization\n- Employment preference (W2)\n- Total/U.S. experience (years)\n- Earliest start date\n- Desired hourly rate (kept internal)\n- Driver's License or State ID\n- Active Secret clearance certificate\n\nThanks,\n[Signature]"
+        "example": "Hi John,\n\nI'm a recruiter with S1NGULARITY Solutions, Inc. We're supporting a federal engagement for a Senior DevOps Engineer based in Washington, DC.\n\n**Job Snapshot**\n- Work Model: Hybrid (3 days/week onsite)\n- Interview Type: In-Person\n- Employment Type: W2 only\n- Duration: 12+ months\n- Travel: None\n- Local Only: Yes\n\n**Important Notes**\n- Secret clearance required\n- Must be within 50 miles of DC Metro\n- Start within 2 weeks of offer\n\n[Full JD text here]\n\n**Submission Checklist**\n- Updated resume (PDF)\n- Legal name\n- Location (City, State, ZIP)\n- Work authorization\n- Employment preference (W2)\n- Total/U.S. experience (years)\n- Earliest start date\n- Desired hourly rate (kept internal)\n- Driver's License or State ID\n- Active Secret clearance certificate\n\nThanks,\n[Signature]"
       },
       
       "email_plain": {
@@ -181,7 +181,7 @@
         "goal": "Set expectations for verification and documentation",
         "key_points": [
           "Information must match what you provide in [clearance/background/VMS system]",
-          "We need an RTR form confirming ARK Solutions represents you exclusively for this role",
+          "We need an RTR form confirming S1NGULARITY Solutions represents you exclusively for this role",
           "I'll email the RTR and submission sheet - please complete within 24 hours",
           "Before interviews, we'll schedule a prep call",
           "Background check and/or drug screen may be required - is that acceptable?"
@@ -268,7 +268,7 @@
         "donts": [
           "Don't badmouth previous employers",
           "Don't lie or exaggerate experience",
-          "Don't discuss salary/rate (ARK handles negotiations)",
+          "Don't discuss salary/rate (S1NGULARITY handles negotiations)",
           "Don't mention you're interviewing elsewhere unless asked",
           "Don't be late or miss the interview"
         ]
