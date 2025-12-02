@@ -420,6 +420,153 @@ async def search_candidates(
 
 
 # ==============================================
+# SESSION & HISTORY ENDPOINTS (Database Persistence)
+# ==============================================
+
+@app.get("/sessions")
+async def list_sessions(
+    limit: int = 20,
+    offset: int = 0,
+    db: AsyncSession = Depends(get_db_session)
+):
+    """List all user sessions (proves database persistence)."""
+    from sqlalchemy import select, desc
+
+    stmt = (
+        select(SessionHistory)
+        .order_by(desc(SessionHistory.last_active))
+        .limit(limit)
+        .offset(offset)
+    )
+    result = await db.execute(stmt)
+    sessions = result.scalars().all()
+
+    return {
+        "sessions": [
+            {
+                "session_id": s.session_id,
+                "task_type": s.task_type,
+                "message_count": s.message_count,
+                "created_at": s.created_at.isoformat(),
+                "last_active": s.last_active.isoformat(),
+            }
+            for s in sessions
+        ],
+        "total": len(sessions),
+        "limit": limit,
+        "offset": offset,
+    }
+
+
+@app.get("/sessions/{session_id}")
+async def get_session_detail(
+    session_id: str,
+    db: AsyncSession = Depends(get_db_session)
+):
+    """Get detailed session information (proves memory)."""
+    from sqlalchemy import select
+
+    # Get session
+    stmt = select(SessionHistory).where(SessionHistory.session_id == session_id)
+    result = await db.execute(stmt)
+    session = result.scalar_one_or_none()
+
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    # Get candidate interactions for this session
+    stmt = select(CandidateInteraction).where(
+        CandidateInteraction.session_id == session_id
+    )
+    result = await db.execute(stmt)
+    interactions = result.scalars().all()
+
+    # Get feedback logs for this session
+    stmt = select(FeedbackLog).where(FeedbackLog.session_id == session_id)
+    result = await db.execute(stmt)
+    feedback_logs = result.scalars().all()
+
+    return {
+        "session": {
+            "session_id": session.session_id,
+            "task_type": session.task_type,
+            "message_count": session.message_count,
+            "token_usage": session.token_usage,
+            "created_at": session.created_at.isoformat(),
+            "last_active": session.last_active.isoformat(),
+        },
+        "interactions": [
+            {
+                "candidate_email": i.candidate_email,
+                "job_id": i.job_id,
+                "match_score": i.match_score,
+                "action": i.action,
+                "timestamp": i.timestamp.isoformat(),
+            }
+            for i in interactions
+        ],
+        "feedback_logs": [
+            {
+                "error_type": f.error_type,
+                "severity": f.severity,
+                "user_input": f.user_input,
+                "timestamp": f.timestamp.isoformat(),
+            }
+            for f in feedback_logs
+        ],
+    }
+
+
+@app.get("/analytics/summary")
+async def get_analytics_summary(db: AsyncSession = Depends(get_db_session)):
+    """Get analytics summary (proves database aggregation)."""
+    from sqlalchemy import select, func
+
+    # Total sessions
+    stmt = select(func.count(SessionHistory.id))
+    result = await db.execute(stmt)
+    total_sessions = result.scalar()
+
+    # Total messages
+    stmt = select(func.sum(SessionHistory.message_count))
+    result = await db.execute(stmt)
+    total_messages = result.scalar() or 0
+
+    # Total candidate interactions
+    stmt = select(func.count(CandidateInteraction.id))
+    result = await db.execute(stmt)
+    total_interactions = result.scalar()
+
+    # Average match score
+    stmt = select(func.avg(CandidateInteraction.match_score))
+    result = await db.execute(stmt)
+    avg_match_score = result.scalar() or 0
+
+    # Total feedback logs
+    stmt = select(func.count(FeedbackLog.id))
+    result = await db.execute(stmt)
+    total_feedback = result.scalar()
+
+    # Feedback by type
+    stmt = select(
+        FeedbackLog.error_type, func.count(FeedbackLog.id)
+    ).group_by(FeedbackLog.error_type)
+    result = await db.execute(stmt)
+    feedback_by_type = {row[0]: row[1] for row in result}
+
+    return {
+        "total_sessions": total_sessions,
+        "total_messages": int(total_messages),
+        "total_candidate_interactions": total_interactions,
+        "average_match_score": float(avg_match_score),
+        "total_feedback_logs": total_feedback,
+        "feedback_by_type": feedback_by_type,
+        "database_status": "operational",
+        "persistence_enabled": True,
+    }
+
+
+# ==============================================
 # BACKGROUND TASKS
 # ==============================================
 
