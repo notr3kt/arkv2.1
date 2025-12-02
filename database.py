@@ -171,6 +171,10 @@ class DatabaseManager:
             "sqlite+aiosqlite:///./s1ngularity.db"  # Fallback to SQLite
         )
 
+        # Auto-convert sync PostgreSQL URLs to async (for Railway compatibility)
+        if self.database_url.startswith("postgresql://"):
+            self.database_url = self.database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
         # Create async engine
         self.engine = create_async_engine(
             self.database_url,

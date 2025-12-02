@@ -15,9 +15,12 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
+# Create virtual environment and install dependencies
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # ==============================================
 # Stage 2: Runtime
@@ -32,11 +35,11 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
 
-# Add Python packages to PATH
-ENV PATH=/root/.local/bin:$PATH
+# Add virtual environment to PATH
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy application code
 COPY . .
