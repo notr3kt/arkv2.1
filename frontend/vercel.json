@@ -3,13 +3,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@s1ngularity-api-url"
-  },
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_API_URL": "@s1ngularity-api-url"
-    }
-  }
+  "regions": ["iad1"]
 }
