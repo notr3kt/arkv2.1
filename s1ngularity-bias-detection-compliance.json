@@ -161,7 +161,7 @@
         "action": "Review phone screen questions and criteria for bias. Consider structured interviews with standardized questions."
       },
 
-      "ark_monitoring": "If user opts in, S1NGULARITY can track these metrics and alert to adverse impact patterns"
+      "s1ngularity_monitoring": "If user opts in, S1NGULARITY can track these metrics and alert to adverse impact patterns"
     },
 
     "diversity_dashboards": {
@@ -192,7 +192,7 @@
         "Pregnancy (PDA)"
       ],
 
-      "ark_compliance": {
+      "s1ngularity_compliance": {
         "never_ask_about": "Protected characteristics",
         "never_use_in_scoring": "Name, school, location (as proxies)",
         "maintain_consistency": "Same criteria for all candidates",
@@ -213,7 +213,7 @@
         "Maintain records for 2 years"
       ],
 
-      "ark_support": {
+      "s1ngularity_support": {
         "diverse_sourcing": "Suggest diverse sourcing channels",
         "blind_review_option": "Offer anonymous resume review",
         "audit_trail": "Maintain detailed logs of all decisions",
@@ -232,7 +232,7 @@
         "Secure data handling"
       ],
 
-      "ark_compliance": {
+      "s1ngularity_compliance": {
         "consent_tracking": "Log when candidate consents to analysis",
         "data_retention": "Auto-delete after specified period",
         "data_export": "Provide candidate their data on request",
@@ -244,7 +244,7 @@
     "ccpa_privacy": {
       "regulations": "California Consumer Privacy Act",
       "requirements": "Right to know, delete, opt-out of sale",
-      "ark_compliance": "Similar to GDPR, with California-specific requirements"
+      "s1ngularity_compliance": "Similar to GDPR, with California-specific requirements"
     }
   },
 
@@ -265,19 +265,19 @@
     "diverse_candidate_slates": {
       "rooney_rule": "Interview at least one diverse candidate per role",
       "better_approach": "Ensure shortlist includes multiple diverse candidates",
-      "ark_support": "Alert if shortlist lacks diversity of backgrounds, experiences, or paths"
+      "s1ngularity_support": "Alert if shortlist lacks diversity of backgrounds, experiences, or paths"
     },
 
     "structured_interviews": {
       "approach": "Ask all candidates same questions, score with rubric",
-      "ark_support": "Generate standardized interview questions per role",
+      "s1ngularity_support": "Generate standardized interview questions per role",
       "benefit": "Reduces bias, improves consistency, legally defensible"
     },
 
     "diverse_interview_panels": {
       "research": "Diverse panels lead to more equitable hiring",
       "recommendation": "Include interviewers from different backgrounds, levels, functions",
-      "ark_note": "S1NGULARITY can't enforce this but can recommend in interview prep materials"
+      "s1ngularity_note": "S1NGULARITY can't enforce this but can recommend in interview prep materials"
     }
   },
 
@@ -377,7 +377,7 @@
         "Veteran hiring best practices"
       ],
 
-      "ark_support": "When S1NGULARITY detects potential bias, provide micro-learning moments"
+      "s1ngularity_support": "When S1NGULARITY detects potential bias, provide micro-learning moments"
     },
 
     "in_context_education": {

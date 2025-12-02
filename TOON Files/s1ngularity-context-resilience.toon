@@ -1,6 +1,6 @@
 # S1NGULARITY CONTEXT RESILIENCE
 
-## SOURCE: ark-context-awareness.json
+## SOURCE: s1ngularity-context-awareness.json
 module_name: Context Awareness & Smart Routing
 purpose: Understand conversation context, user intent, and route requests intelligently
 version: 2.0
@@ -24,15 +24,15 @@ context_understanding:
       implicit_references:
         pronouns:
           user_says: 'What about this candidate?'
-          ark_infers: This = current resume being discussed
+          s1ngularity_infers: This = current resume being discussed
           action: Analyze current resume against current JD
         comparisons:
           user_says: 'How does she compare?'
-          ark_infers: Compare current candidate to previous candidates analyzed this session
+          s1ngularity_infers: Compare current candidate to previous candidates analyzed this session
           action: Generate comparison table
         follow_ups:
           user_says: 'What's the market rate?'
-          ark_infers: Market rate for the DevOps role we're discussing
+          s1ngularity_infers: Market rate for the DevOps role we're discussing
           action: Search salary data for DevOps Engineer in specified location
       contextual_defaults:
         location: If user analyzed Seattle role earlier, assume Seattle for salary queries
@@ -120,7 +120,7 @@ context_understanding:
           culture_fit: Prioritize adaptability, scrappy, wear-many-hats
           compensation: Lower base, higher equity, sell on growth potential
           process: Streamline - maybe skip technical for right candidate
-        ark_adaptation: Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas
+        s1ngularity_adaptation: Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas
       scale_up:
         indicators:
           - 100-1000 employees
@@ -132,7 +132,7 @@ context_understanding:
           culture_fit: Process-builders, scalability-minded
           compensation: Competitive market rates
           process: Structured but efficient
-        ark_adaptation: Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality
+        s1ngularity_adaptation: Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality
       enterprise:
         indicators:
           - 1000+ employees
@@ -144,7 +144,7 @@ context_understanding:
           culture_fit: Navigate complexity, patience with process
           compensation: Stable, good benefits
           process: Multiple rounds, committees, compliance focus
-        ark_adaptation: Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK
+        s1ngularity_adaptation: Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK
     market_conditions:
       hot_market:
         indicators:
@@ -152,35 +152,35 @@ context_understanding:
           - Candidates have multiple offers
           - Salaries rising rapidly
         implications: Move fast, pay premium, sell hard, be flexible on requirements
-        ark_adaptation: Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis
+        s1ngularity_adaptation: Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis
       balanced_market:
         indicators: Normal supply/demand
         implications: Standard processes work
-        ark_adaptation: Normal pacing and recommendations
+        s1ngularity_adaptation: Normal pacing and recommendations
       cold_market:
         indicators:
           - Layoffs, hiring freezes
           - Many candidates, few roles
           - Candidates negotiating less
         implications: Can be selective, longer timelines OK, negotiation leverage
-        ark_adaptation: Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now
+        s1ngularity_adaptation: Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now
     role_context:
       executive_hire:
         stakes: Very high - bad hire costs millions
         implications: Extensive vetting, cultural fit critical, references mandatory, slow process OK
-        ark_adaptation: Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation
+        s1ngularity_adaptation: Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation
       specialized_expert:
         stakes: High - hard to replace
         implications: Long search expected, pay premium, flexible on some requirements
-        ark_adaptation: Adjacent skills emphasis, training willingness, patience required
+        s1ngularity_adaptation: Adjacent skills emphasis, training willingness, patience required
       high_volume:
         stakes: Medium - need many quickly
         implications: Speed over perfection, process efficiency critical
-        ark_adaptation: Batch processing, streamlined analysis, clear go/no-go criteria
+        s1ngularity_adaptation: Batch processing, streamlined analysis, clear go/no-go criteria
       backfill:
         stakes: Medium - replacing leaver
         implications: Understand why previous person left, avoid same issues
-        ark_adaptation: Discuss retention risk, flag if candidate has same patterns as leaver
+        s1ngularity_adaptation: Discuss retention risk, flag if candidate has same patterns as leaver
 smart_routing:
   purpose: Automatically route requests to optimal processing path
   request_classification:
@@ -455,7 +455,7 @@ output_optimization:
       focus: Strategic insights, pipeline health, cost/time metrics, risk assessment
       style: High-level, business impact, ROI-focused
 
-## SOURCE: ark-fallback-resilience.json
+## SOURCE: s1ngularity-fallback-resilience.json
 module_name: Fallback Logic & Resilience Patterns
 purpose: Ensure S1NGULARITY remains operational even when components fail
 version: 2.0
@@ -838,7 +838,7 @@ user_communication:
     share_timeline: Give realistic estimate of when fixed (under-promise, over-deliver)
     show_progress: Update on recovery efforts
 
-## SOURCE: ark-governance-resilience.json
+## SOURCE: s1ngularity-governance-resilience.json
 module_name: Governance, Rate Limiting & Error Handling
 purpose: Ensure reliable, secure, and compliant operations with robust error handling
 version: 2.0
@@ -1008,7 +1008,7 @@ rate_limiting:
     external_api_calls:
       web_search:
         provider_limits: Respect Google/Bing rate limits
-        ark_limits: Max 100 searches per user per hour
+        s1ngularity_limits: Max 100 searches per user per hour
         caching: Cache results for 1 hour to reduce API calls
         fallback: If rate limited, use cached data or alternative source
       ats_apis:

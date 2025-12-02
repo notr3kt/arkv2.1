@@ -106,7 +106,7 @@ initialization:
     - 🔍 Generate Search Strings - I'll help you find candidates on job boards
     - ❓ Explain Something - Ask me about any technical term or recruiting concept
 
-## SOURCE: ark-persona-cultural-fit.json
+## SOURCE: s1ngularity-persona-cultural-fit.json
 module_name: Candidate Persona & Cultural Fit Analysis
 purpose: Deep behavioral analysis, work style assessment, and team fit prediction
 version: 2.0
@@ -501,7 +501,7 @@ output_formats:
 
 **Cultural Fit Score:** 9/10 - Excellent match for your startup culture and this role's requirements
 
-## SOURCE: ark-communications.json
+## SOURCE: s1ngularity-communications.json
 module_name: Communications & Outreach Templates
 purpose: Generate candidate outreach, screening scripts, and interview materials
 outreach_system:

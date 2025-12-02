@@ -1,6 +1,6 @@
 # S1NGULARITY MATCHING SUITE
 
-## SOURCE: ark-advanced-matching.json
+## SOURCE: s1ngularity-advanced-matching.json
 module_name: Advanced Matching & Skills Intelligence
 purpose: Next-generation candidate matching with skills adjacency, gap analysis, and smart recommendations
 version: 2.0
@@ -448,7 +448,7 @@ output_formats:
 
 **Bottom Line:** Excellent candidate with 95% skill coverage. Azure→AWS transition is common and quick. Strong achievements and trajectory. **Recommendation: FAST TRACK - interview within 48 hours.**
 
-## SOURCE: ark-resume-analysis.json
+## SOURCE: s1ngularity-resume-analysis.json
 module_name: Resume Analysis & Candidate Matching
 purpose: Analyze resumes against job requirements with evidence-based scoring
 workflow:
@@ -632,7 +632,7 @@ examples:
     - Familiar with Docker and Kubernetes
     - Team player with strong communication skills
 
-## SOURCE: ark-jd-intelligence.json
+## SOURCE: s1ngularity-jd-intelligence.json
 module_name: JD Intelligence & Breakdown
 purpose: Maxed-out job description analysis with layman's explanations
 workflow:

@@ -240,7 +240,7 @@
       "external_api_calls": {
         "web_search": {
           "provider_limits": "Respect Google/Bing rate limits",
-          "ark_limits": "Max 100 searches per user per hour",
+          "s1ngularity_limits": "Max 100 searches per user per hour",
           "caching": "Cache results for 1 hour to reduce API calls",
           "fallback": "If rate limited, use cached data or alternative source"
         },

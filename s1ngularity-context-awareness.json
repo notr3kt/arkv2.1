@@ -30,19 +30,19 @@
         "implicit_references": {
           "pronouns": {
             "user_says": "'What about this candidate?'",
-            "ark_infers": "This = current resume being discussed",
+            "s1ngularity_infers": "This = current resume being discussed",
             "action": "Analyze current resume against current JD"
           },
 
           "comparisons": {
             "user_says": "'How does she compare?'",
-            "ark_infers": "Compare current candidate to previous candidates analyzed this session",
+            "s1ngularity_infers": "Compare current candidate to previous candidates analyzed this session",
             "action": "Generate comparison table"
           },
 
           "follow_ups": {
             "user_says": "'What's the market rate?'",
-            "ark_infers": "Market rate for the DevOps role we're discussing",
+            "s1ngularity_infers": "Market rate for the DevOps role we're discussing",
             "action": "Search salary data for DevOps Engineer in specified location"
           }
         },
@@ -173,7 +173,7 @@
             "compensation": "Lower base, higher equity, sell on growth potential",
             "process": "Streamline - maybe skip technical for right candidate"
           },
-          "ark_adaptation": "Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas"
+          "s1ngularity_adaptation": "Emphasize speed, highlight generalist candidates, discuss equity value, flag 'startup fit' in personas"
         },
 
         "scale_up": {
@@ -189,7 +189,7 @@
             "compensation": "Competitive market rates",
             "process": "Structured but efficient"
           },
-          "ark_adaptation": "Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality"
+          "s1ngularity_adaptation": "Focus on scalability experience, highlight 'grew with company' patterns, balanced speed/quality"
         },
 
         "enterprise": {
@@ -205,7 +205,7 @@
             "compensation": "Stable, good benefits",
             "process": "Multiple rounds, committees, compliance focus"
           },
-          "ark_adaptation": "Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK"
+          "s1ngularity_adaptation": "Emphasize enterprise experience, highlight process expertise, flag compliance, slower pace OK"
         }
       },
 
@@ -217,13 +217,13 @@
             "Salaries rising rapidly"
           ],
           "implications": "Move fast, pay premium, sell hard, be flexible on requirements",
-          "ark_adaptation": "Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis"
+          "s1ngularity_adaptation": "Urgency language, suggest adjacent skills, recommend quick decisions, market context in every analysis"
         },
 
         "balanced_market": {
           "indicators": "Normal supply/demand",
           "implications": "Standard processes work",
-          "ark_adaptation": "Normal pacing and recommendations"
+          "s1ngularity_adaptation": "Normal pacing and recommendations"
         },
 
         "cold_market": {
@@ -233,7 +233,7 @@
             "Candidates negotiating less"
           ],
           "implications": "Can be selective, longer timelines OK, negotiation leverage",
-          "ark_adaptation": "Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now"
+          "s1ngularity_adaptation": "Higher bar recommendations, discuss market leverage, note this is candidates' market historically but not now"
         }
       },
 
@@ -241,25 +241,25 @@
         "executive_hire": {
           "stakes": "Very high - bad hire costs millions",
           "implications": "Extensive vetting, cultural fit critical, references mandatory, slow process OK",
-          "ark_adaptation": "Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation"
+          "s1ngularity_adaptation": "Extra scrutiny, emphasize soft skills/leadership, recommend extended evaluation"
         },
 
         "specialized_expert": {
           "stakes": "High - hard to replace",
           "implications": "Long search expected, pay premium, flexible on some requirements",
-          "ark_adaptation": "Adjacent skills emphasis, training willingness, patience required"
+          "s1ngularity_adaptation": "Adjacent skills emphasis, training willingness, patience required"
         },
 
         "high_volume": {
           "stakes": "Medium - need many quickly",
           "implications": "Speed over perfection, process efficiency critical",
-          "ark_adaptation": "Batch processing, streamlined analysis, clear go/no-go criteria"
+          "s1ngularity_adaptation": "Batch processing, streamlined analysis, clear go/no-go criteria"
         },
 
         "backfill": {
           "stakes": "Medium - replacing leaver",
           "implications": "Understand why previous person left, avoid same issues",
-          "ark_adaptation": "Discuss retention risk, flag if candidate has same patterns as leaver"
+          "s1ngularity_adaptation": "Discuss retention risk, flag if candidate has same patterns as leaver"
         }
       }
     }

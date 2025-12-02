@@ -1,6 +1,6 @@
 # S1NGULARITY ANALYTICS COMPLIANCE
 
-## SOURCE: ark-analytics-insights.json
+## SOURCE: s1ngularity-analytics-insights.json
 module_name: Analytics & Insights Dashboard
 purpose: Track recruiting metrics, pipeline health, and generate actionable insights
 version: 2.0
@@ -252,7 +252,7 @@ continuous_improvement:
       - New hire performance (after 90 days)
     act_on: If hiring managers consistently rate candidates low despite high match scores, recalibrate scoring algorithm or add new evaluation criteria
 
-## SOURCE: ark-bias-detection-compliance.json
+## SOURCE: s1ngularity-bias-detection-compliance.json
 module_name: Enhanced Bias Detection & Compliance Monitoring
 purpose: Advanced fairness checks, bias mitigation, and regulatory compliance for equitable hiring
 version: 2.0
@@ -384,7 +384,7 @@ fairness_metrics:
       calculation: 30% / 50% = 0.6 = 60%
       result: ⚠️ **Adverse Impact Detected:** Women passing phone screen at 60% the rate of men (below 80% threshold). This suggests potential bias in screening criteria or process.
       action: Review phone screen questions and criteria for bias. Consider structured interviews with standardized questions.
-    ark_monitoring: If user opts in, S1NGULARITY can track these metrics and alert to adverse impact patterns
+    s1ngularity_monitoring: If user opts in, S1NGULARITY can track these metrics and alert to adverse impact patterns
   diversity_dashboards:
     track_at_each_stage:
       - Candidates sourced
@@ -404,7 +404,7 @@ compliance_frameworks:
       - Disability (ADA)
       - Genetic information (GINA)
       - Pregnancy (PDA)
-    ark_compliance:
+    s1ngularity_compliance:
       never_ask_about: Protected characteristics
       never_use_in_scoring: Name, school, location (as proxies)
       maintain_consistency: Same criteria for all candidates
@@ -418,7 +418,7 @@ compliance_frameworks:
       - Track applicant demographics (voluntary)
       - Demonstrate good faith efforts to recruit diverse candidates
       - Maintain records for 2 years
-    ark_support:
+    s1ngularity_support:
       diverse_sourcing: Suggest diverse sourcing channels
       blind_review_option: Offer anonymous resume review
       audit_trail: Maintain detailed logs of all decisions
@@ -431,7 +431,7 @@ compliance_frameworks:
       - Right to be forgotten
       - Data minimization (collect only what's needed)
       - Secure data handling
-    ark_compliance:
+    s1ngularity_compliance:
       consent_tracking: Log when candidate consents to analysis
       data_retention: Auto-delete after specified period
       data_export: Provide candidate their data on request
@@ -440,7 +440,7 @@ compliance_frameworks:
   ccpa_privacy:
     regulations: California Consumer Privacy Act
     requirements: Right to know, delete, opt-out of sale
-    ark_compliance: Similar to GDPR, with California-specific requirements
+    s1ngularity_compliance: Similar to GDPR, with California-specific requirements
 bias_mitigation_best_practices:
   structured_scoring:
     principle: Use consistent criteria for all candidates
@@ -459,15 +459,15 @@ bias_mitigation_best_practices:
   diverse_candidate_slates:
     rooney_rule: Interview at least one diverse candidate per role
     better_approach: Ensure shortlist includes multiple diverse candidates
-    ark_support: Alert if shortlist lacks diversity of backgrounds, experiences, or paths
+    s1ngularity_support: Alert if shortlist lacks diversity of backgrounds, experiences, or paths
   structured_interviews:
     approach: Ask all candidates same questions, score with rubric
-    ark_support: Generate standardized interview questions per role
+    s1ngularity_support: Generate standardized interview questions per role
     benefit: Reduces bias, improves consistency, legally defensible
   diverse_interview_panels:
     research: Diverse panels lead to more equitable hiring
     recommendation: Include interviewers from different backgrounds, levels, functions
-    ark_note: S1NGULARITY can't enforce this but can recommend in interview prep materials
+    s1ngularity_note: S1NGULARITY can't enforce this but can recommend in interview prep materials
 red_flag_escalation:
   user_behavior_monitoring:
     detect_patterns:
@@ -533,7 +533,7 @@ training_and_education:
       - How to conduct structured interviews
       - Disability accommodation in hiring
       - Veteran hiring best practices
-    ark_support: When S1NGULARITY detects potential bias, provide micro-learning moments
+    s1ngularity_support: When S1NGULARITY detects potential bias, provide micro-learning moments
   in_context_education:
     example_1:
       trigger: User focuses on candidate's school

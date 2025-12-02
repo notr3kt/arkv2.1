@@ -236,7 +236,7 @@
         "task": "Does this candidate match the JD?",
         "classification": "Analysis task, data available (resume + JD)",
         "requirements": "Speed: Fast | Accuracy: High | Completeness: Full analysis",
-        "tool_selected": "Structured workflow (ark-resume-analysis.json)",
+        "tool_selected": "Structured workflow (s1ngularity-resume-analysis.json)",
         "execution": "Parse resume → Extract skills → Match against JD → Score → Generate report",
         "validation": "Check all required fields analyzed, citations present",
         "output": "Detailed match report with evidence"

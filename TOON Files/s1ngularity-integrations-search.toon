@@ -1,6 +1,6 @@
 # S1NGULARITY INTEGRATIONS SEARCH
 
-## SOURCE: ark-integrations-ecosystem.json
+## SOURCE: s1ngularity-integrations-ecosystem.json
 module_name: Integrations & Ecosystem Connectors
 purpose: Connect S1NGULARITY with ATS, CRM, email systems, and other recruiting tools
 version: 2.0
@@ -113,7 +113,7 @@ email_integrations:
       - Track opens and responses
       - Sync sent emails back to ATS
     templates:
-      initial_outreach: Use ark-communications.json templates, auto-personalized
+      initial_outreach: Use s1ngularity-communications.json templates, auto-personalized
       follow_up: Smart follow-ups based on no response timeline
       interview_scheduling: Auto-generate email with calendar links
     safety_features:
@@ -206,10 +206,10 @@ slack_teams_integrations:
     capabilities:
       - Post new candidate alerts to recruiting channel
       - Share top candidates of the week
-      - Answer questions: '@ark what skills do we need for DevOps role?'
-      - Get quick analysis: '@ark analyze [resume link]'
-      - Request reports: '@ark compare these 3 candidates'
-      - Market intel: '@ark what's the going rate for Senior React Developer in Austin?'
+      - Answer questions: '@s1ngularity what skills do we need for DevOps role?'
+      - Get quick analysis: '@s1ngularity analyze [resume link]'
+      - Request reports: '@s1ngularity compare these 3 candidates'
+      - Market intel: '@s1ngularity what's the going rate for Senior React Developer in Austin?'
     notifications:
       strong_candidate_alert: 🎯 **Strong Match Found!** [Name] scored 9.2/10 for [Role]. View analysis: [link]
       pipeline_updates: 📊 **Weekly Update:** 15 candidates reviewed, 3 phone screens, 1 offer. Top candidate: [Name]
@@ -224,7 +224,7 @@ slack_teams_integrations:
 zapier_make_integrations:
   purpose: No-code automation for custom workflows
   popular_zaps:
-    new_candidate_to_ark:
+    new_candidate_to_s1ngularity:
       trigger: New candidate in ATS
       action: Send to S1NGULARITY for analysis
       result: Add S1NGULARITY score as note in ATS
@@ -262,7 +262,7 @@ video_interview_platforms:
   purpose: Integrate with video interview tools
   platforms:
     hirevue: AI video interview analysis
-    spark_hire: One-way video interviews
+    sps1ngularity_hire: One-way video interviews
     zoom_teams: Live video interviews
   integration_points:
     pre_interview: Share S1NGULARITY analysis report with interviewers beforehand
@@ -333,7 +333,7 @@ security_privacy:
     certifications: SOC 2 Type II (in progress), ISO 27001 (planned)
     data_residency: US, EU, UK data centers available
 
-## SOURCE: ark-web-search-integration.json
+## SOURCE: s1ngularity-web-search-integration.json
 module_name: Web Search Integration & Real-Time Intelligence
 purpose: Always access the latest information from the web, validate data, and stay current
 version: 2.0
@@ -695,7 +695,7 @@ quality_assurance:
     old_data: All sources >1 year old → Strong caveat required
     contradictions: Sources disagree → Present multiple viewpoints, note uncertainty
     low_quality: Only Tier 3/4 sources → Avoid or caveat heavily
-integration_with_ark_intelligence:
+integration_with_s1ngularity_intelligence:
   automatic_triggering:
     keywords_that_trigger_search:
       - current
@@ -717,12 +717,12 @@ integration_with_ark_intelligence:
     no_extra_steps: User doesn't need to ask for search - S1NGULARITY does it automatically when needed
   example_flow:
     user_query: What should I pay a Senior React Developer in Seattle?
-    ark_action_1: Recognize this needs current salary data
-    ark_action_2: Auto-search: 'Senior React Developer salary Seattle 2024 site:levels.fyi OR site:glassdoor.com'
-    ark_action_3: Extract: $140k-$180k base salary
-    ark_action_4: Cross-reference with Indeed, Glassdoor
-    ark_action_5: Synthesize and respond
-    ark_response: 💰 **Market Rate - Seattle (2024):**
+    s1ngularity_action_1: Recognize this needs current salary data
+    s1ngularity_action_2: Auto-search: 'Senior React Developer salary Seattle 2024 site:levels.fyi OR site:glassdoor.com'
+    s1ngularity_action_3: Extract: $140k-$180k base salary
+    s1ngularity_action_4: Cross-reference with Indeed, Glassdoor
+    s1ngularity_action_5: Synthesize and respond
+    s1ngularity_response: 💰 **Market Rate - Seattle (2024):**
 
 Senior React Developers in Seattle earn:
 - **Base Salary:** $140k-$180k (median $158k)

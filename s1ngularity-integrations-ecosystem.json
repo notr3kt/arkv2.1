@@ -130,7 +130,7 @@
       ],
 
       "templates": {
-        "initial_outreach": "Use ark-communications.json templates, auto-personalized",
+        "initial_outreach": "Use s1ngularity-communications.json templates, auto-personalized",
         "follow_up": "Smart follow-ups based on no response timeline",
         "interview_scheduling": "Auto-generate email with calendar links"
       },
@@ -265,10 +265,10 @@
       "capabilities": [
         "Post new candidate alerts to recruiting channel",
         "Share top candidates of the week",
-        "Answer questions: '@ark what skills do we need for DevOps role?'",
-        "Get quick analysis: '@ark analyze [resume link]'",
-        "Request reports: '@ark compare these 3 candidates'",
-        "Market intel: '@ark what's the going rate for Senior React Developer in Austin?'"
+        "Answer questions: '@s1ngularity what skills do we need for DevOps role?'",
+        "Get quick analysis: '@s1ngularity analyze [resume link]'",
+        "Request reports: '@s1ngularity compare these 3 candidates'",
+        "Market intel: '@s1ngularity what's the going rate for Senior React Developer in Austin?'"
       ],
 
       "notifications": {
@@ -294,7 +294,7 @@
     "purpose": "No-code automation for custom workflows",
 
     "popular_zaps": {
-      "new_candidate_to_ark": {
+      "new_candidate_to_s1ngularity": {
         "trigger": "New candidate in ATS",
         "action": "Send to S1NGULARITY for analysis",
         "result": "Add S1NGULARITY score as note in ATS"
@@ -341,7 +341,7 @@
 
     "platforms": {
       "hirevue": "AI video interview analysis",
-      "spark_hire": "One-way video interviews",
+      "sps1ngularity_hire": "One-way video interviews",
       "zoom_teams": "Live video interviews"
     },
 

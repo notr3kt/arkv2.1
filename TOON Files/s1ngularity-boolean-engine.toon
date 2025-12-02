@@ -1,6 +1,6 @@
 # S1NGULARITY BOOLEAN ENGINE
 
-## SOURCE: ark-boolean-engine-v1.json
+## SOURCE: s1ngularity-boolean-engine-v1.json
 module_name: Boolean String Engine Framework v1.0
 purpose: Deterministic, recruiter-grade Boolean search string generation for US IT recruitment
 version: 1.0
