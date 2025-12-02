@@ -3,7 +3,7 @@
   "purpose": "Advanced fairness checks, bias mitigation, and regulatory compliance for equitable hiring",
   "version": "2.0",
 
-  "core_principle": "ARK Intelligence must actively prevent discrimination while helping recruiters make informed, fair decisions based on qualifications alone.",
+  "core_principle": "S1NGULARITY must actively prevent discrimination while helping recruiters make informed, fair decisions based on qualifications alone.",
 
   "protected_characteristics": {
     "never_analyze_or_mention": [
@@ -92,20 +92,20 @@
     "resume_analysis_bias_check": {
       "name_based_bias_prevention": {
         "issue": "Names can reveal gender, ethnicity, and lead to unconscious bias",
-        "mitigation": "ARK never mentions or uses candidate name in scoring logic",
+        "mitigation": "S1NGULARITY never mentions or uses candidate name in scoring logic",
         "recommendation": "Consider blind resume reviews - provide analysis without names"
       },
 
       "school_prestige_bias": {
         "issue": "Overweighting 'brand name' schools excludes talented candidates from non-target schools",
-        "detection": "If ARK detects user consistently favoring Ivy League candidates over equally qualified non-target school candidates",
-        "alert": "⚠️ **Bias Pattern Detected:** Last 10 candidates from target schools had 90% interview rate vs 20% from non-target schools, despite similar ARK scores. This suggests school bias.",
+        "detection": "If S1NGULARITY detects user consistently favoring Ivy League candidates over equally qualified non-target school candidates",
+        "alert": "⚠️ **Bias Pattern Detected:** Last 10 candidates from target schools had 90% interview rate vs 20% from non-target schools, despite similar S1NGULARITY scores. This suggests school bias.",
         "recommendation": "Review education requirements. Consider skills-based assessment over pedigree."
       },
 
       "experience_gap_bias": {
         "issue": "Employment gaps disproportionately affect women, caregivers, people with health issues",
-        "mitigation": "ARK flags gaps but doesn't penalize - provides context",
+        "mitigation": "S1NGULARITY flags gaps but doesn't penalize - provides context",
         "output": "ℹ️ **Employment Gap:** 8-month gap in 2020. Note: This could be due to many valid reasons (caregiving, health, education, pandemic impacts). **Recommendation:** Ask about gap during screening in a non-judgmental way."
       },
 
@@ -123,7 +123,7 @@
     },
 
     "language_tone_analysis": {
-      "purpose": "Ensure ARK's own outputs don't contain biased language",
+      "purpose": "Ensure S1NGULARITY's own outputs don't contain biased language",
 
       "self_check": [
         "Don't use gendered pronouns (he/she) - use they/them or repeat name",
@@ -161,7 +161,7 @@
         "action": "Review phone screen questions and criteria for bias. Consider structured interviews with standardized questions."
       },
 
-      "ark_monitoring": "If user opts in, ARK can track these metrics and alert to adverse impact patterns"
+      "s1ngularity_monitoring": "If user opts in, S1NGULARITY can track these metrics and alert to adverse impact patterns"
     },
 
     "diversity_dashboards": {
@@ -192,7 +192,7 @@
         "Pregnancy (PDA)"
       ],
 
-      "ark_compliance": {
+      "s1ngularity_compliance": {
         "never_ask_about": "Protected characteristics",
         "never_use_in_scoring": "Name, school, location (as proxies)",
         "maintain_consistency": "Same criteria for all candidates",
@@ -213,7 +213,7 @@
         "Maintain records for 2 years"
       ],
 
-      "ark_support": {
+      "s1ngularity_support": {
         "diverse_sourcing": "Suggest diverse sourcing channels",
         "blind_review_option": "Offer anonymous resume review",
         "audit_trail": "Maintain detailed logs of all decisions",
@@ -232,7 +232,7 @@
         "Secure data handling"
       ],
 
-      "ark_compliance": {
+      "s1ngularity_compliance": {
         "consent_tracking": "Log when candidate consents to analysis",
         "data_retention": "Auto-delete after specified period",
         "data_export": "Provide candidate their data on request",
@@ -244,14 +244,14 @@
     "ccpa_privacy": {
       "regulations": "California Consumer Privacy Act",
       "requirements": "Right to know, delete, opt-out of sale",
-      "ark_compliance": "Similar to GDPR, with California-specific requirements"
+      "s1ngularity_compliance": "Similar to GDPR, with California-specific requirements"
     }
   },
 
   "bias_mitigation_best_practices": {
     "structured_scoring": {
       "principle": "Use consistent criteria for all candidates",
-      "implementation": "ARK uses same scoring rubric for every candidate",
+      "implementation": "S1NGULARITY uses same scoring rubric for every candidate",
       "benefit": "Reduces unconscious bias, defensible in audit"
     },
 
@@ -265,19 +265,19 @@
     "diverse_candidate_slates": {
       "rooney_rule": "Interview at least one diverse candidate per role",
       "better_approach": "Ensure shortlist includes multiple diverse candidates",
-      "ark_support": "Alert if shortlist lacks diversity of backgrounds, experiences, or paths"
+      "s1ngularity_support": "Alert if shortlist lacks diversity of backgrounds, experiences, or paths"
     },
 
     "structured_interviews": {
       "approach": "Ask all candidates same questions, score with rubric",
-      "ark_support": "Generate standardized interview questions per role",
+      "s1ngularity_support": "Generate standardized interview questions per role",
       "benefit": "Reduces bias, improves consistency, legally defensible"
     },
 
     "diverse_interview_panels": {
       "research": "Diverse panels lead to more equitable hiring",
       "recommendation": "Include interviewers from different backgrounds, levels, functions",
-      "ark_note": "ARK can't enforce this but can recommend in interview prep materials"
+      "s1ngularity_note": "S1NGULARITY can't enforce this but can recommend in interview prep materials"
     }
   },
 
@@ -286,7 +286,7 @@
       "detect_patterns": [
         "User consistently rejects candidates from certain backgrounds despite high scores",
         "User asks discriminatory questions ('find me young candidates')",
-        "User overrides ARK recommendations in biased way",
+        "User overrides S1NGULARITY recommendations in biased way",
         "User requests analysis of protected characteristics"
       ],
 
@@ -305,7 +305,7 @@
 
   "ethical_ai_principles": {
     "transparency": {
-      "principle": "Be clear about how ARK makes decisions",
+      "principle": "Be clear about how S1NGULARITY makes decisions",
       "implementation": [
         "Show scoring logic and factors",
         "Explain why candidate got certain score",
@@ -315,7 +315,7 @@
     },
 
     "human_in_loop": {
-      "principle": "ARK recommends, humans decide",
+      "principle": "S1NGULARITY recommends, humans decide",
       "implementation": [
         "Never auto-reject candidates",
         "Always provide reasoning, not just scores",
@@ -327,7 +327,7 @@
     "continuous_improvement": {
       "principle": "Monitor for bias and improve over time",
       "implementation": [
-        "Track if ARK scores correlate with successful hires",
+        "Track if S1NGULARITY scores correlate with successful hires",
         "Monitor for adverse impact",
         "Update algorithms when bias detected",
         "Solicit feedback from recruiters and candidates"
@@ -363,7 +363,7 @@
 
     "eeo_1_support": {
       "purpose": "Support EEO-1 reporting requirements",
-      "note": "ARK doesn't collect demographic data, but can help with job classification and hiring metrics"
+      "note": "S1NGULARITY doesn't collect demographic data, but can help with job classification and hiring metrics"
     }
   },
 
@@ -377,7 +377,7 @@
         "Veteran hiring best practices"
       ],
 
-      "ark_support": "When ARK detects potential bias, provide micro-learning moments"
+      "s1ngularity_support": "When S1NGULARITY detects potential bias, provide micro-learning moments"
     },
 
     "in_context_education": {

@@ -1,10 +1,10 @@
 {
   "module_name": "Integrations & Ecosystem Connectors",
-  "purpose": "Connect ARK Intelligence with ATS, CRM, email systems, and other recruiting tools",
+  "purpose": "Connect S1NGULARITY with ATS, CRM, email systems, and other recruiting tools",
   "version": "2.0",
 
   "integration_philosophy": {
-    "approach": "ARK Intelligence acts as an intelligent layer that enhances existing tools",
+    "approach": "S1NGULARITY acts as an intelligent layer that enhances existing tools",
     "principle": "Don't replace recruiter's workflow - augment it with AI insights",
     "goal": "Make insights actionable within tools recruiters already use daily"
   },
@@ -17,17 +17,17 @@
         "capabilities": [
           "Pull candidate data automatically",
           "Analyze resumes in Greenhouse pipeline",
-          "Push ARK Intelligence scores back to candidate profiles",
-          "Auto-tag candidates (e.g., 'ARK Score: 8.5', 'Strong Match', 'Missing: AWS')",
+          "Push S1NGULARITY scores back to candidate profiles",
+          "Auto-tag candidates (e.g., 'S1NGULARITY Score: 8.5', 'Strong Match', 'Missing: AWS')",
           "Generate interview questions and push to interview kits"
         ],
 
         "workflow_example": {
           "trigger": "New candidate added to Greenhouse",
-          "step_1": "Webhook notifies ARK Intelligence",
-          "step_2": "ARK analyzes resume against job requirements",
+          "step_1": "Webhook notifies S1NGULARITY",
+          "step_2": "S1NGULARITY analyzes resume against job requirements",
           "step_3": "Pushes score, analysis, and tags back to Greenhouse",
-          "step_4": "Recruiter sees ARK insights directly in candidate profile",
+          "step_4": "Recruiter sees S1NGULARITY insights directly in candidate profile",
           "step_5": "One-click to request full report or interview questions"
         },
 
@@ -56,8 +56,8 @@
         "fallback": "If ATS doesn't have API, use manual workflow",
         "workflow": [
           "Export candidates from ATS (CSV or Excel)",
-          "Upload to ARK Intelligence",
-          "ARK analyzes in batch",
+          "Upload to S1NGULARITY",
+          "S1NGULARITY analyzes in batch",
           "Returns scored/ranked list",
           "Recruiter manually updates ATS with insights"
         ]
@@ -75,7 +75,7 @@
           "skills_missing": ["Kubernetes"],
           "recommendation": "PROCEED - Phone screen recommended",
           "red_flags": "None",
-          "full_report_link": "[URL to detailed ARK analysis]"
+          "full_report_link": "[URL to detailed S1NGULARITY analysis]"
         }
       }
     }
@@ -90,16 +90,16 @@
         "Sync candidate profiles to Salesforce",
         "Track outreach attempts and responses",
         "Score candidates (hot/warm/cold)",
-        "Trigger follow-up campaigns based on ARK scores",
+        "Trigger follow-up campaigns based on S1NGULARITY scores",
         "Track candidate pipeline alongside sales pipeline"
       ],
 
       "workflow": {
         "passive_candidate_nurture": [
-          "ARK identifies strong candidate who's not currently looking",
+          "S1NGULARITY identifies strong candidate who's not currently looking",
           "Pushes to Salesforce as 'Warm Lead'",
           "Triggers nurture email campaign (monthly check-ins)",
-          "When candidate changes status, ARK re-scores and updates",
+          "When candidate changes status, S1NGULARITY re-scores and updates",
           "Alerts recruiter when candidate becomes active"
         ]
       }
@@ -118,19 +118,19 @@
   },
 
   "email_integrations": {
-    "purpose": "Send ARK-generated communications directly from recruiter's email",
+    "purpose": "Send S1NGULARITY-generated communications directly from recruiter's email",
 
     "gmail_outlook": {
       "capabilities": [
-        "Send ARK-generated outreach emails",
-        "One-click to email candidate from ARK",
+        "Send S1NGULARITY-generated outreach emails",
+        "One-click to email candidate from S1NGULARITY",
         "Auto-populate email with candidate name, role details",
         "Track opens and responses",
         "Sync sent emails back to ATS"
       ],
 
       "templates": {
-        "initial_outreach": "Use ark-communications.json templates, auto-personalized",
+        "initial_outreach": "Use s1ngularity-communications.json templates, auto-personalized",
         "follow_up": "Smart follow-ups based on no response timeline",
         "interview_scheduling": "Auto-generate email with calendar links"
       },
@@ -173,36 +173,36 @@
         "Reschedule handling"
       ],
 
-      "workflow": "ARK identifies strong candidate → Generates phone screen email with Calendly link → Candidate books → Syncs to all systems → Reminder 24hr before"
+      "workflow": "S1NGULARITY identifies strong candidate → Generates phone screen email with Calendly link → Candidate books → Syncs to all systems → Reminder 24hr before"
     },
 
     "google_calendar_outlook": {
       "capabilities": [
         "Check interviewer availability before suggesting times",
         "Create interview events with candidate details",
-        "Attach ARK analysis report to calendar event",
+        "Attach S1NGULARITY analysis report to calendar event",
         "Send interview prep materials to interviewers"
       ]
     }
   },
 
   "linkedin_integrations": {
-    "purpose": "Enhance LinkedIn sourcing with ARK Intelligence",
+    "purpose": "Enhance LinkedIn sourcing with S1NGULARITY",
 
     "linkedin_recruiter": {
       "workflow": {
-        "sourcing": "Use ARK-generated boolean strings in LinkedIn Recruiter",
-        "quick_analysis": "Copy-paste LinkedIn profile text → ARK analyzes → Get quick score",
-        "bulk_analysis": "Export LinkedIn search results → Upload to ARK → Get ranked list",
-        "outreach": "ARK generates personalized InMail based on profile"
+        "sourcing": "Use S1NGULARITY-generated boolean strings in LinkedIn Recruiter",
+        "quick_analysis": "Copy-paste LinkedIn profile text → S1NGULARITY analyzes → Get quick score",
+        "bulk_analysis": "Export LinkedIn search results → Upload to S1NGULARITY → Get ranked list",
+        "outreach": "S1NGULARITY generates personalized InMail based on profile"
       },
 
       "chrome_extension_idea": {
-        "concept": "Browser extension that adds ARK button to LinkedIn profiles",
+        "concept": "Browser extension that adds S1NGULARITY button to LinkedIn profiles",
         "functionality": [
-          "Click ARK button on any LinkedIn profile",
+          "Click S1NGULARITY button on any LinkedIn profile",
           "Extension scrapes profile data",
-          "Sends to ARK for analysis against active JDs",
+          "Sends to S1NGULARITY for analysis against active JDs",
           "Shows match score and insights in sidebar",
           "One-click to save to ATS or send outreach message"
         ]
@@ -211,7 +211,7 @@
   },
 
   "data_export_formats": {
-    "purpose": "Export ARK Intelligence data to various formats for use in other systems",
+    "purpose": "Export S1NGULARITY data to various formats for use in other systems",
 
     "csv_excel": {
       "use_case": "Bulk candidate data for analysis in Excel or Google Sheets",
@@ -219,7 +219,7 @@
         "Candidate Name",
         "Email",
         "Phone",
-        "ARK Match Score",
+        "S1NGULARITY Match Score",
         "Core Skills Match (%)",
         "Years of Experience",
         "Current Company",
@@ -254,21 +254,21 @@
         "Comparison Report (multiple candidates side-by-side)",
         "Pipeline Report (analytics dashboard)"
       ],
-      "branding": "Include company logo and ARK Solutions branding"
+      "branding": "Include company logo and S1NGULARITY Solutions branding"
     }
   },
 
   "slack_teams_integrations": {
-    "purpose": "Bring ARK insights into team communication",
+    "purpose": "Bring S1NGULARITY insights into team communication",
 
     "slack_bot": {
       "capabilities": [
         "Post new candidate alerts to recruiting channel",
         "Share top candidates of the week",
-        "Answer questions: '@ark what skills do we need for DevOps role?'",
-        "Get quick analysis: '@ark analyze [resume link]'",
-        "Request reports: '@ark compare these 3 candidates'",
-        "Market intel: '@ark what's the going rate for Senior React Developer in Austin?'"
+        "Answer questions: '@s1ngularity what skills do we need for DevOps role?'",
+        "Get quick analysis: '@s1ngularity analyze [resume link]'",
+        "Request reports: '@s1ngularity compare these 3 candidates'",
+        "Market intel: '@s1ngularity what's the going rate for Senior React Developer in Austin?'"
       ],
 
       "notifications": {
@@ -294,20 +294,20 @@
     "purpose": "No-code automation for custom workflows",
 
     "popular_zaps": {
-      "new_candidate_to_ark": {
+      "new_candidate_to_s1ngularity": {
         "trigger": "New candidate in ATS",
-        "action": "Send to ARK Intelligence for analysis",
-        "result": "Add ARK score as note in ATS"
+        "action": "Send to S1NGULARITY for analysis",
+        "result": "Add S1NGULARITY score as note in ATS"
       },
 
       "strong_match_notification": {
-        "trigger": "ARK identifies candidate with score > 8.5",
+        "trigger": "S1NGULARITY identifies candidate with score > 8.5",
         "action": "Send Slack message + Email to recruiter + Add to priority lane in ATS"
       },
 
       "jd_analysis_request": {
         "trigger": "New job requisition approved in workday",
-        "action": "Send JD to ARK for analysis",
+        "action": "Send JD to S1NGULARITY for analysis",
         "result": "Create boolean strings + Post to LinkedIn + Email recruiter with strategy"
       },
 
@@ -341,19 +341,19 @@
 
     "platforms": {
       "hirevue": "AI video interview analysis",
-      "spark_hire": "One-way video interviews",
+      "sps1ngularity_hire": "One-way video interviews",
       "zoom_teams": "Live video interviews"
     },
 
     "integration_points": {
-      "pre_interview": "Share ARK analysis report with interviewers beforehand",
-      "post_interview": "Collect structured feedback and correlate with ARK predictions",
-      "analytics": "Track if ARK scores correlate with interview performance"
+      "pre_interview": "Share S1NGULARITY analysis report with interviewers beforehand",
+      "post_interview": "Collect structured feedback and correlate with S1NGULARITY predictions",
+      "analytics": "Track if S1NGULARITY scores correlate with interview performance"
     }
   },
 
   "compliance_audit_trail": {
-    "purpose": "Track all ARK Intelligence actions for compliance and auditing",
+    "purpose": "Track all S1NGULARITY actions for compliance and auditing",
 
     "log_events": [
       "Resume analyzed (timestamp, user, candidate ID)",
@@ -381,9 +381,9 @@
   "implementation_guide": {
     "phase_1_manual": {
       "timeline": "Week 1",
-      "approach": "Use ARK Intelligence manually without integrations",
+      "approach": "Use S1NGULARITY manually without integrations",
       "workflow": [
-        "Copy-paste resumes and JDs into ARK",
+        "Copy-paste resumes and JDs into S1NGULARITY",
         "Get analysis and recommendations",
         "Manually add insights to ATS",
         "Track results in spreadsheet"
@@ -395,7 +395,7 @@
       "timeline": "Weeks 2-4",
       "approach": "Add simple automations using Zapier or email",
       "workflow": [
-        "Email resumes to ARK → Get automated analysis response",
+        "Email resumes to S1NGULARITY → Get automated analysis response",
         "Set up Slack notifications for high-scoring candidates",
         "Use CSV export to bulk update ATS weekly"
       ],
@@ -406,9 +406,9 @@
       "timeline": "Months 2-3",
       "approach": "Deep integration with ATS and recruiting stack",
       "workflow": [
-        "ATS webhook sends new candidates to ARK automatically",
-        "ARK scores appear in ATS in real-time",
-        "Recruiters work in ATS, see ARK insights inline",
+        "ATS webhook sends new candidates to S1NGULARITY automatically",
+        "S1NGULARITY scores appear in ATS in real-time",
+        "Recruiters work in ATS, see S1NGULARITY insights inline",
         "Analytics dashboard pulls data from all systems"
       ],
       "goal": "Seamless workflow, recruiters never leave ATS"

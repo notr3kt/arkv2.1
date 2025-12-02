@@ -1,6 +1,6 @@
-# ARK INTELLIGENCE ENGINES
+# S1NGULARITY INTELLIGENCE ENGINES
 
-## SOURCE: ark-advanced-ai-engine.json
+## SOURCE: s1ngularity-advanced-ai-engine.json
 module_name: Advanced AI Engine & Real-Time Intelligence
 purpose: Next-gen capabilities: web search validation, predictive analytics, multi-modal analysis
 version: 2.0
@@ -308,12 +308,12 @@ quality_assurance:
     low_confidence: <70% - Missing information, unclear context
     action: If confidence < 70%, explicitly state uncertainty and offer to research further
 
-## SOURCE: ark-reasoning-intelligence.json
+## SOURCE: s1ngularity-reasoning-intelligence.json
 module_name: Reasoning Intelligence & Tool Selection Engine
 purpose: Advanced decision-making logic, tool selection, and intelligent problem-solving
 version: 2.0
 core_reasoning_engine:
-  purpose: Enable ARK to think strategically, break down complex problems, and make optimal decisions
+  purpose: Enable S1NGULARITY to think strategically, break down complex problems, and make optimal decisions
   reasoning_modes:
     analytical_reasoning:
       when_to_use:
@@ -483,7 +483,7 @@ intelligent_tool_selection:
       task: Does this candidate match the JD?
       classification: Analysis task, data available (resume + JD)
       requirements: Speed: Fast | Accuracy: High | Completeness: Full analysis
-      tool_selected: Structured workflow (ark-resume-analysis.json)
+      tool_selected: Structured workflow (s1ngularity-resume-analysis.json)
       execution: Parse resume → Extract skills → Match against JD → Score → Generate report
       validation: Check all required fields analyzed, citations present
       output: Detailed match report with evidence

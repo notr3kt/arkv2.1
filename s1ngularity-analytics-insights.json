@@ -137,7 +137,7 @@
       "slow_turnaround": {
         "signal": "Taking 5+ days to review and respond to candidates",
         "insight": "📊 **Coaching:** Speed is critical in competitive market.",
-        "action": "Batch review sessions, use ARK Intelligence for faster screening"
+        "action": "Batch review sessions, use S1NGULARITY for faster screening"
       }
     }
   },
@@ -250,7 +250,7 @@
     "candidate_journey_map": {
       "purpose": "Visualize a specific candidate's progression",
       "format": "Timeline with key events",
-      "example": "**Sarah Johnson - DevOps Engineer:**\n• Day 1: Resume received (LinkedIn)\n• Day 2: Reviewed by ARK Intelligence → 8.5/10 match\n• Day 3: Phone screen scheduled\n• Day 5: Phone screen completed ✅\n• Day 8: Technical interview scheduled\n• Day 12: Technical interview completed ✅ (Strong feedback)\n• Day 14: Offer prepared\n• Day 15: Offer extended\n• Day 17: Offer accepted 🎉\n\n**Total time:** 17 days (Target: 21) ✅\n**Outcome:** HIRED"
+      "example": "**Sarah Johnson - DevOps Engineer:**\n• Day 1: Resume received (LinkedIn)\n• Day 2: Reviewed by S1NGULARITY → 8.5/10 match\n• Day 3: Phone screen scheduled\n• Day 5: Phone screen completed ✅\n• Day 8: Technical interview scheduled\n• Day 12: Technical interview completed ✅ (Strong feedback)\n• Day 14: Offer prepared\n• Day 15: Offer extended\n• Day 17: Offer accepted 🎉\n\n**Total time:** 17 days (Target: 21) ✅\n**Outcome:** HIRED"
     }
   },
 
